@@ -19,11 +19,12 @@ import java.awt.SystemColor;
 import javax.swing.UIManager;
 
 public class login extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
+	int n;
+	private JTextField usernametext;
+	private JTextField passwordtext;
 
 	/**
-	 * Create the panel.
+	 * Create the panel.sd
 	 */
 	public login() {
 		setBackground(new Color(153, 153, 255));
@@ -44,60 +45,50 @@ public class login extends JPanel {
 		lblPassword.setBounds(390, 204, 104, 61);
 		add(lblPassword);
 		
-		textField = new JTextField();
-		textField.setBounds(478, 157, 182, 22);
-		add(textField);
-		textField.setColumns(10);
+		usernametext = new JTextField();
+		usernametext.setBounds(478, 157, 182, 22);
+		add(usernametext);
+		usernametext.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(478, 224, 182, 22);
-		add(textField_1);
+		passwordtext = new JTextField();
+		passwordtext.setColumns(10);
+		passwordtext.setBounds(478, 224, 182, 22);
+		add(passwordtext);
 		
-		JButton btnNewButton = new JButton("LOGIN");
-		btnNewButton.setForeground(SystemColor.windowText);
-		btnNewButton.setBackground(SystemColor.windowBorder);
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 21));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton LoginButton = new JButton("LOGIN");
+		LoginButton.setForeground(SystemColor.windowText);
+		LoginButton.setBackground(SystemColor.windowBorder);
+		LoginButton.setFont(new Font("Tahoma", Font.BOLD, 21));
+		LoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton.setBounds(390, 278, 270, 61);
-		add(btnNewButton);
+		LoginButton.setBounds(390, 278, 270, 61);
+		add(LoginButton);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 352, 521);
 		add(panel);
 		
-		JButton btnForgotPassword = new JButton("Forgot Password?");
-		btnForgotPassword.setForeground(Color.BLACK);
-		btnForgotPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnForgotPassword.setBackground(SystemColor.windowBorder);
-		btnForgotPassword.setBounds(457, 352, 143, 29);
-		add(btnForgotPassword);
+		JButton ForgotButton = new JButton("Forgot Password?");
+		ForgotButton.setForeground(Color.BLACK);
+		ForgotButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		ForgotButton.setBackground(SystemColor.windowBorder);
+		ForgotButton.setBounds(457, 352, 143, 29);
+		add(ForgotButton);
 		
-		JButton btnCreateAccount = new JButton("CREATE ACCOUNT");
-		btnCreateAccount.setForeground(Color.BLACK);
-		btnCreateAccount.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnCreateAccount.setBackground(SystemColor.windowBorder);
-		btnCreateAccount.setBounds(390, 477, 270, 31);
-		add(btnCreateAccount);
+		JButton CreateButton = new JButton("CREATE ACCOUNT");
+		CreateButton.setForeground(Color.BLACK);
+		CreateButton.setFont(new Font("Tahoma", Font.BOLD, 18));
+		CreateButton.setBackground(SystemColor.windowBorder);
+		CreateButton.setBounds(390, 477, 270, 31);
+		add(CreateButton);
 		
 		JLabel lblDontHaveAccount = new JLabel("Don't have account?");
 		lblDontHaveAccount.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblDontHaveAccount.setBounds(390, 449, 161, 29);
 		add(lblDontHaveAccount);
-		
-		JButton btnNewButton_1 = new JButton("X");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnNewButton_1.setBackground(new Color(153, 153, 255));
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_1.setBounds(655, 0, 45, 36);
-		add(btnNewButton_1);
 
 	}
 }
