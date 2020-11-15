@@ -14,11 +14,11 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class photos_videos {
 
 	private JFrame frmSocialface;
-	private JTextField txtPhotesAndVideos;
 
 	/**
 	 * Launch the application.
@@ -48,35 +48,35 @@ public class photos_videos {
 	 */
 	private void initialize() {
 		frmSocialface = new JFrame();
-		frmSocialface.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Katerinatz\\Desktop\\125302082_369991734446627_3387089125455958246_n.png"));
+		frmSocialface.setIconImage(Toolkit.getDefaultToolkit().getImage(photos_videos.class.getResource("/images/LOGO.PNG")));
 		frmSocialface.setTitle("SocialFace");
 		frmSocialface.setBounds(100, 100, 480, 333);
 		frmSocialface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSocialface.getContentPane().setLayout(null);
 		
-		txtPhotesAndVideos = new JTextField();
-		txtPhotesAndVideos.setBounds(0, 0, 466, 25);
-		txtPhotesAndVideos.setForeground(SystemColor.activeCaptionText);
-		txtPhotesAndVideos.setFont(new Font("Arial Narrow", Font.BOLD, 16));
-		txtPhotesAndVideos.setText("                                      Photes and Videos");
-		frmSocialface.getContentPane().add(txtPhotesAndVideos);
-		txtPhotesAndVideos.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Create Album");
-		btnNewButton.setBounds(0, 247, 99, 25);
-		btnNewButton.setForeground(SystemColor.desktop);
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton CreateAlbumBtn = new JButton("Create Album");
+		CreateAlbumBtn.setBounds(53, 247, 130, 25);
+		CreateAlbumBtn.setForeground(SystemColor.desktop);
+		CreateAlbumBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton.setFont(new Font("Arial Narrow", Font.BOLD, 13));
-		frmSocialface.getContentPane().add(btnNewButton);
+		CreateAlbumBtn.setHorizontalAlignment(SwingConstants.LEFT);
+		CreateAlbumBtn.setFont(new Font("Tahoma", Font.BOLD, 13));
+		frmSocialface.getContentPane().add(CreateAlbumBtn);
 		
-		JButton btnNewButton_1 = new JButton("Upload Photo/Video");
-		btnNewButton_1.setBounds(230, 187, 133, 121);
-		btnNewButton_1.setFont(new Font("Arial Narrow", Font.BOLD, 13));
-		frmSocialface.getContentPane().add(btnNewButton_1);
+		JButton Uploadpvbtn = new JButton("Upload Photo/Video");
+		Uploadpvbtn.setBounds(248, 247, 181, 25);
+		Uploadpvbtn.setFont(new Font("Tahoma", Font.BOLD, 13));
+		frmSocialface.getContentPane().add(Uploadpvbtn);
+		
+		JLabel Photos_VideosLabel = new JLabel("Photos and Videos");
+		Photos_VideosLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		Photos_VideosLabel.setBounds(141, 10, 201, 13);
+		frmSocialface.getContentPane().add(Photos_VideosLabel);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 34, 446, 203);
+		frmSocialface.getContentPane().add(panel);
 	}
-
 }
