@@ -21,11 +21,19 @@ import java.util.Calendar;
 import java.awt.Dialog.ModalityType;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.border.CompoundBorder;
 
 public class newEvent extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField nameText;
+	private JTextField locationText;
 
 	/**
 	 * Launch the application.
@@ -49,42 +57,75 @@ public class newEvent extends JDialog {
 	 * Create the dialog.
 	 */
 	public newEvent() {
+		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(newEvent.class.getResource("/images/logo16.png")));
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setTitle("Create new event");
 		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setBounds(100, 100, 535, 334);
+		setBounds(100, 100, 692, 334);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblName = new JLabel("Name:");
-		JLabel lblStartTime = new JLabel("Date:");
 		JLabel lblEndTime = new JLabel("Start time:");
 		JLabel lblVenue = new JLabel("End time:");
 		JLabel lblLocation = new JLabel("Venue:");
 		JLabel lblPrivacy = new JLabel("Location:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		nameText = new JTextField();
+		nameText.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Privacy:");
+		
+		JSpinner startSpinner = new JSpinner();
+		startSpinner.setModel(new SpinnerDateModel(new Date(1605391200000L), new Date(1605391200000L), null, Calendar.DAY_OF_YEAR));
+		
+		JSpinner endSpinner = new JSpinner();
+		endSpinner.setModel(new SpinnerDateModel(new Date(1605391200000L), new Date(1605391200000L), null, Calendar.DAY_OF_YEAR));
+		
+		JComboBox venueCombo = new JComboBox();
+		
+		locationText = new JTextField();
+		locationText.setColumns(10);
+		
+		JComboBox privacyCombo = new JComboBox();
+		privacyCombo.setModel(new DefaultComboBoxModel(new String[] {"Open", "Closed", "Friend", "Network"}));
+		
+		JLabel lblDescription = new JLabel("Description:");
+		
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblName)
-						.addComponent(lblStartTime)
-						.addComponent(lblEndTime)
-						.addComponent(lblVenue)
-						.addComponent(lblLocation)
-						.addComponent(lblPrivacy)
-						.addComponent(lblNewLabel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(227, Short.MAX_VALUE))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(36)
+							.addComponent(lblName)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(nameText))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblEndTime)
+								.addComponent(lblVenue)
+								.addComponent(lblLocation)
+								.addComponent(lblPrivacy)
+								.addComponent(lblNewLabel))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(privacyCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(endSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(venueCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(startSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(locationText)))))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblDescription)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 367, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -92,21 +133,40 @@ public class newEvent extends JDialog {
 					.addGap(23)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblName)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(nameText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDescription))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblStartTime)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblEndTime)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblVenue)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblLocation)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblPrivacy)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblNewLabel)
-					.addContainerGap(19, Short.MAX_VALUE))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblEndTime)
+								.addComponent(startSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblVenue)
+										.addComponent(endSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblLocation))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGap(29)
+									.addComponent(venueCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblPrivacy)
+								.addComponent(locationText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel)
+								.addComponent(privacyCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		
+		JTextArea descriptionText = new JTextArea();
+		descriptionText.setBorder(new CompoundBorder());
+		scrollPane.setViewportView(descriptionText);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
