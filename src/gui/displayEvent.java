@@ -32,6 +32,7 @@ public class displayEvent extends JDialog {
 	private JTextField endText;
 	private JTextField venueText;
 	private JTextField textField_5;
+	private JTextField ownerText;
 
 	/**
 	 * Launch the application.
@@ -109,32 +110,35 @@ public class displayEvent extends JDialog {
 			textField_5 = new JTextField();
 			textField_5.setEditable(false);
 			textField_5.setColumns(10);
+			
+			JLabel lblOwner = new JLabel("Owner:");
+			
+			ownerText = new JTextField();
+			ownerText.setEditable(false);
+			ownerText.setColumns(10);
 			GroupLayout gl_privacyText = new GroupLayout(privacyText);
 			gl_privacyText.setHorizontalGroup(
-				gl_privacyText.createParallelGroup(Alignment.LEADING)
+				gl_privacyText.createParallelGroup(Alignment.TRAILING)
 					.addGroup(gl_privacyText.createSequentialGroup()
-						.addGroup(gl_privacyText.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_privacyText.createSequentialGroup()
-								.addGap(36)
-								.addComponent(lblName)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(nameText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
-							.addGroup(gl_privacyText.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(gl_privacyText.createParallelGroup(Alignment.TRAILING)
-									.addComponent(lblEndTime)
-									.addComponent(lblVenue)
-									.addComponent(lblLocation)
-									.addComponent(lblPrivacy)
-									.addComponent(lblNewLabel))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_privacyText.createParallelGroup(Alignment.LEADING)
-									.addComponent(locationText, 224, 224, Short.MAX_VALUE)
-									.addComponent(startText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-									.addComponent(endText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-									.addComponent(venueText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-									.addComponent(textField_5, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))))
+						.addContainerGap()
+						.addGroup(gl_privacyText.createParallelGroup(Alignment.TRAILING)
+							.addComponent(lblEndTime)
+							.addComponent(lblVenue)
+							.addComponent(lblLocation)
+							.addComponent(lblPrivacy)
+							.addComponent(lblNewLabel)
+							.addComponent(lblName)
+							.addComponent(lblOwner))
 						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_privacyText.createParallelGroup(Alignment.LEADING)
+							.addComponent(nameText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+							.addComponent(locationText, 224, 224, Short.MAX_VALUE)
+							.addComponent(startText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+							.addComponent(endText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+							.addComponent(venueText, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+							.addComponent(textField_5, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+							.addComponent(ownerText, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
+						.addGap(12)
 						.addGroup(gl_privacyText.createParallelGroup(Alignment.LEADING)
 							.addComponent(lblDescription)
 							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 367, GroupLayout.PREFERRED_SIZE))
@@ -145,12 +149,16 @@ public class displayEvent extends JDialog {
 					.addGroup(gl_privacyText.createSequentialGroup()
 						.addGap(23)
 						.addGroup(gl_privacyText.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblName)
-							.addComponent(nameText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblDescription))
+							.addComponent(lblDescription)
+							.addComponent(ownerText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblOwner))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_privacyText.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_privacyText.createParallelGroup(Alignment.LEADING)
 							.addGroup(gl_privacyText.createSequentialGroup()
+								.addGroup(gl_privacyText.createParallelGroup(Alignment.BASELINE)
+									.addComponent(nameText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblName))
+								.addPreferredGap(ComponentPlacement.RELATED)
 								.addGroup(gl_privacyText.createParallelGroup(Alignment.BASELINE)
 									.addComponent(lblEndTime)
 									.addComponent(startText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
