@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
 import javax.swing.BoxLayout;
 import java.awt.GridLayout;
+import javax.swing.JTabbedPane;
+import java.awt.Dimension;
 
 	public class profile extends JPanel {
 
@@ -23,36 +25,14 @@ import java.awt.GridLayout;
 		 * Create the panel.
 		 */
 		public profile() {
+			setMinimumSize(new Dimension(700, 580));
 			setBackground(new Color(204, 204, 255));
 			setLayout(null);
-			
-			JPanel panel = new JPanel();
-			panel.setBackground(new Color(255, 255, 255));
-			panel.setBounds(0, 0, 703, 72);
-			add(panel);
-			panel.setLayout(null);
-			
-			JLabel lblNewLabel_1 = new JLabel("");
-			lblNewLabel_1.setIcon(new ImageIcon(signup.class.getResource("/images/logosmall.png")));
-			lblNewLabel_1.setBounds(516, -13, 187, 140);
-			panel.add(lblNewLabel_1);
-			
-			JButton btnNewButton = new JButton("SEARCH");
-			btnNewButton.setForeground(new Color(102, 102, 255));
-			btnNewButton.setBackground(new Color(255, 255, 255));
-			btnNewButton.setBounds(-14, 0, 228, 72);
-			panel.add(btnNewButton);
-			btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 27));
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-				}
-			});
-			btnNewButton.setIcon(new ImageIcon(profile.class.getResource("/images/Webp.net-resizeimage (1).gif")));
 			
 			JPanel panel_1 = new JPanel();
 			panel_1.setBackground(new Color(204, 204, 255));
 			panel_1.setForeground(new Color(0, 0, 0));
-			panel_1.setBounds(0, 71, 703, 129);
+			panel_1.setBounds(0, 0, 703, 129);
 			add(panel_1);
 			panel_1.setLayout(null);
 			
@@ -66,30 +46,18 @@ import java.awt.GridLayout;
 			profilepicture.setBounds(244, 0, 209, 129);
 			panel_1.add(profilepicture);
 			
-			JPanel panel_2 = new JPanel();
-			panel_2.setBounds(0, 200, 703, 32);
-			add(panel_2);
-			panel_2.setLayout(new GridLayout(0, 5, 0, 0));
+			JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+			tabbedPane.setBounds(0, 133, 706, 438);
+			add(tabbedPane);
 			
-			JToggleButton timetable = new JToggleButton("Timetable");
-			panel_2.add(timetable);
+			about about_ = new about();
+			tabbedPane.addTab("About", null, about_, null);
 			
-			JToggleButton about = new JToggleButton("About");
-			panel_2.add(about);
+			events events_ = new events();
+			tabbedPane.addTab("Events", null, events_, null);
 			
-			JToggleButton photosvideos = new JToggleButton("Photos/Videos");
-			panel_2.add(photosvideos);
-			
-			JToggleButton friends = new JToggleButton("Friends");
-			panel_2.add(friends);
-			
-			JToggleButton events = new JToggleButton("Events");
-			panel_2.add(events);
-			
-			JPanel panel_3 = new JPanel();
-			panel_3.setBackground(new Color(204, 204, 255));
-			panel_3.setBounds(0, 230, 703, 386);
-			add(panel_3);
+			JPanel friends_ = new JPanel();
+			tabbedPane.addTab("Friends", null, friends_, null);
 
 		}
 	}
