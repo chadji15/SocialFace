@@ -31,7 +31,7 @@ public class events extends JPanel {
 	 */
 	public events() {
 		setMinimumSize(new Dimension(700, 520));
-		setSize(new Dimension(700, 520));
+		setSize(new Dimension(900, 500));
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);

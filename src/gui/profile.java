@@ -18,6 +18,9 @@ import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import javax.swing.JTabbedPane;
 import java.awt.Dimension;
+import javax.swing.JScrollPane;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 	public class profile extends JPanel {
 
@@ -47,7 +50,13 @@ import java.awt.Dimension;
 			panel_1.add(profilepicture);
 			
 			JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-			tabbedPane.setBounds(0, 133, 706, 438);
+			tabbedPane.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					profile.this.repaint();
+					profile.this.revalidate();
+				}
+			});
+			tabbedPane.setBounds(0, 131, 696, 742);
 			add(tabbedPane);
 			
 			about about_ = new about();
