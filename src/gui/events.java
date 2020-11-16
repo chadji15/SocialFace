@@ -95,6 +95,8 @@ public class events extends JPanel {
 		JButton newEventButton = new JButton("Create New Event");
 		newEventButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				newEvent newe = new newEvent();
+				newe.setVisible(true);
 			}
 		});
 		
