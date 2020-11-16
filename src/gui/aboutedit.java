@@ -1,23 +1,22 @@
 package gui;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import com.toedter.calendar.JDateChooser;
-import javax.swing.SwingConstants;
-import javax.swing.JPasswordField;
+import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.SwingConstants;
 
-public class about extends JPanel {
+public class aboutedit extends JPanel {
+	private JTextField lastnameedit;
 
 	/**
 	 * Create the panel.
 	 */
-	public about() {
+	public aboutedit() {
 		setBackground(new Color(204, 204, 255));
 		setLayout(null);
 		
@@ -38,22 +37,18 @@ public class about extends JPanel {
 		lblNewLabel_1.setBounds(0, 0, 187, 140);
 		panel.add(lblNewLabel_1);
 		
-		JButton editbutton = new JButton("EDIT");
-		editbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		editbutton.setBounds(217, 603, 257, 32);
-		add(editbutton);
+		JButton submitbutton = new JButton("SUBMIT CHANGES");
+		submitbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
+		submitbutton.setBounds(217, 603, 257, 32);
+		add(submitbutton);
 		
-		JLabel lblNewLabel_2 = new JLabel("Name:");
+		JLabel lblNewLabel_2 = new JLabel("First Name:");
 		lblNewLabel_2.setBounds(217, 96, 93, 32);
 		add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_2_2 = new JLabel("Birthday:");
+		JLabel lblNewLabel_2_2 = new JLabel("Last Name:");
 		lblNewLabel_2_2.setBounds(217, 137, 93, 32);
 		add(lblNewLabel_2_2);
-		
-		JLabel lblNewLabel_2_2_1 = new JLabel("Gender:");
-		lblNewLabel_2_2_1.setBounds(217, 182, 93, 32);
-		add(lblNewLabel_2_2_1);
 		
 		JLabel lblNewLabel_2_2_1_1 = new JLabel("Works:");
 		lblNewLabel_2_2_1_1.setBounds(217, 223, 93, 32);
@@ -87,49 +82,53 @@ public class about extends JPanel {
 		lblNewLabel_2_2_1_1_1_1_1_2_2.setBounds(217, 526, 93, 32);
 		add(lblNewLabel_2_2_1_1_1_1_1_2_2);
 		
-		JLabel namelabel = new JLabel("");
-		namelabel.setBounds(321, 100, 153, 24);
-		add(namelabel);
+		JTextField firstnameedit = new JTextField("");
+		firstnameedit.setBounds(321, 100, 153, 24);
+		add(firstnameedit);
 		
-		JLabel birthdaylabel = new JLabel("");
-		birthdaylabel.setBounds(322, 141, 153, 24);
-		add(birthdaylabel);
+		JTextField worksedit = new JTextField("");
+		worksedit.setBounds(322, 227, 153, 24);
+		add(worksedit);
 		
-		JLabel genderlabel = new JLabel("");
-		genderlabel.setBounds(321, 186, 153, 24);
-		add(genderlabel);
+		JTextField educationedit = new JTextField("");
+		educationedit.setBounds(321, 272, 153, 24);
+		add(educationedit);
 		
-		JLabel workslabel = new JLabel("");
-		workslabel.setBounds(322, 227, 153, 24);
-		add(workslabel);
+		JTextField emailedit = new JTextField("");
+		emailedit.setBounds(322, 317, 153, 24);
+		add(emailedit);
 		
-		JLabel educationlabel = new JLabel("");
-		educationlabel.setBounds(321, 272, 153, 24);
-		add(educationlabel);
+		JTextField locationedit = new JTextField("");
+		locationedit.setBounds(321, 358, 153, 24);
+		add(locationedit);
 		
-		JLabel emailabel = new JLabel("");
-		emailabel.setBounds(321, 317, 153, 24);
-		add(emailabel);
+		JTextField hometownedit = new JTextField("");
+		hometownedit.setBounds(321, 403, 153, 24);
+		add(hometownedit);
 		
-		JLabel locationlabel = new JLabel("");
-		locationlabel.setBounds(321, 358, 153, 24);
-		add(locationlabel);
+		JTextField quotesedit = new JTextField("");
+		quotesedit.setBounds(321, 444, 153, 24);
+		add(quotesedit);
 		
-		JLabel hometownlabel = new JLabel("");
-		hometownlabel.setBounds(321, 403, 153, 24);
-		add(hometownlabel);
+		JTextField websiteedit = new JTextField("");
+		websiteedit.setBounds(321, 485, 153, 24);
+		add(websiteedit);
 		
-		JLabel quoteslabel = new JLabel("");
-		quoteslabel.setBounds(321, 444, 153, 24);
-		add(quoteslabel);
+		JTextField hobbiesedit = new JTextField("");
+		hobbiesedit.setBounds(321, 530, 153, 24);
+		add(hobbiesedit);
 		
-		JLabel websitelabel = new JLabel("");
-		websitelabel.setBounds(321, 485, 153, 24);
-		add(websitelabel);
+		JDateChooser birthdayedit = new JDateChooser();
+		birthdayedit.setBounds(319, 192, 155, 22);
+		add(birthdayedit);
 		
-		JLabel hobbieslabel = new JLabel("");
-		hobbieslabel.setBounds(321, 530, 153, 24);
-		add(hobbieslabel);
+		JLabel lblNewLabel_2_2_1 = new JLabel("Birthday:");
+		lblNewLabel_2_2_1.setBounds(217, 182, 93, 32);
+		add(lblNewLabel_2_2_1);
+		
+		lastnameedit = new JTextField("");
+		lastnameedit.setBounds(321, 142, 153, 24);
+		add(lastnameedit);
 
 	}
 }
