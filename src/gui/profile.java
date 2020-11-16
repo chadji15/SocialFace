@@ -4,7 +4,6 @@
 	import javax.swing.JLabel;
 	import java.awt.Font;
 	import java.awt.Color;
-	import com.jgoodies.forms.factories.DefaultComponentFactory;
 	import javax.swing.JTextField;
 	import javax.swing.JRadioButton;
 	import com.toedter.calendar.JDateChooser;

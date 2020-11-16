@@ -135,4 +135,5 @@ public class events extends JPanel {
 		setLayout(groupLayout);
 
 	}
+	
 }
