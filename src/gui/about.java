@@ -11,6 +11,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.Dimension;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 public class about extends JPanel {
 
@@ -18,12 +21,15 @@ public class about extends JPanel {
 	 * Create the panel.
 	 */
 	public about() {
+		setMinimumSize(new Dimension(765, 1000));
+		setPreferredSize(new Dimension(765, 1000));
+		setSize(new Dimension(765, 1000));
 		setBackground(new Color(204, 204, 255));
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 0, 703, 83);
+		panel.setBounds(0, 0, 765, 83);
 		add(panel);
 		panel.setLayout(null);
 		
@@ -40,96 +46,108 @@ public class about extends JPanel {
 		
 		JButton editbutton = new JButton("EDIT");
 		editbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		editbutton.setBounds(217, 603, 257, 32);
+		editbutton.setBounds(265, 944, 257, 32);
 		add(editbutton);
 		
 		JLabel lblNewLabel_2 = new JLabel("Name:");
-		lblNewLabel_2.setBounds(217, 96, 93, 32);
+		lblNewLabel_2.setBounds(212, 96, 93, 32);
 		add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Birthday:");
-		lblNewLabel_2_2.setBounds(217, 137, 93, 32);
+		lblNewLabel_2_2.setBounds(212, 137, 93, 32);
 		add(lblNewLabel_2_2);
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Gender:");
-		lblNewLabel_2_2_1.setBounds(217, 182, 93, 32);
+		lblNewLabel_2_2_1.setBounds(212, 182, 93, 32);
 		add(lblNewLabel_2_2_1);
 		
-		JLabel lblNewLabel_2_2_1_1 = new JLabel("Works:");
-		lblNewLabel_2_2_1_1.setBounds(217, 223, 93, 32);
+		JLabel lblNewLabel_2_2_1_1 = new JLabel("Worked at:");
+		lblNewLabel_2_2_1_1.setBounds(212, 545, 93, 32);
 		add(lblNewLabel_2_2_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1 = new JLabel("Education:");
-		lblNewLabel_2_2_1_1_1.setBounds(217, 268, 93, 32);
+		lblNewLabel_2_2_1_1_1.setBounds(212, 672, 93, 32);
 		add(lblNewLabel_2_2_1_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1 = new JLabel("Email:");
-		lblNewLabel_2_2_1_1_1_1.setBounds(217, 313, 93, 32);
+		lblNewLabel_2_2_1_1_1_1.setBounds(212, 227, 93, 32);
 		add(lblNewLabel_2_2_1_1_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1 = new JLabel("Location:");
-		lblNewLabel_2_2_1_1_1_1_1.setBounds(217, 354, 93, 32);
+		lblNewLabel_2_2_1_1_1_1_1.setBounds(212, 268, 93, 32);
 		add(lblNewLabel_2_2_1_1_1_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_1 = new JLabel("Hometown:");
-		lblNewLabel_2_2_1_1_1_1_1_1.setBounds(217, 399, 93, 32);
+		lblNewLabel_2_2_1_1_1_1_1_1.setBounds(212, 313, 93, 32);
 		add(lblNewLabel_2_2_1_1_1_1_1_1);
 		
-		JLabel lblNewLabel_2_2_1_1_1_1_1_2 = new JLabel("Quotes:");
-		lblNewLabel_2_2_1_1_1_1_1_2.setBounds(217, 440, 93, 32);
+		JLabel lblNewLabel_2_2_1_1_1_1_1_2 = new JLabel("Favorite quotes:");
+		lblNewLabel_2_2_1_1_1_1_1_2.setBounds(212, 803, 93, 32);
 		add(lblNewLabel_2_2_1_1_1_1_1_2);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_1 = new JLabel("Website:");
-		lblNewLabel_2_2_1_1_1_1_1_2_1.setBounds(217, 481, 93, 32);
+		lblNewLabel_2_2_1_1_1_1_1_2_1.setBounds(212, 358, 93, 32);
 		add(lblNewLabel_2_2_1_1_1_1_1_2_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_2 = new JLabel("Hobbies:");
-		lblNewLabel_2_2_1_1_1_1_1_2_2.setBounds(217, 526, 93, 32);
+		lblNewLabel_2_2_1_1_1_1_1_2_2.setBounds(212, 403, 93, 32);
 		add(lblNewLabel_2_2_1_1_1_1_1_2_2);
 		
 		JLabel namelabel = new JLabel("");
-		namelabel.setBounds(321, 100, 153, 24);
+		namelabel.setBounds(316, 100, 264, 24);
 		add(namelabel);
 		
 		JLabel birthdaylabel = new JLabel("");
-		birthdaylabel.setBounds(322, 141, 153, 24);
+		birthdaylabel.setBounds(317, 141, 263, 24);
 		add(birthdaylabel);
 		
 		JLabel genderlabel = new JLabel("");
-		genderlabel.setBounds(321, 186, 153, 24);
+		genderlabel.setBounds(316, 186, 264, 24);
 		add(genderlabel);
 		
-		JLabel workslabel = new JLabel("");
-		workslabel.setBounds(322, 227, 153, 24);
-		add(workslabel);
-		
-		JLabel educationlabel = new JLabel("");
-		educationlabel.setBounds(321, 272, 153, 24);
-		add(educationlabel);
-		
 		JLabel emailabel = new JLabel("");
-		emailabel.setBounds(321, 317, 153, 24);
+		emailabel.setBounds(316, 231, 264, 24);
 		add(emailabel);
 		
 		JLabel locationlabel = new JLabel("");
-		locationlabel.setBounds(321, 358, 153, 24);
+		locationlabel.setBounds(316, 272, 264, 24);
 		add(locationlabel);
 		
 		JLabel hometownlabel = new JLabel("");
-		hometownlabel.setBounds(321, 403, 153, 24);
+		hometownlabel.setBounds(316, 317, 264, 24);
 		add(hometownlabel);
 		
-		JLabel quoteslabel = new JLabel("");
-		quoteslabel.setBounds(321, 444, 153, 24);
-		add(quoteslabel);
-		
 		JLabel websitelabel = new JLabel("");
-		websitelabel.setBounds(321, 485, 153, 24);
+		websitelabel.setBounds(316, 362, 264, 24);
 		add(websitelabel);
 		
-		JLabel hobbieslabel = new JLabel("");
-		hobbieslabel.setBounds(321, 530, 153, 24);
-		add(hobbieslabel);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(212, 575, 368, 84);
+		add(scrollPane);
+		
+		JList worksList = new JList();
+		scrollPane.setViewportView(worksList);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(212, 717, 368, 83);
+		add(scrollPane_1);
+		
+		JList educationList = new JList();
+		scrollPane_1.setViewportView(educationList);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(212, 848, 368, 83);
+		add(scrollPane_2);
+		
+		JList quotesList = new JList();
+		scrollPane_2.setViewportView(quotesList);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(212, 433, 368, 99);
+		add(scrollPane_3);
+		
+		JList list = new JList();
+		scrollPane_3.setViewportView(list);
 
 	}
 }

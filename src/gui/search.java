@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.Dimension;
 
 public class search extends JPanel {
 	private JTextField locationsearch;
@@ -23,12 +24,14 @@ public class search extends JPanel {
 	 * Create the panel.
 	 */
 	public search() {
+		setPreferredSize(new Dimension(760, 570));
+		setSize(new Dimension(760, 570));
 		setBackground(new Color(204, 204, 255));
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 0, 703, 83);
+		panel.setBounds(0, 0, 765, 83);
 		add(panel);
 		panel.setLayout(null);
 		

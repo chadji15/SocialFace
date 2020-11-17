@@ -24,6 +24,8 @@ import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import javax.swing.JSplitPane;
 import java.awt.Dimension;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class displayEvent extends JDialog {
 	private JTextField nameText;
@@ -33,6 +35,7 @@ public class displayEvent extends JDialog {
 	private JTextField venueText;
 	private JTextField textField_5;
 	private JTextField ownerText;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -54,21 +57,20 @@ public class displayEvent extends JDialog {
 		setMinimumSize(new Dimension(710, 370));
 		setTitle("View event");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(displayEvent.class.getResource("/images/logo16.png")));
-		setBounds(100, 100, 710, 370);
+		setBounds(100, 100, 721, 370);
 		getContentPane().setLayout(new BorderLayout());
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			
-			JSplitPane splitPane = new JSplitPane();
-			buttonPane.add(splitPane);
+			JRadioButton goingButton = new JRadioButton("Going");
+			buttonGroup.add(goingButton);
+			buttonPane.add(goingButton);
 			
-			JButton btnGoing = new JButton("Going");
-			splitPane.setLeftComponent(btnGoing);
-			
-			JButton btnNotGoing = new JButton("Not going");
-			splitPane.setRightComponent(btnNotGoing);
+			JRadioButton notGoingButton = new JRadioButton("Not going");
+			buttonGroup.add(notGoingButton);
+			buttonPane.add(notGoingButton);
 			{
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");

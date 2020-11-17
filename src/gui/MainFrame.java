@@ -23,6 +23,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.Toolkit;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.BoxLayout;
+import javax.swing.UIManager;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.FlowLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Component;
 
 public class MainFrame extends JFrame {
 
@@ -32,6 +44,11 @@ public class MainFrame extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -48,101 +65,78 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		setResizable(false);
-		setSize(new Dimension(750, 700));
+		setPreferredSize(new Dimension(800, 800));
+		setSize(new Dimension(669, 700));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo16.png")));
 		setTitle("Social Face");
-		setMinimumSize(new Dimension(20, 20));
+		setMinimumSize(new Dimension(10, 10));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 726, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		
+		JButton searchButton = new JButton("Search");
+		JPanel cardPanel = new JPanel();
+		
+		JButton btnHome = new JButton("Home");
+		
+		JButton btnLogOut = new JButton("Log out");
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
-					.addGap(1))
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(searchButton)
+							.addPreferredGap(ComponentPlacement.RELATED, 456, Short.MAX_VALUE)
+							.addComponent(btnLogOut)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnHome))
+						.addComponent(cardPanel, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE))
+					.addGap(0))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
-		);
-		
-		JPanel panel = new JPanel();
-		scrollPane.setViewportView(panel);
-		JButton btnSearch = new JButton("Search");
-		JButton btnHome = new JButton("Home");
-		JButton btnLogOut = new JButton("Log out");
-		
-		JPanel card_panel = new JPanel();
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(card_panel, GroupLayout.PREFERRED_SIZE, 682, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(btnSearch)
-							.addGap(456)
-							.addComponent(btnHome)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnLogOut)))
-					.addContainerGap(75, Short.MAX_VALUE))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnSearch)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(searchButton)
 						.addComponent(btnHome)
 						.addComponent(btnLogOut))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(card_panel, GroupLayout.PREFERRED_SIZE, 579, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(340, Short.MAX_VALUE))
+					.addComponent(cardPanel, GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
+					.addGap(0))
 		);
-		card_panel.setLayout(new CardLayout(0, 0));
+		cardPanel.setLayout(new CardLayout(0, 0));
 		
 		profile profile_ = new profile();
-		card_panel.add(profile_, "name_472557988312400");
+		profile_.setPreferredSize(new Dimension(765, 700));
+		profile_.setMinimumSize(new Dimension(10, 10));
+		cardPanel.add(profile_, "name_562092603074000");
 		
 		search search_ = new search();
-		card_panel.add(search_, "name_472560177831700");
-		panel.setLayout(gl_panel);
+		cardPanel.add(search_, "name_563486844515400");
 		contentPane.setLayout(gl_contentPane);
-
 		
-		////////////////////////////////////////////////
-		//Event listeners
-		////////////////////////////////////////////////
+		
+		searchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardPanel.removeAll();
+				cardPanel.add(search_);
+				cardPanel.revalidate();
+				cardPanel.repaint();
+			}
+		});
+		
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				card_panel.removeAll();
-				card_panel.add(profile_);
-				
-				card_panel.repaint();
-				card_panel.revalidate();
-				
+				cardPanel.removeAll();
+				cardPanel.add(profile_);
+				cardPanel.revalidate();
+				cardPanel.repaint();
 			}
 		});
-		
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				card_panel.removeAll();
-				card_panel.add(search_);
-				MainFrame.this.pack();
-				card_panel.repaint();
-				card_panel.revalidate();
-				
-			}
-		});
-		
-	
 	}
 }
