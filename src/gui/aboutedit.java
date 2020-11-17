@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
+import javax.swing.JTabbedPane;
+import javax.swing.JComboBox;
 
 public class aboutedit extends JPanel {
 	private JTextField lastnameedit;
@@ -98,11 +100,11 @@ public class aboutedit extends JPanel {
 		emailedit.setBounds(322, 317, 153, 24);
 		add(emailedit);
 		
-		JTextField locationedit = new JTextField("");
+		JComboBox locationedit = new JComboBox();
 		locationedit.setBounds(321, 358, 153, 24);
 		add(locationedit);
 		
-		JTextField hometownedit = new JTextField("");
+		JComboBox hometownedit = new JComboBox();
 		hometownedit.setBounds(321, 403, 153, 24);
 		add(hometownedit);
 		
@@ -114,7 +116,7 @@ public class aboutedit extends JPanel {
 		websiteedit.setBounds(321, 485, 153, 24);
 		add(websiteedit);
 		
-		JTextField hobbiesedit = new JTextField("");
+		JComboBox hobbiesedit = new JComboBox();
 		hobbiesedit.setBounds(321, 530, 153, 24);
 		add(hobbiesedit);
 		

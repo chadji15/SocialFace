@@ -18,6 +18,7 @@ public class signup extends JPanel {
 	private JTextField emailtext;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField2;
+	private JPasswordField usernametext;
 
 	/**
 	 * Create the panel.
@@ -117,8 +118,17 @@ public class signup extends JPanel {
 		
 		JButton createaccountbutton = new JButton("CREATE MY ACCOUNT!");
 		createaccountbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		createaccountbutton.setBounds(217, 484, 262, 63);
+		createaccountbutton.setBounds(216, 506, 262, 63);
 		add(createaccountbutton);
+		
+		JLabel lblUsername_1 = new JLabel("Username:");
+		lblUsername_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblUsername_1.setBounds(186, 439, 113, 36);
+		add(lblUsername_1);
+		
+		usernametext = new JPasswordField();
+		usernametext.setBounds(311, 446, 196, 22);
+		add(usernametext);
 
 	}
 }
