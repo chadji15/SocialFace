@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.ButtonGroup;
 
 public class signup extends JPanel {
 	private JTextField firstnametext;
@@ -18,6 +19,7 @@ public class signup extends JPanel {
 	private JTextField emailtext;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField2;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Create the panel.
@@ -66,16 +68,19 @@ public class signup extends JPanel {
 		add(lastnametext);
 		
 		JRadioButton malebutton = new JRadioButton("Male");
+		buttonGroup.add(malebutton);
 		malebutton.setBackground(new Color(204, 204, 255));
 		malebutton.setBounds(277, 200, 65, 25);
 		add(malebutton);
 		
 		JRadioButton femalebutton = new JRadioButton("Female");
+		buttonGroup.add(femalebutton);
 		femalebutton.setBackground(new Color(204, 204, 255));
 		femalebutton.setBounds(346, 200, 78, 25);
 		add(femalebutton);
 		
 		JRadioButton otherbutton = new JRadioButton("Other");
+		buttonGroup.add(otherbutton);
 		otherbutton.setBackground(new Color(204, 204, 255));
 		otherbutton.setBounds(428, 200, 127, 25);
 		add(otherbutton);

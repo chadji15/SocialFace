@@ -57,5 +57,4 @@ public class friend_requests {
 		panel.setBounds(10, 60, 416, 193);
 		frmSocialface.getContentPane().add(panel);
 	}
-
 }

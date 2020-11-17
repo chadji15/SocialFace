@@ -48,6 +48,7 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		setResizable(false);
 		setSize(new Dimension(750, 700));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo16.png")));
 		setTitle("Social Face");
