@@ -36,7 +36,7 @@ public class login extends JPanel {
 		lblNewLabel.setBounds(10, 118, 338, 287);
 		add(lblNewLabel);
 		
-		JLabel lblUsername = new JLabel("Email:");
+		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblUsername.setBounds(440, 137, 104, 61);
 		add(lblUsername);

@@ -11,7 +11,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.ButtonGroup;
 
 public class signup extends JPanel {
 	private JTextField firstnametext;

@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
+import javax.swing.JTabbedPane;
+import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 
 public class aboutedit extends JPanel {
 	private JTextField lastnameedit;
@@ -39,7 +42,7 @@ public class aboutedit extends JPanel {
 		
 		JButton submitbutton = new JButton("SUBMIT CHANGES");
 		submitbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		submitbutton.setBounds(217, 603, 257, 32);
+		submitbutton.setBounds(393, 616, 257, 32);
 		add(submitbutton);
 		
 		JLabel lblNewLabel_2 = new JLabel("First Name:");
@@ -98,11 +101,11 @@ public class aboutedit extends JPanel {
 		emailedit.setBounds(322, 317, 153, 24);
 		add(emailedit);
 		
-		JTextField locationedit = new JTextField("");
+		JComboBox locationedit = new JComboBox();
 		locationedit.setBounds(321, 358, 153, 24);
 		add(locationedit);
 		
-		JTextField hometownedit = new JTextField("");
+		JComboBox hometownedit = new JComboBox();
 		hometownedit.setBounds(321, 403, 153, 24);
 		add(hometownedit);
 		
@@ -114,7 +117,7 @@ public class aboutedit extends JPanel {
 		websiteedit.setBounds(321, 485, 153, 24);
 		add(websiteedit);
 		
-		JTextField hobbiesedit = new JTextField("");
+		JComboBox hobbiesedit = new JComboBox();
 		hobbiesedit.setBounds(321, 530, 153, 24);
 		add(hobbiesedit);
 		
@@ -129,6 +132,19 @@ public class aboutedit extends JPanel {
 		lastnameedit = new JTextField("");
 		lastnameedit.setBounds(321, 142, 153, 24);
 		add(lastnameedit);
+		
+		JLabel lblNewLabel_2_2_1_1_1_1_1_2_2_1 = new JLabel("Verified: ");
+		lblNewLabel_2_2_1_1_1_1_1_2_2_1.setBounds(217, 570, 93, 32);
+		add(lblNewLabel_2_2_1_1_1_1_1_2_2_1);
+		
+		JCheckBox verifiedcheckbox = new JCheckBox("");
+		verifiedcheckbox.setBounds(324, 574, 25, 28);
+		add(verifiedcheckbox);
+		
+		JButton verifybutton = new JButton("VERIFY ACCOUNT");
+		verifybutton.setFont(new Font("Tahoma", Font.BOLD, 17));
+		verifybutton.setBounds(117, 616, 257, 32);
+		add(verifybutton);
 
 	}
 }
