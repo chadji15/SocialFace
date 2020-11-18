@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
+import java.awt.Toolkit;
 
 public class verify extends JDialog {
 
@@ -35,6 +36,9 @@ public class verify extends JDialog {
 	 * Create the dialog.
 	 */
 	public verify() {
+		setTitle("Verify account");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(verify.class.getResource("/images/logo16.png")));
+		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(204, 204, 255));

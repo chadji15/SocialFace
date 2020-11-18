@@ -14,8 +14,12 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class about extends JPanel {
+	private JButton editbutton;
 
 	/**
 	 * Create the panel.
@@ -25,12 +29,9 @@ public class about extends JPanel {
 		setPreferredSize(new Dimension(765, 1000));
 		setSize(new Dimension(765, 1000));
 		setBackground(new Color(204, 204, 255));
-		setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 0, 765, 83);
-		add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("ABOUT");
@@ -44,110 +45,206 @@ public class about extends JPanel {
 		lblNewLabel_1.setBounds(0, 0, 187, 140);
 		panel.add(lblNewLabel_1);
 		
-		JButton editbutton = new JButton("EDIT");
+		editbutton = new JButton("EDIT");
 		editbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		editbutton.setBounds(265, 944, 257, 32);
-		add(editbutton);
 		
 		JLabel lblNewLabel_2 = new JLabel("Name:");
-		lblNewLabel_2.setBounds(212, 96, 93, 32);
-		add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Birthday:");
-		lblNewLabel_2_2.setBounds(212, 137, 93, 32);
-		add(lblNewLabel_2_2);
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Gender:");
-		lblNewLabel_2_2_1.setBounds(212, 182, 93, 32);
-		add(lblNewLabel_2_2_1);
 		
 		JLabel lblNewLabel_2_2_1_1 = new JLabel("Worked at:");
-		lblNewLabel_2_2_1_1.setBounds(212, 545, 93, 32);
-		add(lblNewLabel_2_2_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1 = new JLabel("Education:");
-		lblNewLabel_2_2_1_1_1.setBounds(212, 672, 93, 32);
-		add(lblNewLabel_2_2_1_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1 = new JLabel("Email:");
-		lblNewLabel_2_2_1_1_1_1.setBounds(212, 227, 93, 32);
-		add(lblNewLabel_2_2_1_1_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1 = new JLabel("Location:");
-		lblNewLabel_2_2_1_1_1_1_1.setBounds(212, 268, 93, 32);
-		add(lblNewLabel_2_2_1_1_1_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_1 = new JLabel("Hometown:");
-		lblNewLabel_2_2_1_1_1_1_1_1.setBounds(212, 313, 93, 32);
-		add(lblNewLabel_2_2_1_1_1_1_1_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2 = new JLabel("Favorite quotes:");
-		lblNewLabel_2_2_1_1_1_1_1_2.setBounds(212, 803, 93, 32);
-		add(lblNewLabel_2_2_1_1_1_1_1_2);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_1 = new JLabel("Website:");
-		lblNewLabel_2_2_1_1_1_1_1_2_1.setBounds(212, 358, 93, 32);
-		add(lblNewLabel_2_2_1_1_1_1_1_2_1);
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_2 = new JLabel("Hobbies:");
-		lblNewLabel_2_2_1_1_1_1_1_2_2.setBounds(212, 403, 93, 32);
-		add(lblNewLabel_2_2_1_1_1_1_1_2_2);
 		
 		JLabel namelabel = new JLabel("");
-		namelabel.setBounds(316, 100, 264, 24);
-		add(namelabel);
 		
 		JLabel birthdaylabel = new JLabel("");
-		birthdaylabel.setBounds(317, 141, 263, 24);
-		add(birthdaylabel);
 		
 		JLabel genderlabel = new JLabel("");
-		genderlabel.setBounds(316, 186, 264, 24);
-		add(genderlabel);
 		
 		JLabel emailabel = new JLabel("");
-		emailabel.setBounds(316, 231, 264, 24);
-		add(emailabel);
 		
 		JLabel locationlabel = new JLabel("");
-		locationlabel.setBounds(316, 272, 264, 24);
-		add(locationlabel);
 		
 		JLabel hometownlabel = new JLabel("");
-		hometownlabel.setBounds(316, 317, 264, 24);
-		add(hometownlabel);
 		
 		JLabel websitelabel = new JLabel("");
-		websitelabel.setBounds(316, 362, 264, 24);
-		add(websitelabel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(212, 575, 368, 84);
-		add(scrollPane);
 		
 		JList worksList = new JList();
 		scrollPane.setViewportView(worksList);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(212, 717, 368, 83);
-		add(scrollPane_1);
 		
 		JList educationList = new JList();
 		scrollPane_1.setViewportView(educationList);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(212, 848, 368, 83);
-		add(scrollPane_2);
 		
 		JList quotesList = new JList();
 		scrollPane_2.setViewportView(quotesList);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(212, 433, 368, 99);
-		add(scrollPane_3);
 		
 		JList list = new JList();
 		scrollPane_3.setViewportView(list);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(namelabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+							.addGap(12)
+							.addComponent(birthdaylabel, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(genderlabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(emailabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(locationlabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2_1_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(hometownlabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2_1_1_1_1_1_2_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(websitelabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_2_2_1_1_1_1_1_2_2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+								.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_2_2_1_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2_1_1_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(lblNewLabel_2_2_1_1_1_1_1_2))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(265)
+							.addComponent(editbutton, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(185, Short.MAX_VALUE))
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(1)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(namelabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(9)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(birthdaylabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_2_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(genderlabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(emailabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(9)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_2_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(locationlabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_2_1_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(hometownlabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_2_1_1_1_1_1_2_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(websitelabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_2_1_1_1_1_1_2_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(30)
+							.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(30)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel_2_2_1_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+					.addGap(13)
+					.addComponent(lblNewLabel_2_2_1_1_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addGap(13)
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+					.addGap(3)
+					.addComponent(lblNewLabel_2_2_1_1_1_1_1_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addGap(13)
+					.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+					.addGap(13)
+					.addComponent(editbutton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+		);
+		setLayout(groupLayout);
 
+	}
+	public JButton getEditbutton() {
+		return editbutton;
 	}
 }

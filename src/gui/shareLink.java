@@ -42,6 +42,7 @@ public class shareLink extends JDialog {
 	 * Create the dialog.
 	 */
 	public shareLink() {
+		setResizable(false);
 		setMinimumSize(new Dimension(450, 460));
 		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(shareLink.class.getResource("/images/logo16.png")));

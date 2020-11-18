@@ -23,6 +23,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 import javax.swing.Box;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class events extends JPanel {
 
@@ -30,105 +33,106 @@ public class events extends JPanel {
 	 * Create the panel.
 	 */
 	public events() {
-		setMinimumSize(new Dimension(700, 520));
-		setSize(new Dimension(765, 650));
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 305, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
+		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.gridwidth = 3;
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut.gridx = 1;
+		gbc_verticalStrut.gridy = 0;
+		add(verticalStrut, gbc_verticalStrut);
+		
+		JLabel lblEventsYouAre = new JLabel("Events you created");
+		GridBagConstraints gbc_lblEventsYouAre = new GridBagConstraints();
+		gbc_lblEventsYouAre.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventsYouAre.gridx = 1;
+		gbc_lblEventsYouAre.gridy = 1;
+		add(lblEventsYouAre, gbc_lblEventsYouAre);
+		
+		JLabel lblEventsYouAre_1 = new JLabel("Events you are going");
+		GridBagConstraints gbc_lblEventsYouAre_1 = new GridBagConstraints();
+		gbc_lblEventsYouAre_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventsYouAre_1.gridx = 3;
+		gbc_lblEventsYouAre_1.gridy = 1;
+		add(lblEventsYouAre_1, gbc_lblEventsYouAre_1);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(null);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 2;
+		add(panel, gbc_panel);
 		
-		JPanel panel_1 = new JPanel();
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 353, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
-						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE))
-					.addContainerGap())
-		);
+		JButton btnCreateEvent = new JButton("Create event");
 		
-		JTextArea lblEventsYouAre = new JTextArea("Events you are going");
-		lblEventsYouAre.setFocusable(false);
-		lblEventsYouAre.setEditable(false);
-		lblEventsYouAre.setBackground(SystemColor.control);
-		lblEventsYouAre.setLineWrap(true);
-		lblEventsYouAre.setAutoscrolls(true);
-		lblEventsYouAre.setFont(new Font("Tahoma", Font.PLAIN, 42));
+		panel.add(btnCreateEvent);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 357, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEventsYouAre, GroupLayout.PREFERRED_SIZE, 307, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addComponent(lblEventsYouAre, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 495, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		JButton btnDeleteEvent = new JButton("Delete event");
+		panel.add(btnDeleteEvent);
 		
-		JList list = new JList();
-		scrollPane_1.setViewportView(list);
-		panel_1.setLayout(gl_panel_1);
+		btnCreateEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newEvent n = new newEvent();
+				n.setVisible(true);
+			}
+		});
 		
-		JLabel lblYourEvents = new JLabel("Your events");
-		lblYourEvents.setFont(new Font("Tahoma", Font.PLAIN, 42));
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
+		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut.gridx = 0;
+		gbc_horizontalStrut.gridy = 3;
+		add(horizontalStrut, gbc_horizontalStrut);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 3;
+		add(scrollPane, gbc_scrollPane);
 		
-		JButton newEventButton = new JButton("Create New Event");
+		JList list = new JList();
+		scrollPane.setViewportView(list);
 		
-		JButton deleteEventButton = new JButton("Delete event");
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblYourEvents, Alignment.LEADING)
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-							.addComponent(newEventButton, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
-							.addGap(37)
-							.addComponent(deleteEventButton, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblYourEvents)
-					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(newEventButton)
-						.addComponent(deleteEventButton))
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 497, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
+		gbc_horizontalStrut_2.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut_2.gridx = 2;
+		gbc_horizontalStrut_2.gridy = 3;
+		add(horizontalStrut_2, gbc_horizontalStrut_2);
 		
-		JList yourEventsList = new JList();
-		scrollPane.setViewportView(yourEventsList);
-		panel.setLayout(gl_panel);
-		setLayout(groupLayout);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 3;
+		gbc_scrollPane_1.gridy = 3;
+		add(scrollPane_1, gbc_scrollPane_1);
+		
+		JList list_1 = new JList();
+		scrollPane_1.setViewportView(list_1);
+		
+		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
+		gbc_horizontalStrut_1.insets = new Insets(0, 0, 5, 0);
+		gbc_horizontalStrut_1.gridx = 4;
+		gbc_horizontalStrut_1.gridy = 3;
+		add(horizontalStrut_1, gbc_horizontalStrut_1);
+		
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
+		gbc_verticalStrut_1.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut_1.gridx = 1;
+		gbc_verticalStrut_1.gridy = 4;
+		add(verticalStrut_1, gbc_verticalStrut_1);
 
 	}
 }

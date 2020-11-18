@@ -1,94 +1,127 @@
 package gui;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
+import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
-public class create_album {
+public class create_album extends JDialog {
 
-	private JFrame frmSocialface;
-	private JTextField nameofalbumtext;
+	private final JPanel contentPanel = new JPanel();
+	private JTextField nameText;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					create_album window = new create_album();
-					window.frmSocialface.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		try {
+			create_album dialog = new create_album();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Create the application.
+	 * Create the dialog.
 	 */
 	public create_album() {
-		initialize();
+		setModal(true);
+		setTitle("SocialFace");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(create_album.class.getResource("/images/logo16.png")));
+		setBounds(100, 100, 450, 206);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		GridBagLayout gbl_contentPanel = new GridBagLayout();
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPanel.setLayout(gbl_contentPanel);
+		{
+			JLabel lblCreateAlbum = new JLabel("Create album");
+			lblCreateAlbum.setFont(new Font("Tahoma", Font.BOLD, 13));
+			GridBagConstraints gbc_lblCreateAlbum = new GridBagConstraints();
+			gbc_lblCreateAlbum.gridwidth = 2;
+			gbc_lblCreateAlbum.insets = new Insets(0, 0, 5, 5);
+			gbc_lblCreateAlbum.gridx = 1;
+			gbc_lblCreateAlbum.gridy = 0;
+			contentPanel.add(lblCreateAlbum, gbc_lblCreateAlbum);
+		}
+		{
+			JLabel lblAlbumName = new JLabel("Album name:");
+			lblAlbumName.setFont(new Font("Tahoma", Font.BOLD, 13));
+			GridBagConstraints gbc_lblAlbumName = new GridBagConstraints();
+			gbc_lblAlbumName.anchor = GridBagConstraints.EAST;
+			gbc_lblAlbumName.insets = new Insets(0, 0, 5, 5);
+			gbc_lblAlbumName.gridx = 1;
+			gbc_lblAlbumName.gridy = 2;
+			contentPanel.add(lblAlbumName, gbc_lblAlbumName);
+		}
+		{
+			nameText = new JTextField();
+			GridBagConstraints gbc_nameText = new GridBagConstraints();
+			gbc_nameText.insets = new Insets(0, 0, 5, 5);
+			gbc_nameText.fill = GridBagConstraints.HORIZONTAL;
+			gbc_nameText.gridx = 2;
+			gbc_nameText.gridy = 2;
+			contentPanel.add(nameText, gbc_nameText);
+			nameText.setColumns(10);
+		}
+		{
+			JLabel lblPrivacy = new JLabel("Privacy:");
+			lblPrivacy.setFont(new Font("Tahoma", Font.BOLD, 13));
+			GridBagConstraints gbc_lblPrivacy = new GridBagConstraints();
+			gbc_lblPrivacy.anchor = GridBagConstraints.EAST;
+			gbc_lblPrivacy.insets = new Insets(0, 0, 0, 5);
+			gbc_lblPrivacy.gridx = 1;
+			gbc_lblPrivacy.gridy = 3;
+			contentPanel.add(lblPrivacy, gbc_lblPrivacy);
+		}
+		{
+			JComboBox privaceCombo = new JComboBox();
+			GridBagConstraints gbc_privaceCombo = new GridBagConstraints();
+			gbc_privaceCombo.insets = new Insets(0, 0, 0, 5);
+			gbc_privaceCombo.fill = GridBagConstraints.HORIZONTAL;
+			gbc_privaceCombo.gridx = 2;
+			gbc_privaceCombo.gridy = 3;
+			contentPanel.add(privaceCombo, gbc_privaceCombo);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmSocialface = new JFrame();
-		frmSocialface.getContentPane().setFont(new Font("Tahoma", Font.BOLD, 13));
-		frmSocialface.setIconImage(Toolkit.getDefaultToolkit().getImage(create_album.class.getResource("/images/logosmall.png")));
-		frmSocialface.setTitle("SocialFace");
-		frmSocialface.setBounds(100, 100, 450, 300);
-		frmSocialface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmSocialface.getContentPane().setLayout(null);
-		
-		JLabel CreateAlbumLabel = new JLabel("Create Album");
-		CreateAlbumLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		CreateAlbumLabel.setBounds(150, 10, 117, 34);
-		frmSocialface.getContentPane().add(CreateAlbumLabel);
-		
-		JLabel nameofalbumlabel = new JLabel("Name:");
-		nameofalbumlabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		nameofalbumlabel.setBounds(22, 75, 48, 24);
-		frmSocialface.getContentPane().add(nameofalbumlabel);
-		
-		nameofalbumtext = new JTextField();
-		nameofalbumtext.setBounds(76, 79, 96, 19);
-		frmSocialface.getContentPane().add(nameofalbumtext);
-		nameofalbumtext.setColumns(10);
-		
-		JRadioButton PublicRadioButton = new JRadioButton("Public");
-		PublicRadioButton.setBounds(76, 113, 103, 21);
-		frmSocialface.getContentPane().add(PublicRadioButton);
-		
-		JLabel typeofalbumlabel = new JLabel("Type:");
-		typeofalbumlabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		typeofalbumlabel.setBounds(22, 110, 48, 24);
-		frmSocialface.getContentPane().add(typeofalbumlabel);
-		
-		JRadioButton OnlyFriendsRadioButton = new JRadioButton("Only Friends");
-		OnlyFriendsRadioButton.setBounds(76, 136, 103, 21);
-		frmSocialface.getContentPane().add(OnlyFriendsRadioButton);
-		
-		JButton Uploadpvbtn2 = new JButton("Upload Photo/Video");
-		Uploadpvbtn2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		Uploadpvbtn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		Uploadpvbtn2.setBounds(127, 199, 184, 21);
-		frmSocialface.getContentPane().add(Uploadpvbtn2);
-	}
 }
