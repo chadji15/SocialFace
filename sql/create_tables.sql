@@ -3,77 +3,79 @@ CREATE TABLE [dbo].[PROFILE](
 [last_name] [nvarchar](20) NOT NULL,
 [first_name] [nvarchar](20) NOT NULL,
 [birthday] [smalldatetime] NOT NULL,
+[username] [nvarchar] (20) NOT NULL,
 [quotes] [nvarchar](200) NULL,
 [website] [nvarchar](50) NULL,
-[email] [nvarchar](50) NOT NULL,
+[email] [nvarchar](50)  NOT NULL,
+[gender] [char] (1) NOT NULL,
 [password] [nvarchar] (50) NOT NULL UNIQUE,
-[born_at] [nvarchar](50) NULL,
-[lives_at] [nvarchar](50) NULL
-CONSTRAINT PK_PROFILE PRIMARY KEY
-([profile_id] ASC)
+[born_at] [nvarchar](50),
+[lives_at] [nvarchar](50) 
+CONSTRAINT [PK_PROFILE] PRIMARY KEY CLUSTERED (
+[profile_id] ASC)
 )
 
 CREATE TABLE [dbo].[CITY](
 [city_id] [int] NOT NULL,
 [name] nvarchar (50) NOT NULL
-CONSTRAINT PK_CITY PRIMARY KEY
-([city_id] ASC)
+CONSTRAINT [PK_CITY] PRIMARY KEY CLUSTERED(
+[city_id] ASC)
 )
 
 CREATE TABLE [dbo].[ALBUM](
 [album_id] [int] NOT NULL,
 [album_name] [nvarchar] (20) NOT NULL,
-[privacy] 
+[privacy] [nvarchar] (20) NOT NULL
 [description] nvarchar(100) NULL
 [city_id] [int] NOT NULL,
 [profile_id] [int] NOT NULL
-CONSTRAINT PK_ALBUM PRIMARY KEY
-([album_id] ASC)
+CONSTRAINT [PK_ALBUM] PRIMARY KEY CLUSTERED(
+[album_id] ASC)
 )
 
-CREATE TABLE [dbo].[SCHOOLS]
+CREATE TABLE [dbo].[SCHOOLS](
 [school_id] [int] NOT NULL,
 [school_name [nvarchar] (50) NOT NULL
-CONSTRAINT PK_SCHOOLS PRIMARY KEY
-([school_id] ACS)
+CONSTRAINT [PK_SCHOOLS] PRIMARY KEY CLUSTERED(
+[school_id] ASC)
 )
 
-CREATE TABLE [dbo].[COMPANY]
+CREATE TABLE [dbo].[COMPANY](
 [company_id] [int] NOT NULL,
 [company_name [nvarchar] (50) NOT NULL
-CONSTRAINT PK_COMPANY PRIMARY KEY
-([company_id] ACS)
+CONSTRAINT [PK_COMPANY] PRIMARY KEY CLUSTERED(
+[company_id] ASC)
 )
 
-CREATE TABLE [dbo].[INTERESTS]
+CREATE TABLE [dbo].[INTERESTS](
 [interest_id] [int] NOT NULL,
 [interest_name [nvarchar] (50) NOT NULL
-CONSTANT PK_INTERESTS PRIMARY KEY
-([interest_id] ACS)
+CONSTRAINT [PK_INTERESTS] PRIMARY KEY CLUSTERED(
+[interest_id] ASC)
 )
 
 CREATE TABLE [dbo].[VIDEO](
 [video_id] [int] NOT NULL,
 [message] [nvarchar](100) NULL,
-[video]
+[video] [varbinary] (MAX) NOT NULL,
 [description] [nvarchar](100) NULL,
 [profile_id] [int] NOT NULL
-CONSTRAINT PK_VIDEO PRIMARY KEY
-([video_id] ASC)
+CONSTRAINT [PK_VIDEO] PRIMARY KEY CLUSTERED(
+[video_id] ASC)
 )
 
 CREATE TABLE [dbo].[EVENTS](
 [event_id] [int] NOT NULL,
 [event_name] [nvarchar] (20) NOT NULL,
-[privacy]
+[privacy] [nvarchar] (20) NOT NULL,
 [location] [nvarchar] (20) NULL,
 [start_time] [timestamp] 'HH24:MI:SS',
 [end_time] [timestamp] 'HH24:MI:SS',
 [description] [nvarchar] (100) NULL,
 [owner_id] [int] NOT NULL,
 [venue] [nvarchar] (20) NULL
-CONSTRAINT PK_EVENTS PRIMARY KEY
-([event_id] ACS)
+CONSTRAINT [PK_EVENTS] PRIMARY KEY CLUSTERED(
+[event_id] ASC)
 )
 
 CREATE TABLE [dbo].[LINKS](
@@ -83,51 +85,83 @@ CREATE TABLE [dbo].[LINKS](
 [description] [nvarchar] (100) NULL,
 [message] [nvarchar](100) NULL,
 [from] [nvarchar] (20) NULL
-CONSTRAINT PK_LINKS PRIMARY KEY
-([link_id] ACS)
+CONSTRAINT [PK_LINKS] PRIMARY KEY CLUSTERED(
+[link_id] ASC)
 )
 
 CREATE TABLE [dbo].[STUDIED_AT](
 [school_id] [int] NOT NULL,
 [profile_id] [int] NOT NULL
+CONSTRAINT [PK_STUDIED_AT] PRIMARY KEY CLUSTERED(
+[school_id] ASC,
+[profile_id] ASC)
 )
 
 CREATE TABLE [dbo].[WORKED_FOR](
 [profile_id] [int] NOT NULL,
 [company_id] [int] NOT NULL
+CONSTRAINT [PK_WORKED_FOR] PRIMARY KEY CLUSTERED(
+[profile_id] ASC,
+[company_id] ASC)
 )
 
-CREATE TABLE [dbo].[TABLE](
+
+CREATE TABLE [dbo].[TABLES](
 [interest_id] [int] NOT NULL,
 [profile_id] [int] NOT NULL
+CONSTRAINT [PK_TABLES] PRIMARY KEY CLUSTERED(
+[interest_id] ASC,
+[profile_id] ASC)
 )
 CREATE TABLE [dbo].[VIDEO_COMMENTS](
 [video_id] [int] NOT NULL,
 [profile_id] [int] NOT NULL,
-[comment] nvarchar (50) NULL
+[comments] [nvarchar] (50) NULL
+CONSTRAINT [PK_VDEO_COMMENTS] PRIMARY KEY CLUSTERED(
+[video_id] ASC,
+[profile_id] ASC)
 )
 CREATE TABLE [dbo].[EVENT_RESPONSES](
 [event_id] [int] NOT NULL,
 [profile_id] [int] NOT NULL,
 [response] nvarchar (50) NULL
+CONSTRAINT [PK_EVENT_RESPONSES] PRIMARY KEY CLUSTERED(
+[event_id] ASC,
+[profile_id] ASC)
 )
+
 CREATE TABLE [dbo].[LIKES](
 [photo_id] [int] NOT NULL,
 [profile_id] [int] NOT NULL
+CONSTRAINT [PK_LIKES] PRIMARY KEY CLUSTERED(
+[photo_id] ASC,
+[profile_id] ASC)
 )
+
 CREATE TABLE [dbo].[REQUESTS](
 [profile_1] [int] NOT NULL,
 [profile_2] [int] NOT NULL,
-[state] [nvarchar] NULL
+[states] [nvarchar] NULL
+CONSTRAINT [PK_REQUESTS] PRIMARY KEY CLUSTERED(
+[profile_1] ASC,
+[profile_2] ASC)
 )
+
 CREATE TABLE [dbo].[FRIENDS](
 [profile_1] [int] NOT NULL,
 [profile_2] [int] NOT NULL
+CONSTRAINT [PK_FRIENDS] PRIMARY KEY CLUSTERED(
+[profile_1] ASC,
+[profile_2] ASC)
 )
+
 CREATE TABLE [dbo].[ALBUM_COMMENTS](
 [album_id] [int] NOT NULL,
 [profile_id] [int] NOT NULL,
-[comment] nvarchar (50) NULL
+[comments] nvarchar (50) NULL
+CONSTRAINT [PK_ALBUM_COMMENTS] PRIMARY KEY CLUSTERED(
+[album_id] ASC,
+[profile_id] ASC)
 )
 
 --CREATE FOREIGN KEY CONSTRAINTS
