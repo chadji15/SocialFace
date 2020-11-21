@@ -16,6 +16,9 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
+import javax.swing.DefaultComboBoxModel;
+import com.team21.Privacy;
+import javax.swing.JTextArea;
 
 public class create_album extends JDialog {
 
@@ -47,15 +50,15 @@ public class create_album extends JDialog {
 		setModal(true);
 		setTitle("SocialFace");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(create_album.class.getResource("/images/logo16.png")));
-		setBounds(100, 100, 450, 206);
+		setBounds(100, 100, 738, 402);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblCreateAlbum = new JLabel("Create album");
@@ -88,22 +91,61 @@ public class create_album extends JDialog {
 			nameText.setColumns(10);
 		}
 		{
+			JLabel lblDescription = new JLabel("Description:");
+			lblDescription.setFont(new Font("Tahoma", Font.BOLD, 13));
+			GridBagConstraints gbc_lblDescription = new GridBagConstraints();
+			gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
+			gbc_lblDescription.gridx = 1;
+			gbc_lblDescription.gridy = 3;
+			contentPanel.add(lblDescription, gbc_lblDescription);
+		}
+		{
+			JTextArea textArea = new JTextArea();
+			GridBagConstraints gbc_textArea = new GridBagConstraints();
+			gbc_textArea.gridheight = 2;
+			gbc_textArea.insets = new Insets(0, 0, 5, 5);
+			gbc_textArea.fill = GridBagConstraints.BOTH;
+			gbc_textArea.gridx = 2;
+			gbc_textArea.gridy = 3;
+			contentPanel.add(textArea, gbc_textArea);
+		}
+		{
+			JLabel lblLocation = new JLabel("Location:");
+			lblLocation.setFont(new Font("Tahoma", Font.BOLD, 13));
+			GridBagConstraints gbc_lblLocation = new GridBagConstraints();
+			gbc_lblLocation.anchor = GridBagConstraints.EAST;
+			gbc_lblLocation.insets = new Insets(0, 0, 5, 5);
+			gbc_lblLocation.gridx = 1;
+			gbc_lblLocation.gridy = 5;
+			contentPanel.add(lblLocation, gbc_lblLocation);
+		}
+		{
+			JComboBox comboBox = new JComboBox();
+			GridBagConstraints gbc_comboBox = new GridBagConstraints();
+			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+			gbc_comboBox.gridx = 2;
+			gbc_comboBox.gridy = 5;
+			contentPanel.add(comboBox, gbc_comboBox);
+		}
+		{
 			JLabel lblPrivacy = new JLabel("Privacy:");
 			lblPrivacy.setFont(new Font("Tahoma", Font.BOLD, 13));
 			GridBagConstraints gbc_lblPrivacy = new GridBagConstraints();
 			gbc_lblPrivacy.anchor = GridBagConstraints.EAST;
 			gbc_lblPrivacy.insets = new Insets(0, 0, 0, 5);
 			gbc_lblPrivacy.gridx = 1;
-			gbc_lblPrivacy.gridy = 3;
+			gbc_lblPrivacy.gridy = 6;
 			contentPanel.add(lblPrivacy, gbc_lblPrivacy);
 		}
 		{
 			JComboBox privaceCombo = new JComboBox();
+			privaceCombo.setModel(new DefaultComboBoxModel(Privacy.values()));
 			GridBagConstraints gbc_privaceCombo = new GridBagConstraints();
 			gbc_privaceCombo.insets = new Insets(0, 0, 0, 5);
 			gbc_privaceCombo.fill = GridBagConstraints.HORIZONTAL;
 			gbc_privaceCombo.gridx = 2;
-			gbc_privaceCombo.gridy = 3;
+			gbc_privaceCombo.gridy = 6;
 			contentPanel.add(privaceCombo, gbc_privaceCombo);
 		}
 		{

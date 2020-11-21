@@ -12,7 +12,10 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -23,6 +26,8 @@ public class login extends JPanel {
 	int n;
 	private JTextField usernametext;
 	private JPasswordField passwordField;
+	private JButton CreateButton;
+	private JButton LoginButton;
 
 	/**
 	 * Create the panel.sd
@@ -51,14 +56,11 @@ public class login extends JPanel {
 		add(usernametext);
 		usernametext.setColumns(10);
 		
-		JButton LoginButton = new JButton("LOGIN");
+		LoginButton = new JButton("LOGIN");
 		LoginButton.setForeground(SystemColor.windowText);
-		LoginButton.setBackground(SystemColor.windowBorder);
+		LoginButton.setBackground(SystemColor.control);
 		LoginButton.setFont(new Font("Tahoma", Font.BOLD, 21));
-		LoginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		
 		LoginButton.setBounds(430, 278, 279, 61);
 		add(LoginButton);
 		
@@ -68,16 +70,18 @@ public class login extends JPanel {
 		add(panel);
 		
 		JButton ForgotButton = new JButton("Forgot Password?");
+		
 		ForgotButton.setForeground(Color.BLACK);
 		ForgotButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		ForgotButton.setBackground(SystemColor.windowBorder);
+		ForgotButton.setBackground(SystemColor.control);
 		ForgotButton.setBounds(501, 352, 143, 29);
 		add(ForgotButton);
 		
-		JButton CreateButton = new JButton("CREATE ACCOUNT");
+		CreateButton = new JButton("CREATE ACCOUNT");
+		
 		CreateButton.setForeground(Color.BLACK);
 		CreateButton.setFont(new Font("Tahoma", Font.BOLD, 18));
-		CreateButton.setBackground(SystemColor.windowBorder);
+		CreateButton.setBackground(SystemColor.control);
 		CreateButton.setBounds(430, 481, 270, 31);
 		add(CreateButton);
 		
@@ -90,5 +94,11 @@ public class login extends JPanel {
 		passwordField.setBounds(527, 224, 182, 22);
 		add(passwordField);
 
+	}
+	public JButton getCreateButton() {
+		return CreateButton;
+	}
+	public JButton getLoginButton() {
+		return LoginButton;
 	}
 }

@@ -22,6 +22,7 @@ public class search extends JPanel {
 	private JTextField workText;
 	private JTextField educationText;
 	private JTextField hometownText;
+	private JButton searchbutton;
 
 	/**
 	 * Create the panel.
@@ -46,7 +47,7 @@ public class search extends JPanel {
 		lblNewLabel_1.setBounds(0, 0, 187, 140);
 		panel.add(lblNewLabel_1);
 		
-		JButton searchbutton = new JButton("SEARCH");
+		searchbutton = new JButton("SEARCH");
 		searchbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
 		JRadioButton ByLocation = new JRadioButton("By location:");
@@ -165,5 +166,8 @@ public class search extends JPanel {
 		);
 		setLayout(groupLayout);
 
+	}
+	public JButton getSearchbutton() {
+		return searchbutton;
 	}
 }

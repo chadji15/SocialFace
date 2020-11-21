@@ -16,9 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JList;
 
 public class PhotosVideos extends JPanel {
-	private JTable albumTable;
 	private JTable videoTables;
 
 	/**
@@ -88,8 +88,8 @@ public class PhotosVideos extends JPanel {
 		gbc_scrollPane.gridy = 2;
 		albumPanel.add(scrollPane, gbc_scrollPane);
 		
-		albumTable = new JTable();
-		scrollPane.setViewportView(albumTable);
+		JList albumList = new JList();
+		scrollPane.setViewportView(albumList);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
@@ -131,6 +131,7 @@ public class PhotosVideos extends JPanel {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnUploadVideo = new JButton("Upload video");
+		
 		panel.add(btnUploadVideo);
 		
 		JButton btnDeleteVideo = new JButton("Delete video");
@@ -168,6 +169,13 @@ public class PhotosVideos extends JPanel {
 		gbc_verticalStrut_3.gridy = 3;
 		videoPanel.add(verticalStrut_3, gbc_verticalStrut_3);
 
+		btnUploadVideo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UploadVideo uploadVideo = new UploadVideo();
+				uploadVideo.setVisible(true);
+				
+			}
+		});
 	}
 
 }

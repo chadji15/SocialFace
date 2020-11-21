@@ -33,7 +33,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
-import net.miginfocom.swing.MigLayout;
 import java.awt.Component;
 
 public class MainFrame extends JFrame {
@@ -117,7 +116,11 @@ public class MainFrame extends JFrame {
 		cardPanel.add(profile_, "name_562092603074000");
 		
 		search search_ = new search();
+		
 		cardPanel.add(search_, "name_563486844515400");
+		
+		SearchResults searchResults = new SearchResults();
+		cardPanel.add(searchResults, "name_915625734146800");
 		contentPane.setLayout(gl_contentPane);
 		
 		
@@ -134,6 +137,15 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
 				cardPanel.add(profile_);
+				cardPanel.revalidate();
+				cardPanel.repaint();
+			}
+		});
+		
+		search_.getSearchbutton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardPanel.removeAll();
+				cardPanel.add(searchResults);
 				cardPanel.revalidate();
 				cardPanel.repaint();
 			}

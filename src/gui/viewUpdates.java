@@ -55,7 +55,7 @@ public class viewUpdates extends JPanel {
 		panel.add(lblCategory);
 		
 		JComboBox categoryCombo = new JComboBox();
-		categoryCombo.setModel(new DefaultComboBoxModel(new String[] {"Photos", "Videos", "Links", "Events"}));
+		categoryCombo.setModel(new DefaultComboBoxModel(new String[] {"All", "Photos", "Videos", "Links", "Events"}));
 		panel.add(categoryCombo);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
@@ -65,6 +65,7 @@ public class viewUpdates extends JPanel {
 		panel.add(lblNumberOfItems);
 		
 		JSpinner spinner = new JSpinner();
+		spinner.setMinimumSize(new Dimension(40, 22));
 		spinner.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
 		panel.add(spinner);
 		

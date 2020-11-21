@@ -12,6 +12,9 @@ import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class signup extends JPanel {
 	private JTextField firstnametext;
@@ -20,18 +23,16 @@ public class signup extends JPanel {
 	private JPasswordField passwordField;
 	private JPasswordField passwordField2;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JButton createaccountbutton;
 
 	/**
 	 * Create the panel.
 	 */
 	public signup() {
 		setBackground(new Color(204, 204, 255));
-		setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 0, 703, 83);
-		add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("SIGN UP");
@@ -46,84 +47,170 @@ public class signup extends JPanel {
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblUsername = new JLabel("First Name:");
-		lblUsername.setBounds(186, 96, 97, 36);
-		add(lblUsername);
 		
 		JLabel lblLastName = new JLabel("Last Name:");
-		lblLastName.setBounds(186, 145, 97, 36);
-		add(lblLastName);
 		
 		JLabel lblUsername_1_1 = new JLabel("Gender:");
-		lblUsername_1_1.setBounds(186, 194, 97, 36);
-		add(lblUsername_1_1);
 		
 		firstnametext = new JTextField();
-		firstnametext.setBounds(277, 103, 230, 22);
-		add(firstnametext);
 		firstnametext.setColumns(10);
 		
 		lastnametext = new JTextField();
 		lastnametext.setColumns(10);
-		lastnametext.setBounds(277, 152, 230, 22);
-		add(lastnametext);
 		
 		JRadioButton malebutton = new JRadioButton("Male");
 		buttonGroup.add(malebutton);
 		malebutton.setBackground(new Color(204, 204, 255));
-		malebutton.setBounds(277, 200, 65, 25);
-		add(malebutton);
 		
 		JRadioButton femalebutton = new JRadioButton("Female");
 		buttonGroup.add(femalebutton);
 		femalebutton.setBackground(new Color(204, 204, 255));
-		femalebutton.setBounds(346, 200, 78, 25);
-		add(femalebutton);
 		
 		JRadioButton otherbutton = new JRadioButton("Other");
 		buttonGroup.add(otherbutton);
 		otherbutton.setBackground(new Color(204, 204, 255));
-		otherbutton.setBounds(428, 200, 127, 25);
-		add(otherbutton);
 		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(186, 243, 97, 36);
-		add(lblEmail);
 		
 		emailtext = new JTextField();
 		emailtext.setColumns(10);
-		emailtext.setBounds(277, 250, 230, 22);
-		add(emailtext);
 		
 		JLabel lblBirthday = new JLabel("Birthday:");
-		lblBirthday.setBounds(186, 292, 97, 36);
-		add(lblBirthday);
 		
 		JDateChooser choosedate = new JDateChooser();
-		choosedate.setBounds(277, 298, 230, 22);
-		add(choosedate);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setHorizontalAlignment(SwingConstants.LEFT);
-		lblPassword.setBounds(186, 341, 97, 36);
-		add(lblPassword);
 		
 		JLabel lblComfirmPassword = new JLabel("Comfirm password:");
 		lblComfirmPassword.setHorizontalAlignment(SwingConstants.LEFT);
-		lblComfirmPassword.setBounds(186, 390, 113, 36);
-		add(lblComfirmPassword);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(311, 348, 196, 22);
-		add(passwordField);
 		
 		passwordField2 = new JPasswordField();
-		passwordField2.setBounds(311, 397, 196, 22);
-		add(passwordField2);
 		
-		JButton createaccountbutton = new JButton("CREATE MY ACCOUNT!");
+		createaccountbutton = new JButton("CREATE MY ACCOUNT!");
 		createaccountbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		createaccountbutton.setBounds(217, 484, 262, 63);
-		add(createaccountbutton);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(186)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(91)
+									.addComponent(firstnametext, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(186)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(91)
+									.addComponent(lastnametext, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(186)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblUsername_1_1, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(91)
+									.addComponent(malebutton, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
+							.addGap(4)
+							.addComponent(femalebutton, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+							.addGap(4)
+							.addComponent(otherbutton, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(186)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(91)
+									.addComponent(emailtext, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(186)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(91)
+									.addComponent(choosedate, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblBirthday, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(186)
+							.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+							.addGap(28)
+							.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(186)
+							.addComponent(lblComfirmPassword)
+							.addGap(12)
+							.addComponent(passwordField2, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(217)
+							.addComponent(createaccountbutton, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(115, Short.MAX_VALUE))
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(1)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(7)
+							.addComponent(firstnametext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(7)
+							.addComponent(lastnametext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblUsername_1_1, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
+							.addComponent(malebutton))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
+							.addComponent(femalebutton))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
+							.addComponent(otherbutton)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(7)
+							.addComponent(emailtext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
+							.addComponent(choosedate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblBirthday, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(7)
+							.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblComfirmPassword, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(7)
+							.addComponent(passwordField2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(58)
+					.addComponent(createaccountbutton, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+		);
+		setLayout(groupLayout);
 
+	}
+	public JButton getCreateaccountbutton() {
+		return createaccountbutton;
 	}
 }
