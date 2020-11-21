@@ -45,7 +45,7 @@ public class friends {
 		frmSocialface = new JFrame();
 		frmSocialface.setTitle("SocialFace");
 		frmSocialface.setIconImage(Toolkit.getDefaultToolkit().getImage(friends.class.getResource("/images/logosmall.png")));
-		frmSocialface.setBounds(100, 100, 450, 300);
+		frmSocialface.setBounds(100, 100, 696, 553);
 		frmSocialface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSocialface.getContentPane().setLayout(null);
 		
@@ -60,7 +60,7 @@ public class friends {
 		frmSocialface.getContentPane().add(YourFrindsLabel);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 67, 416, 186);
+		panel.setBounds(10, 67, 650, 439);
 		frmSocialface.getContentPane().add(panel);
 		
 		JLabel Searchbtn = new JLabel("Search:");
