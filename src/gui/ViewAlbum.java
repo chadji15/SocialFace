@@ -24,11 +24,13 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
 
 public class ViewAlbum extends JPanel {
 	private JTable photoTable;
 	private JTable commentsTable;
 	private JButton backButton;
+	private JTextField searchPhotoText;
 
 	/**
 	 * Create the panel.
@@ -156,20 +158,59 @@ public class ViewAlbum extends JPanel {
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 7;
 		add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{59, 91, 115, 87, 53, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{25, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
 		backButton = new JButton("Back");
-		panel.add(backButton);
+		GridBagConstraints gbc_backButton = new GridBagConstraints();
+		gbc_backButton.anchor = GridBagConstraints.NORTHWEST;
+		gbc_backButton.insets = new Insets(0, 0, 0, 5);
+		gbc_backButton.gridx = 0;
+		gbc_backButton.gridy = 0;
+		panel.add(backButton, gbc_backButton);
 		
 		JButton btnAddPhoto = new JButton("Add photo");
 		
-		panel.add(btnAddPhoto);
+		GridBagConstraints gbc_btnAddPhoto = new GridBagConstraints();
+		gbc_btnAddPhoto.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnAddPhoto.insets = new Insets(0, 0, 0, 5);
+		gbc_btnAddPhoto.gridx = 1;
+		gbc_btnAddPhoto.gridy = 0;
+		panel.add(btnAddPhoto, gbc_btnAddPhoto);
+		btnAddPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectPhoto selectPhoto = new SelectPhoto();
+				selectPhoto.setVisible(true);
+			}
+		});
 		
 		JButton btnRemovePhoto = new JButton("Remove photo");
-		panel.add(btnRemovePhoto);
+		GridBagConstraints gbc_btnRemovePhoto = new GridBagConstraints();
+		gbc_btnRemovePhoto.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnRemovePhoto.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRemovePhoto.gridx = 2;
+		gbc_btnRemovePhoto.gridy = 0;
+		panel.add(btnRemovePhoto, gbc_btnRemovePhoto);
 		
 		JButton commentButton = new JButton("Comment");
 		
-		panel.add(commentButton);
+		GridBagConstraints gbc_commentButton = new GridBagConstraints();
+		gbc_commentButton.anchor = GridBagConstraints.NORTHWEST;
+		gbc_commentButton.insets = new Insets(0, 0, 0, 5);
+		gbc_commentButton.gridx = 3;
+		gbc_commentButton.gridy = 0;
+		panel.add(commentButton, gbc_commentButton);
+		
+		commentButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddComment addComment = new AddComment();
+				addComment.setVisible(true);
+			}
+		});
 		
 		JToggleButton editToggle = new JToggleButton("Edit");
 		editToggle.addActionListener(new ActionListener() {
@@ -186,7 +227,27 @@ public class ViewAlbum extends JPanel {
 				}
 			}
 		});
-		panel.add(editToggle);
+		GridBagConstraints gbc_editToggle = new GridBagConstraints();
+		gbc_editToggle.insets = new Insets(0, 0, 0, 5);
+		gbc_editToggle.anchor = GridBagConstraints.NORTHWEST;
+		gbc_editToggle.gridx = 4;
+		gbc_editToggle.gridy = 0;
+		panel.add(editToggle, gbc_editToggle);
+		
+		JButton btnSearch = new JButton("Search");
+		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
+		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSearch.gridx = 5;
+		gbc_btnSearch.gridy = 0;
+		panel.add(btnSearch, gbc_btnSearch);
+		
+		searchPhotoText = new JTextField();
+		GridBagConstraints gbc_searchPhotoText = new GridBagConstraints();
+		gbc_searchPhotoText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_searchPhotoText.gridx = 6;
+		gbc_searchPhotoText.gridy = 0;
+		panel.add(searchPhotoText, gbc_searchPhotoText);
+		searchPhotoText.setColumns(10);
 		
 		JLabel lblTotalPhotos = new JLabel("Total: 10 photographs");
 		GridBagConstraints gbc_lblTotalPhotos = new GridBagConstraints();
@@ -275,19 +336,6 @@ public class ViewAlbum extends JPanel {
 		gbc_verticalStrut_1.gridx = 1;
 		gbc_verticalStrut_1.gridy = 12;
 		add(verticalStrut_1, gbc_verticalStrut_1);
-		
-		commentButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AddComment addComment = new AddComment();
-				addComment.setVisible(true);
-			}
-		});
-		btnAddPhoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SelectPhoto selectPhoto = new SelectPhoto();
-				selectPhoto.setVisible(true);
-			}
-		});
 	}
 
 	public JButton getBackButton() {

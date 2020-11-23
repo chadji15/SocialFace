@@ -16,8 +16,10 @@ import javax.swing.Box;
 import javax.swing.AbstractListModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
 
 public class Links extends JPanel {
+	private JTextField searchLink;
 
 	/**
 	 * Create the panel.
@@ -45,14 +47,21 @@ public class Links extends JPanel {
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 1;
 		add(panel, gbc_panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{89, 145, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{25, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
 		JButton btnShareLink = new JButton("Share link");
 		
-		panel.add(btnShareLink);
-		
-		JButton btnRemoveSharedLink = new JButton("Remove shared link");
-		panel.add(btnRemoveSharedLink);
+		GridBagConstraints gbc_btnShareLink = new GridBagConstraints();
+		gbc_btnShareLink.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnShareLink.insets = new Insets(0, 0, 0, 5);
+		gbc_btnShareLink.gridx = 0;
+		gbc_btnShareLink.gridy = 0;
+		panel.add(btnShareLink, gbc_btnShareLink);
 		
 		btnShareLink.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -60,6 +69,29 @@ public class Links extends JPanel {
 				s.setVisible(true);
 			}
 		});
+		
+		JButton btnRemoveSharedLink = new JButton("Remove shared link");
+		GridBagConstraints gbc_btnRemoveSharedLink = new GridBagConstraints();
+		gbc_btnRemoveSharedLink.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRemoveSharedLink.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnRemoveSharedLink.gridx = 1;
+		gbc_btnRemoveSharedLink.gridy = 0;
+		panel.add(btnRemoveSharedLink, gbc_btnRemoveSharedLink);
+		
+		JButton btnSearch = new JButton("Search");
+		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
+		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSearch.gridx = 2;
+		gbc_btnSearch.gridy = 0;
+		panel.add(btnSearch, gbc_btnSearch);
+		
+		searchLink = new JTextField();
+		GridBagConstraints gbc_searchLink = new GridBagConstraints();
+		gbc_searchLink.fill = GridBagConstraints.HORIZONTAL;
+		gbc_searchLink.gridx = 3;
+		gbc_searchLink.gridy = 0;
+		panel.add(searchLink, gbc_searchLink);
+		searchLink.setColumns(10);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();

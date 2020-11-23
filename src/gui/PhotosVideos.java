@@ -25,9 +25,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextField;
 
 public class PhotosVideos extends JPanel {
 	private JTable videoTables;
+	private JTextField searchText;
+	private JTextField searchVideoText;
 
 	/**
 	 * Create the panel.
@@ -66,18 +69,21 @@ public class PhotosVideos extends JPanel {
 		gbc_panel_2.gridx = 1;
 		gbc_panel_2.gridy = 1;
 		albumPanel.add(panel_2, gbc_panel_2);
-		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panel_2 = new GridBagLayout();
+		gbl_panel_2.columnWidths = new int[]{109, 109, 107, 73, 116, 0};
+		gbl_panel_2.rowHeights = new int[]{25, 0};
+		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_2.setLayout(gbl_panel_2);
 		
 		JButton btnCreateAlbum = new JButton("Create album");
 		
-		panel_2.add(btnCreateAlbum);
-		
-		JButton btnDeleteAlbum = new JButton("Delete Album");
-		panel_2.add(btnDeleteAlbum);
-		
-		JButton btnUploadPhoto = new JButton("Upload photo");
-		
-		panel_2.add(btnUploadPhoto);
+		GridBagConstraints gbc_btnCreateAlbum = new GridBagConstraints();
+		gbc_btnCreateAlbum.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnCreateAlbum.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCreateAlbum.gridx = 0;
+		gbc_btnCreateAlbum.gridy = 0;
+		panel_2.add(btnCreateAlbum, gbc_btnCreateAlbum);
 		
 		btnCreateAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,6 +91,57 @@ public class PhotosVideos extends JPanel {
 				c.setVisible(true);
 			}
 		});
+		
+		JButton btnDeleteAlbum = new JButton("Delete Album");
+		GridBagConstraints gbc_btnDeleteAlbum = new GridBagConstraints();
+		gbc_btnDeleteAlbum.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnDeleteAlbum.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDeleteAlbum.gridx = 1;
+		gbc_btnDeleteAlbum.gridy = 0;
+		panel_2.add(btnDeleteAlbum, gbc_btnDeleteAlbum);
+		
+		JButton btnUploadPhoto = new JButton("Upload photo");
+		
+		GridBagConstraints gbc_btnUploadPhoto = new GridBagConstraints();
+		gbc_btnUploadPhoto.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnUploadPhoto.insets = new Insets(0, 0, 0, 5);
+		gbc_btnUploadPhoto.gridx = 2;
+		gbc_btnUploadPhoto.gridy = 0;
+		panel_2.add(btnUploadPhoto, gbc_btnUploadPhoto);
+		
+		btnUploadPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				jfc.setDialogTitle("Select an image");
+		        jfc.setAcceptAllFileFilterUsed(false);
+		        FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg images", "jpg");
+		        jfc.addChoosableFileFilter(filter);
+
+		        int returnValue = jfc.showOpenDialog(null);
+		        if (returnValue == JFileChooser.APPROVE_OPTION) {
+		            //upload photo and refresh
+		        }
+		        else {
+		        	//do nothing
+		        }
+			}
+		});
+		
+		JButton btnSearch = new JButton("Search");
+		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
+		gbc_btnSearch.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSearch.gridx = 3;
+		gbc_btnSearch.gridy = 0;
+		panel_2.add(btnSearch, gbc_btnSearch);
+		
+		searchText = new JTextField();
+		GridBagConstraints gbc_searchText = new GridBagConstraints();
+		gbc_searchText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_searchText.gridx = 4;
+		gbc_searchText.gridy = 0;
+		panel_2.add(searchText, gbc_searchText);
+		searchText.setColumns(10);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
@@ -151,14 +208,52 @@ public class PhotosVideos extends JPanel {
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 1;
 		videoPanel.add(panel, gbc_panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{105, 103, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{25, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
 		JButton btnUploadVideo = new JButton("Upload video");
 		
-		panel.add(btnUploadVideo);
+		GridBagConstraints gbc_btnUploadVideo = new GridBagConstraints();
+		gbc_btnUploadVideo.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnUploadVideo.insets = new Insets(0, 0, 0, 5);
+		gbc_btnUploadVideo.gridx = 0;
+		gbc_btnUploadVideo.gridy = 0;
+		panel.add(btnUploadVideo, gbc_btnUploadVideo);
+		
+				btnUploadVideo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						UploadVideo uploadVideo = new UploadVideo();
+						uploadVideo.setVisible(true);
+						
+					}
+				});
 		
 		JButton btnDeleteVideo = new JButton("Delete video");
-		panel.add(btnDeleteVideo);
+		GridBagConstraints gbc_btnDeleteVideo = new GridBagConstraints();
+		gbc_btnDeleteVideo.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDeleteVideo.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnDeleteVideo.gridx = 1;
+		gbc_btnDeleteVideo.gridy = 0;
+		panel.add(btnDeleteVideo, gbc_btnDeleteVideo);
+		
+		JButton btnSearch_1 = new JButton("Search");
+		GridBagConstraints gbc_btnSearch_1 = new GridBagConstraints();
+		gbc_btnSearch_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSearch_1.gridx = 2;
+		gbc_btnSearch_1.gridy = 0;
+		panel.add(btnSearch_1, gbc_btnSearch_1);
+		
+		searchVideoText = new JTextField();
+		GridBagConstraints gbc_searchVideoText = new GridBagConstraints();
+		gbc_searchVideoText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_searchVideoText.gridx = 3;
+		gbc_searchVideoText.gridy = 0;
+		panel.add(searchVideoText, gbc_searchVideoText);
+		searchVideoText.setColumns(10);
 		
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
@@ -221,14 +316,6 @@ public class PhotosVideos extends JPanel {
 		
 		ViewVideo viewVideo = new ViewVideo();
 		cardPanel.add(viewVideo, "name_1079679262988400");
-
-		btnUploadVideo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UploadVideo uploadVideo = new UploadVideo();
-				uploadVideo.setVisible(true);
-				
-			}
-		});
 		
 		albumList.addMouseListener(new MouseAdapter() {
 			@Override
@@ -267,24 +354,6 @@ public class PhotosVideos extends JPanel {
 				cardPanel.add(viewAlbum);
 				cardPanel.revalidate();
 				cardPanel.repaint();
-			}
-		});
-		
-		btnUploadPhoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-				jfc.setDialogTitle("Select an image");
-		        jfc.setAcceptAllFileFilterUsed(false);
-		        FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg images", "jpg");
-		        jfc.addChoosableFileFilter(filter);
-
-		        int returnValue = jfc.showOpenDialog(null);
-		        if (returnValue == JFileChooser.APPROVE_OPTION) {
-		            //upload photo and refresh
-		        }
-		        else {
-		        	//do nothing
-		        }
 			}
 		});
 		videoTables.addMouseListener(new MouseAdapter() {
