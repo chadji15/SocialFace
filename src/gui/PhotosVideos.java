@@ -17,6 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.CardLayout;
 
 public class PhotosVideos extends JPanel {
 	private JTable videoTables;
@@ -28,8 +32,12 @@ public class PhotosVideos extends JPanel {
 		setPreferredSize(new Dimension(764, 661));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
+		JPanel cardPanel = new JPanel();
+		add(cardPanel);
+		cardPanel.setLayout(new CardLayout(0, 0));
+		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		add(tabbedPane);
+		cardPanel.add(tabbedPane, "name_1005769202871000");
 		
 		JPanel albumPanel = new JPanel();
 		tabbedPane.addTab("Photos", null, albumPanel, null);
@@ -89,6 +97,16 @@ public class PhotosVideos extends JPanel {
 		albumPanel.add(scrollPane, gbc_scrollPane);
 		
 		JList albumList = new JList();
+		
+		albumList.setModel(new AbstractListModel() {
+			String[] values = new String[] {"album1"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
 		scrollPane.setViewportView(albumList);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -168,12 +186,37 @@ public class PhotosVideos extends JPanel {
 		gbc_verticalStrut_3.gridx = 1;
 		gbc_verticalStrut_3.gridy = 3;
 		videoPanel.add(verticalStrut_3, gbc_verticalStrut_3);
+		
+		ViewAlbum viewAlbum = new ViewAlbum();
+		
+		cardPanel.add(viewAlbum, "name_1005784265800700");
 
 		btnUploadVideo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UploadVideo uploadVideo = new UploadVideo();
 				uploadVideo.setVisible(true);
 				
+			}
+		});
+		
+		albumList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					cardPanel.removeAll();
+					cardPanel.add(viewAlbum);
+					cardPanel.revalidate();
+					cardPanel.repaint();
+				}
+			}
+		});
+		
+		viewAlbum.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardPanel.removeAll();
+				cardPanel.add(tabbedPane);
+				cardPanel.revalidate();
+				cardPanel.repaint();
 			}
 		});
 	}

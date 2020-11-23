@@ -17,10 +17,16 @@ import javax.swing.Box;
 import java.awt.FlowLayout;
 import javax.swing.DefaultComboBoxModel;
 import com.team21.Privacy;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class ViewAlbum extends JPanel {
 	private JTable photoTable;
 	private JTable commentsTable;
+	private JButton backButton;
 
 	/**
 	 * Create the panel.
@@ -28,9 +34,9 @@ public class ViewAlbum extends JPanel {
 	public ViewAlbum() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 152, 381, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 30, 0, 0, 0, 0, 0, 0, 0, 277, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 30, 0, 0, 0, 0, 0, 0, 0, 277, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -64,6 +70,7 @@ public class ViewAlbum extends JPanel {
 		
 		JLabel lblOwner = new JLabel("Owner:");
 		GridBagConstraints gbc_lblOwner = new GridBagConstraints();
+		gbc_lblOwner.anchor = GridBagConstraints.EAST;
 		gbc_lblOwner.insets = new Insets(0, 0, 5, 5);
 		gbc_lblOwner.gridx = 1;
 		gbc_lblOwner.gridy = 2;
@@ -79,6 +86,7 @@ public class ViewAlbum extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Description:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 3;
@@ -97,8 +105,16 @@ public class ViewAlbum extends JPanel {
 		descriptionText.setEditable(false);
 		scrollPane_1.setViewportView(descriptionText);
 		
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut_2 = new GridBagConstraints();
+		gbc_verticalStrut_2.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut_2.gridx = 1;
+		gbc_verticalStrut_2.gridy = 4;
+		add(verticalStrut_2, gbc_verticalStrut_2);
+		
 		JLabel lblLocation = new JLabel("Location:");
 		GridBagConstraints gbc_lblLocation = new GridBagConstraints();
+		gbc_lblLocation.anchor = GridBagConstraints.EAST;
 		gbc_lblLocation.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLocation.gridx = 1;
 		gbc_lblLocation.gridy = 5;
@@ -115,6 +131,7 @@ public class ViewAlbum extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("Privacy:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 1;
 		gbc_lblNewLabel_1.gridy = 6;
@@ -138,14 +155,39 @@ public class ViewAlbum extends JPanel {
 		gbc_panel.gridy = 7;
 		add(panel, gbc_panel);
 		
+		backButton = new JButton("Back");
+		panel.add(backButton);
+		
 		JButton btnAddPhoto = new JButton("Add photo");
 		panel.add(btnAddPhoto);
 		
 		JButton btnRemovePhoto = new JButton("Remove photo");
 		panel.add(btnRemovePhoto);
 		
+		JButton commentButton = new JButton("Comment");
+		
+		panel.add(commentButton);
+		
+		JToggleButton editToggle = new JToggleButton("Edit");
+		editToggle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (editToggle.isSelected()) {
+					locationCombo.setEnabled(true);
+					privacyCombo.setEnabled(true);
+					descriptionText.setEditable(true);
+				}
+				else {
+					locationCombo.setEnabled(false);
+					privacyCombo.setEnabled(false);
+					descriptionText.setEditable(false);
+				}
+			}
+		});
+		panel.add(editToggle);
+		
 		JLabel lblTotalPhotos = new JLabel("Total: 10 photographs");
 		GridBagConstraints gbc_lblTotalPhotos = new GridBagConstraints();
+		gbc_lblTotalPhotos.anchor = GridBagConstraints.WEST;
 		gbc_lblTotalPhotos.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTotalPhotos.gridx = 1;
 		gbc_lblTotalPhotos.gridy = 8;
@@ -225,30 +267,20 @@ public class ViewAlbum extends JPanel {
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
-		gbc_verticalStrut_1.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut_1.insets = new Insets(0, 0, 0, 5);
 		gbc_verticalStrut_1.gridx = 1;
 		gbc_verticalStrut_1.gridy = 12;
 		add(verticalStrut_1, gbc_verticalStrut_1);
 		
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.gridwidth = 2;
-		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 13;
-		add(panel_1, gbc_panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JButton backButton = new JButton("Back");
-		panel_1.add(backButton);
-		
-		JButton commentButton = new JButton("Comment");
-		panel_1.add(commentButton);
-		
-		JButton editButton = new JButton("Edit");
-		panel_1.add(editButton);
-
+		commentButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddComment addComment = new AddComment();
+				addComment.setVisible(true);
+			}
+		});
 	}
 
+	public JButton getBackButton() {
+		return backButton;
+	}
 }

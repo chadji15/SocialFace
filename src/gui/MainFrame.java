@@ -33,11 +33,15 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+
+import jdk.jfr.internal.tool.Main;
+
 import java.awt.Component;
 
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
+	private profile profile_;
 
 	/**
 	 * Launch the application.
@@ -110,7 +114,7 @@ public class MainFrame extends JFrame {
 		);
 		cardPanel.setLayout(new CardLayout(0, 0));
 		
-		profile profile_ = new profile();
+		profile_ = new profile();
 		profile_.setPreferredSize(new Dimension(765, 700));
 		profile_.setMinimumSize(new Dimension(10, 10));
 		cardPanel.add(profile_, "name_562092603074000");
@@ -136,6 +140,7 @@ public class MainFrame extends JFrame {
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
+				MainFrame.this.profile_ = new profile();
 				cardPanel.add(profile_);
 				cardPanel.revalidate();
 				cardPanel.repaint();
