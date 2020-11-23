@@ -22,6 +22,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewAlbum extends JPanel {
 	private JTable photoTable;
@@ -35,7 +37,7 @@ public class ViewAlbum extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 152, 381, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 30, 0, 0, 0, 0, 0, 0, 0, 277, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -159,6 +161,7 @@ public class ViewAlbum extends JPanel {
 		panel.add(backButton);
 		
 		JButton btnAddPhoto = new JButton("Add photo");
+		
 		panel.add(btnAddPhoto);
 		
 		JButton btnRemovePhoto = new JButton("Remove photo");
@@ -203,6 +206,7 @@ public class ViewAlbum extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		photoTable = new JTable();
+		
 		photoTable.setBackground(SystemColor.control);
 		photoTable.setRowSelectionAllowed(false);
 		photoTable.setModel(new DefaultTableModel(
@@ -278,9 +282,18 @@ public class ViewAlbum extends JPanel {
 				addComment.setVisible(true);
 			}
 		});
+		btnAddPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectPhoto selectPhoto = new SelectPhoto();
+				selectPhoto.setVisible(true);
+			}
+		});
 	}
 
 	public JButton getBackButton() {
 		return backButton;
+	}
+	public JTable getPhotoTable() {
+		return photoTable;
 	}
 }

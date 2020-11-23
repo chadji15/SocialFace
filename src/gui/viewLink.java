@@ -20,6 +20,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.JToggleButton;
 
 public class viewLink extends JDialog {
 	private JTextField captionText;
@@ -49,6 +50,7 @@ public class viewLink extends JDialog {
 	 * Create the dialog.
 	 */
 	public viewLink() {
+		setModal(true);
 		setTitle("View link");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(viewLink.class.getResource("/images/logo16.png")));
 		setBounds(100, 100, 482, 480);
@@ -156,9 +158,9 @@ public class viewLink extends JDialog {
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
-		JButton btnEdit = new JButton("Edit");
+		JToggleButton tglbtnEdit = new JToggleButton("Edit");
 		
-		buttonPane.add(btnEdit);
+		buttonPane.add(tglbtnEdit);
 		
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setActionCommand("Cancel");
@@ -170,16 +172,27 @@ public class viewLink extends JDialog {
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 		
-		
-		btnEdit.addActionListener(new ActionListener() {
+	
+		tglbtnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				linkText.setEditable(true);
-				nameText.setEditable(true);
-				descriptionText.setEditable(true);
-				descriptionText.setBackground(new Color(255,255,255));
-				messageText.setEditable(true);
-				messageText.setBackground(new Color(255,255,255));
-				captionText.setEditable(true);
+				if (tglbtnEdit.isSelected()) {
+					linkText.setEditable(true);
+					nameText.setEditable(true);
+					descriptionText.setEditable(true);
+					descriptionText.setBackground(new Color(255,255,255));
+					messageText.setEditable(true);
+					messageText.setBackground(new Color(255,255,255));
+					captionText.setEditable(true);
+				}
+				else {
+					linkText.setEditable(false);
+					nameText.setEditable(false);
+					descriptionText.setEditable(false);
+					descriptionText.setBackground(new Color(240,240,240));
+					messageText.setEditable(false);
+					messageText.setBackground(new Color(240,240,240));
+					captionText.setEditable(false);
+				}
 			}
 		});
 	}

@@ -35,6 +35,7 @@ import javax.swing.Box;
 import com.team21.Privacy;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JToggleButton;
 
 public class displayEvent extends JDialog {
 	private JTextField nameText;
@@ -65,6 +66,7 @@ public class displayEvent extends JDialog {
 	 * Create the dialog.
 	 */
 	public displayEvent() {
+		setModal(true);
 		setMinimumSize(new Dimension(710, 370));
 		setTitle("View event");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(displayEvent.class.getResource("/images/logo16.png")));
@@ -76,6 +78,7 @@ public class displayEvent extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
 		JRadioButton goingButton = new JRadioButton("Going");
+		goingButton.setSelected(true);
 		goingButton.setEnabled(false);
 		buttonGroup.add(goingButton);
 		buttonPane.add(goingButton);
@@ -85,9 +88,9 @@ public class displayEvent extends JDialog {
 		buttonGroup.add(notGoingButton);
 		buttonPane.add(notGoingButton);
 		
-		JButton btnEdit = new JButton("Edit");
+		JToggleButton tglbtnEdit = new JToggleButton("Edit");
 		
-		buttonPane.add(btnEdit);
+		buttonPane.add(tglbtnEdit);
 	
 		JButton okButton = new JButton("OK");
 		
@@ -257,31 +260,31 @@ public class displayEvent extends JDialog {
 		gbc_privacyCombo.gridy = 7;
 		privacyText.add(privacyCombo, gbc_privacyCombo);
 		
-		btnEdit.addActionListener(new ActionListener() {
+
+		tglbtnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				nameText.setEditable(true);
-				startSpinner.setEnabled(true);
-				endSpinner.setEnabled(true);
-				venueCombo.setEnabled(true);
-				locationText.setEditable(true);
-				privacyCombo.setEnabled(true);
-				descriptionText.setEditable(true);
-				goingButton.setEnabled(true);
-				notGoingButton.setEnabled(true);
-			}
-		});
-		
-		okButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nameText.setEditable(false);
-				startSpinner.setEnabled(false);
-				endSpinner.setEnabled(false);
-				venueCombo.setEnabled(false);
-				locationText.setEditable(false);
-				privacyCombo.setEnabled(false);
-				descriptionText.setEditable(false);
-				goingButton.setEnabled(false);
-				notGoingButton.setEnabled(false);
+				if (tglbtnEdit.isSelected()) {
+					nameText.setEditable(true);
+					startSpinner.setEnabled(true);
+					endSpinner.setEnabled(true);
+					venueCombo.setEnabled(true);
+					locationText.setEditable(true);
+					privacyCombo.setEnabled(true);
+					descriptionText.setEditable(true);
+					goingButton.setEnabled(true);
+					notGoingButton.setEnabled(true);
+				}
+				else {
+					nameText.setEditable(false);
+					startSpinner.setEnabled(false);
+					endSpinner.setEnabled(false);
+					venueCombo.setEnabled(false);
+					locationText.setEditable(false);
+					privacyCombo.setEnabled(false);
+					descriptionText.setEditable(false);
+					goingButton.setEnabled(false);
+					notGoingButton.setEnabled(false);
+				}
 			}
 		});
 	}

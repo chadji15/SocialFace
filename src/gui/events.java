@@ -26,6 +26,9 @@ import javax.swing.Box;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.AbstractListModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class events extends JPanel {
 
@@ -99,8 +102,18 @@ public class events extends JPanel {
 		gbc_scrollPane.gridy = 3;
 		add(scrollPane, gbc_scrollPane);
 		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
+		JList myEventsList = new JList();
+		
+		myEventsList.setModel(new AbstractListModel() {
+			String[] values = new String[] {"event1"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		scrollPane.setViewportView(myEventsList);
 		
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
@@ -117,8 +130,8 @@ public class events extends JPanel {
 		gbc_scrollPane_1.gridy = 3;
 		add(scrollPane_1, gbc_scrollPane_1);
 		
-		JList list_1 = new JList();
-		scrollPane_1.setViewportView(list_1);
+		JList goingList = new JList();
+		scrollPane_1.setViewportView(goingList);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
@@ -134,5 +147,14 @@ public class events extends JPanel {
 		gbc_verticalStrut_1.gridy = 4;
 		add(verticalStrut_1, gbc_verticalStrut_1);
 
+		myEventsList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					displayEvent d = new displayEvent();
+					d.setVisible(true);
+				}
+			}
+		});
 	}
 }

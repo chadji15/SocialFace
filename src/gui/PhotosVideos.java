@@ -8,7 +8,10 @@ import java.awt.GridBagConstraints;
 import javax.swing.JScrollPane;
 import java.awt.Insets;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.BoxLayout;
 import javax.swing.JTabbedPane;
 import java.awt.FlowLayout;
@@ -21,6 +24,7 @@ import javax.swing.AbstractListModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.CardLayout;
+import javax.swing.table.DefaultTableModel;
 
 public class PhotosVideos extends JPanel {
 	private JTable videoTables;
@@ -72,6 +76,7 @@ public class PhotosVideos extends JPanel {
 		panel_2.add(btnDeleteAlbum);
 		
 		JButton btnUploadPhoto = new JButton("Upload photo");
+		
 		panel_2.add(btnUploadPhoto);
 		
 		btnCreateAlbum.addActionListener(new ActionListener() {
@@ -171,6 +176,24 @@ public class PhotosVideos extends JPanel {
 		videoPanel.add(scrollPane_1, gbc_scrollPane_1);
 		
 		videoTables = new JTable();
+		
+		videoTables.setTableHeader(null);
+		videoTables.setRowSelectionAllowed(false);
+		videoTables.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		scrollPane_1.setViewportView(videoTables);
 		
 		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
@@ -188,8 +211,16 @@ public class PhotosVideos extends JPanel {
 		videoPanel.add(verticalStrut_3, gbc_verticalStrut_3);
 		
 		ViewAlbum viewAlbum = new ViewAlbum();
+	
 		
 		cardPanel.add(viewAlbum, "name_1005784265800700");
+		
+		ViewPhoto viewPhoto = new ViewPhoto();
+		
+		cardPanel.add(viewPhoto, "name_1070336682238700");
+		
+		ViewVideo viewVideo = new ViewVideo();
+		cardPanel.add(viewVideo, "name_1079679262988400");
 
 		btnUploadVideo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -213,6 +244,66 @@ public class PhotosVideos extends JPanel {
 		
 		viewAlbum.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cardPanel.removeAll();
+				cardPanel.add(tabbedPane);
+				cardPanel.revalidate();
+				cardPanel.repaint();
+			}
+		});
+		viewAlbum.getPhotoTable().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					cardPanel.removeAll();
+					cardPanel.add(viewPhoto);
+					cardPanel.revalidate();
+					cardPanel.repaint();
+				}
+			}
+		});
+		viewPhoto.getBtnBack().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardPanel.removeAll();
+				cardPanel.add(viewAlbum);
+				cardPanel.revalidate();
+				cardPanel.repaint();
+			}
+		});
+		
+		btnUploadPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				jfc.setDialogTitle("Select an image");
+		        jfc.setAcceptAllFileFilterUsed(false);
+		        FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg images", "jpg");
+		        jfc.addChoosableFileFilter(filter);
+
+		        int returnValue = jfc.showOpenDialog(null);
+		        if (returnValue == JFileChooser.APPROVE_OPTION) {
+		            //upload photo and refresh
+		        }
+		        else {
+		        	//do nothing
+		        }
+			}
+		});
+		videoTables.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					cardPanel.removeAll();
+					cardPanel.add(viewVideo);
+					cardPanel.revalidate();
+					cardPanel.repaint();
+				}
+			}
+		});
+		
+		viewVideo.getBtnBack().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
 				cardPanel.removeAll();
 				cardPanel.add(tabbedPane);
 				cardPanel.revalidate();

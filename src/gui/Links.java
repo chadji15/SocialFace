@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.AbstractListModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Links extends JPanel {
 
@@ -74,6 +77,16 @@ public class Links extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		JList linksList = new JList();
+		
+		linksList.setModel(new AbstractListModel() {
+			String[] values = new String[] {"link"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
 		scrollPane.setViewportView(linksList);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -90,6 +103,15 @@ public class Links extends JPanel {
 		gbc_verticalStrut_1.gridy = 3;
 		add(verticalStrut_1, gbc_verticalStrut_1);
 
+		linksList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					viewLink v = new viewLink();
+					v.setVisible(true);
+				}
+			}
+		});
 	}
 
 }
