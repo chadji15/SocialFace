@@ -93,9 +93,9 @@ GO
 CREATE TABLE [atzoum01].[ALBUM](
 	[album_id] [int] NOT NULL,
 	[album_name] [nvarchar](50) NOT NULL,
-	[privacy] [nvarchar](50) NOT NULL,
+	[privacy] [char](1) NOT NULL,
 	[description] [nvarchar](50) NULL,
-	[city_id] [int] NOT NULL,
+	[city_id] [int],
 	[profile_id] [int] NOT NULL,
  CONSTRAINT [PK_ALBUM] PRIMARY KEY CLUSTERED 
 (
@@ -155,7 +155,7 @@ GO
 CREATE TABLE [atzoum01].[EVENT_RESPONSES](
 	[event_id] [int] NOT NULL,
 	[profile_id] [int] NOT NULL,
-	[response] [nvarchar](50) NULL,
+	[response] [char](1) NULL,
  CONSTRAINT [PK_EVENT_RESPONSES] PRIMARY KEY CLUSTERED 
 (
 	[event_id] ASC,
@@ -171,10 +171,10 @@ GO
 CREATE TABLE [atzoum01].[EVENTS](
 	[event_id] [int] NOT NULL,
 	[event_name] [nvarchar](50) NOT NULL,
-	[privacy] [nvarchar](50) NOT NULL,
+	[privacy] [char](1) NOT NULL,
 	[location] [nvarchar](50) NULL,
-	[start_time] [time](7) NULL,
-	[end_time] [time](7) NULL,
+	[start_time] [datetime2] NOT NULL,
+	[end_time] [datetime] NULL,
 	[description] [nvarchar](50) NULL,
 	[owner_id] [int] NOT NULL,
 	[venue] [int] NOT NULL,
@@ -235,11 +235,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [atzoum01].[LINKS](
 	[link_id] [int] NOT NULL,
-	[link] [nvarchar](50) NOT NULL,
+	[link] [nvarchar](100) NOT NULL,
 	[name] [nvarchar](50) NOT NULL,
 	[caption] [nvarchar](50) NULL,
-	[description] [nvarchar](50) NULL,
-	[message] [nvarchar](50) NULL,
+	[description] [nvarchar](100) NULL,
+	[message] [nvarchar](100) NULL,
 	[from_user] [int] NOT NULL,
  CONSTRAINT [PK_LINKS] PRIMARY KEY CLUSTERED 
 (
@@ -256,7 +256,7 @@ CREATE TABLE [atzoum01].[PHOTOS](
 	[photo_id] [int] NOT NULL,
 	[height] [int] NULL,
 	[width] [int] NULL,
-	[source] [nvarchar](50) NULL,
+	[source] [varbinary](MAX) NOT NULL,
 	[from_user] [int] NOT NULL,
 	[album_id] [int] NULL,
  CONSTRAINT [PK_PHOTOS] PRIMARY KEY CLUSTERED 
@@ -274,13 +274,12 @@ CREATE TABLE [atzoum01].[PROFILE](
 	[profile_id] [int] NOT NULL,
 	[last_name] [nvarchar](50) NOT NULL,
 	[first_name] [nvarchar](50) NOT NULL,
-	[birthday] [smalldatetime] NOT NULL,
-	[quotes] [nvarchar](50) NULL,
+	[birthday] [date] NOT NULL,
 	[website] [nvarchar](50) NULL,
 	[email] [nvarchar](50) NOT NULL,
 	[password] [nvarchar](50) NOT NULL,
-	[born_at] [int] NOT NULL,
-	[lives_in] [int] NOT NULL,
+	[born_at] [int],
+	[lives_in] [int],
  CONSTRAINT [PK_PROFILE] PRIMARY KEY CLUSTERED 
 (
 	[profile_id] ASC
@@ -299,7 +298,7 @@ GO
 CREATE TABLE [atzoum01].[REQUESTS](
 	[profile_1] [int] NOT NULL,
 	[profile_2] [int] NOT NULL,
-	[states] [nvarchar](1) NULL,
+	[states] [char](1) NULL,
  CONSTRAINT [PK_REQUESTS] PRIMARY KEY CLUSTERED 
 (
 	[profile_1] ASC,
