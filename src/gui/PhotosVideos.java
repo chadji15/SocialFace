@@ -25,6 +25,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
+
+import com.team21.ConnectionService;
+
 import javax.swing.JTextField;
 
 public class PhotosVideos extends JPanel {
@@ -379,6 +382,14 @@ public class PhotosVideos extends JPanel {
 				cardPanel.repaint();
 			}
 		});
+		
+		if (!ConnectionService.isCurrentUser()) {
+			btnCreateAlbum.setEnabled(false);
+			btnDeleteAlbum.setEnabled(false);
+			btnDeleteVideo.setEnabled(false);
+			btnUploadPhoto.setEnabled(false);
+			btnUploadVideo.setEnabled(false);
+		}
 	}
 
 }

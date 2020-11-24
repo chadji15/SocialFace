@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+import com.team21.ConnectionService;
 import com.jgoodies.forms.layout.FormSpecs;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
@@ -70,23 +71,23 @@ public class ViewFriends extends JPanel {
 		gbc_removeFriendButton.gridy = 2;
 		add(removeFriendButton, gbc_removeFriendButton);
 		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 2;
-		add(panel, gbc_panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JPanel buttonPanel = new JPanel();
+		GridBagConstraints gbc_buttonPanel = new GridBagConstraints();
+		gbc_buttonPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_buttonPanel.fill = GridBagConstraints.BOTH;
+		gbc_buttonPanel.gridx = 2;
+		gbc_buttonPanel.gridy = 2;
+		add(buttonPanel, gbc_buttonPanel);
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton acceptButton = new JButton("Accept");
-		panel.add(acceptButton);
+		buttonPanel.add(acceptButton);
 		
 		JButton declineButton = new JButton("Decline");
-		panel.add(declineButton);
+		buttonPanel.add(declineButton);
 		
 		JButton ignoreButton = new JButton("Ignore");
-		panel.add(ignoreButton);
+		buttonPanel.add(ignoreButton);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
@@ -131,5 +132,11 @@ public class ViewFriends extends JPanel {
 		gbc_verticalStrut_1.gridy = 4;
 		add(verticalStrut_1, gbc_verticalStrut_1);
 
+		if (!ConnectionService.isCurrentUser()) {
+			removeFriendButton.setEnabled(false);
+			lblFriendRequests.setText("Common friends");
+			buttonPanel.setVisible(false);
+			// populate with common friends: friendRequestsList
+		}
 	}
 }

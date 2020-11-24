@@ -11,7 +11,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import com.team21.ConnectionService;
+
 import java.awt.Component;
+import java.awt.Desktop;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.print.attribute.standard.Media;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -25,6 +31,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.io.File;
+
 
 public class ViewVideo extends JPanel {
 	private JTable commentsTable;
@@ -209,13 +217,11 @@ public class ViewVideo extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-						Runtime runtime = Runtime.getRuntime();
-						try {
-							String[] command = {"cmd.exe", "/k", "Start", "C:\\Users\\xrist\\Documents\\Copper\\i_sense_a_gef.mp4"};
-			                Process p =  runtime.exec(command);
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
+					try {
+						Desktop.getDesktop().open(new File("C:\\Users\\xrist\\Documents\\Copper\\generalgrievousssss.mp4"));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -239,6 +245,10 @@ public class ViewVideo extends JPanel {
 				}
 			}
 		});
+		
+		if (!ConnectionService.isCurrentUser()) {
+			tglbtnEdit.setEnabled(false);
+		}
 	}
 
 	public JButton getBtnBack() {

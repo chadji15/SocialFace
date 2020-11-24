@@ -3,9 +3,13 @@ package gui;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.color.ProfileDataException;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+
+import com.team21.ConnectionService;
+import com.team21.User;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
@@ -47,7 +51,7 @@ public class about extends JPanel {
 		
 		editbutton = new JButton("EDIT");
 		editbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Name:");
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Birthday:");
@@ -110,16 +114,6 @@ public class about extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(212)
-							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(namelabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(212)
-							.addComponent(lblNewLabel_2_2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(birthdaylabel, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(212)
 							.addComponent(lblNewLabel_2_2_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
 							.addComponent(genderlabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
@@ -167,7 +161,18 @@ public class about extends JPanel {
 							.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(265)
-							.addComponent(editbutton, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(editbutton, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(212)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(namelabel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblNewLabel_2_2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+									.addGap(12)
+									.addComponent(birthdaylabel, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap(185, Short.MAX_VALUE))
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
 		);
@@ -176,13 +181,11 @@ public class about extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(1)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGap(11)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(4)
-							.addComponent(namelabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-					.addGap(9)
+						.addComponent(namelabel, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_2_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
@@ -241,9 +244,16 @@ public class about extends JPanel {
 					.addGap(13)
 					.addComponent(editbutton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 		);
+		
+		JButton btnAddFriend = new JButton("Add friend");
+		btnAddFriend.setBounds(160, 53, 91, 25);
+		panel.add(btnAddFriend);
+		btnAddFriend.setVisible(!ConnectionService.isCurrentUser());
 		setLayout(groupLayout);
-
+		
+		editbutton.setEnabled(ConnectionService.isCurrentUser());
 	}
+	
 	public JButton getEditbutton() {
 		return editbutton;
 	}

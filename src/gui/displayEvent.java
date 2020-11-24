@@ -32,6 +32,8 @@ import java.awt.Insets;
 import javax.swing.UIManager;
 import java.awt.Component;
 import javax.swing.Box;
+
+import com.team21.ConnectionService;
 import com.team21.Privacy;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -271,8 +273,6 @@ public class displayEvent extends JDialog {
 					locationText.setEditable(true);
 					privacyCombo.setEnabled(true);
 					descriptionText.setEditable(true);
-					goingButton.setEnabled(true);
-					notGoingButton.setEnabled(true);
 				}
 				else {
 					nameText.setEditable(false);
@@ -282,10 +282,19 @@ public class displayEvent extends JDialog {
 					locationText.setEditable(false);
 					privacyCombo.setEnabled(false);
 					descriptionText.setEditable(false);
-					goingButton.setEnabled(false);
-					notGoingButton.setEnabled(false);
 				}
 			}
 		});
+		
+		if (ConnectionService.isCurrentUser()) {
+			goingButton.setEnabled(false);
+			goingButton.setSelected(true);
+			notGoingButton.setEnabled(false);
+		}
+		else {
+			goingButton.setEnabled(true);
+			notGoingButton.setEnabled(true);
+			tglbtnEdit.setVisible(false);
+		}
 	}
 }

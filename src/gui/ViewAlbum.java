@@ -16,6 +16,8 @@ import java.awt.Component;
 import javax.swing.Box;
 import java.awt.FlowLayout;
 import javax.swing.DefaultComboBoxModel;
+
+import com.team21.ConnectionService;
 import com.team21.Privacy;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -336,6 +338,12 @@ public class ViewAlbum extends JPanel {
 		gbc_verticalStrut_1.gridx = 1;
 		gbc_verticalStrut_1.gridy = 12;
 		add(verticalStrut_1, gbc_verticalStrut_1);
+		
+		if (!ConnectionService.isCurrentUser()) {
+			btnAddPhoto.setEnabled(false);
+			btnRemovePhoto.setEnabled(false);
+			editToggle.setEnabled(false);
+		}
 	}
 
 	public JButton getBackButton() {

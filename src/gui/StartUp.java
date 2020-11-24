@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.team21.ConnectionService;
+import com.team21.User;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -91,6 +95,8 @@ public class StartUp extends JFrame {
 		
 		login_.getLoginButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ConnectionService.getInstance().setUser(User.dummy1);
+				ConnectionService.getInstance().setVisited(User.dummy1);
 				JFrame main = new MainFrame();
 				main.setVisible(true);
 				dispose();

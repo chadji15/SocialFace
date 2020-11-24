@@ -59,5 +59,6 @@
   		<artifactId>jgoodies-forms</artifactId>
   		<version>1.8.0</version>
   	</dependency>
+  	<!-- https://mvnrepository.com/artifact/javax.media/jmf -->
   </dependencies>
 </project>

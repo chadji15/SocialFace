@@ -11,6 +11,9 @@ import javax.swing.JInternalFrame;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
+
+import com.team21.ConnectionService;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
@@ -187,5 +190,12 @@ public class events extends JPanel {
 				}
 			}
 		});
+		
+		if (!ConnectionService.isCurrentUser()) {
+			btnCreateEvent.setEnabled(false);
+			btnDeleteEvent.setEnabled(false);
+			lblEventsYouAre.setText("Events " + ConnectionService.getInstance().getVisited() + " created");
+			lblEventsYouAre_1.setText("Events you are both attending");
+		}
 	}
 }

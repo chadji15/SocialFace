@@ -6,11 +6,23 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JScrollPane;
 import java.awt.Insets;
+import java.awt.Toolkit;
+
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+
+import com.team21.ConnectionService;
+import com.team21.User;
+
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.ConnectException;
 
 public class SearchResults extends JPanel {
 	private JTable resultsTable;
@@ -72,24 +84,34 @@ public class SearchResults extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		resultsTable = new JTable();
+		
+		resultsTable.setSurrendersFocusOnKeystroke(true);
+		resultsTable.setTableHeader(null);
 		resultsTable.setShowVerticalLines(false);
+		ImageIcon icon = new ImageIcon(getClass().getResource("/images/avatar100.png"));
 		resultsTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
+				{icon, User.dummy2},
 			},
 			new String[] {
 				"New column", "New column"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, true
+				false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
+			
+			public Class getColumnClass(int column)
+            {
+                return getValueAt(0, column).getClass();
+            }
 		});
 		resultsTable.getColumnModel().getColumn(0).setResizable(false);
 		resultsTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+		resultsTable.setRowHeight(100);
 		scrollPane.setViewportView(resultsTable);
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
@@ -99,6 +121,10 @@ public class SearchResults extends JPanel {
 		gbc_verticalStrut_3.gridy = 4;
 		add(verticalStrut_3, gbc_verticalStrut_3);
 
+		
 	}
 
+	public JTable getResultsTable() {
+		return resultsTable;
+	}
 }

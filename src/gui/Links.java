@@ -18,6 +18,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 
+import com.team21.ConnectionService;
+
 public class Links extends JPanel {
 	private JTextField searchLink;
 
@@ -144,6 +146,11 @@ public class Links extends JPanel {
 				}
 			}
 		});
+		
+		if (!ConnectionService.isCurrentUser()) {
+			btnShareLink.setEnabled(false);
+			btnRemoveSharedLink.setEnabled(false);
+		}
 	}
 
 }

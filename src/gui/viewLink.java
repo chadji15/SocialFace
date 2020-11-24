@@ -8,6 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.team21.ConnectionService;
+
 import java.awt.Toolkit;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -195,5 +198,9 @@ public class viewLink extends JDialog {
 				}
 			}
 		});
+		
+		if (!ConnectionService.isCurrentUser()){
+			tglbtnEdit.setVisible(false);
+		}
 	}
 }

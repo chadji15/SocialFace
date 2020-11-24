@@ -33,10 +33,14 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.team21.ConnectionService;
+import com.team21.User;
 
 import jdk.jfr.internal.tool.Main;
 
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
 
@@ -139,6 +143,7 @@ public class MainFrame extends JFrame {
 		
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ConnectionService.getInstance().setVisited(ConnectionService.getInstance().getUser());
 				cardPanel.removeAll();
 				MainFrame.this.profile_ = new profile();
 				cardPanel.add(profile_);
@@ -147,12 +152,27 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		search_.getSearchbutton().addActionListener(new ActionListener() {
+		/*search_.getSearchbutton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
 				cardPanel.add(searchResults);
 				cardPanel.revalidate();
 				cardPanel.repaint();
+			}
+		});*/
+		searchResults.getResultsTable().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					int row = searchResults.getResultsTable().getSelectedRow();
+					User vUser = (User) searchResults.getResultsTable().getModel().getValueAt(row, 1);
+					ConnectionService.getInstance().setVisited(vUser);
+					MainFrame.this.profile_ = new profile();
+					cardPanel.removeAll();
+					cardPanel.add(profile_);
+					cardPanel.revalidate();
+					cardPanel.repaint();
+				}
 			}
 		});
 	}
