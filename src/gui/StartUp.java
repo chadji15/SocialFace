@@ -39,6 +39,7 @@ public class StartUp extends JFrame {
 				}
 			}
 		});
+		
 	}
 
 	/**
@@ -96,4 +97,5 @@ public class StartUp extends JFrame {
 			}
 		});
 	}
+	
 }
