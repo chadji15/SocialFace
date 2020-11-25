@@ -152,14 +152,14 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		/*search_.getSearchbutton().addActionListener(new ActionListener() {
+		search_.getBtnSearch().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
 				cardPanel.add(searchResults);
 				cardPanel.revalidate();
 				cardPanel.repaint();
 			}
-		});*/
+		});
 		searchResults.getResultsTable().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
