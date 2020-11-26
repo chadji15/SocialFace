@@ -30,6 +30,7 @@ import javax.swing.JList;
 import javax.swing.JSpinner;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ButtonGroup;
+import javax.swing.SpinnerNumberModel;
 
 public class search extends JPanel {
 	private JButton btnSearch;
@@ -302,6 +303,7 @@ public class search extends JPanel {
 		panel_2.add(horizontalStrut_6, gbc_horizontalStrut_6);
 		
 		JSpinner albumSpinner_1_1 = new JSpinner();
+		albumSpinner_1_1.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_albumSpinner_1_1 = new GridBagConstraints();
 		gbc_albumSpinner_1_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_albumSpinner_1_1.insets = new Insets(0, 0, 5, 5);

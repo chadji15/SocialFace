@@ -28,6 +28,7 @@ public class login extends JPanel {
 	private JPasswordField passwordField;
 	private JButton CreateButton;
 	private JButton LoginButton;
+	private JButton btnLoginDba;
 
 	/**
 	 * Create the panel.sd
@@ -69,13 +70,13 @@ public class login extends JPanel {
 		panel.setBounds(0, 0, 360, 640);
 		add(panel);
 		
-		JButton ForgotButton = new JButton("Forgot Password?");
+		btnLoginDba = new JButton("Login as DBA");
 		
-		ForgotButton.setForeground(Color.BLACK);
-		ForgotButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		ForgotButton.setBackground(SystemColor.control);
-		ForgotButton.setBounds(501, 352, 143, 29);
-		add(ForgotButton);
+		btnLoginDba.setForeground(Color.BLACK);
+		btnLoginDba.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnLoginDba.setBackground(SystemColor.control);
+		btnLoginDba.setBounds(501, 352, 143, 29);
+		add(btnLoginDba);
 		
 		CreateButton = new JButton("CREATE ACCOUNT");
 		
@@ -100,5 +101,8 @@ public class login extends JPanel {
 	}
 	public JButton getLoginButton() {
 		return LoginButton;
+	}
+	public JButton getBtnLoginDba() {
+		return btnLoginDba;
 	}
 }

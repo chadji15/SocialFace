@@ -91,6 +91,7 @@ public class MainFrame extends JFrame {
 		
 		JButton btnLogOut = new JButton("Log out");
 		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -173,6 +174,16 @@ public class MainFrame extends JFrame {
 					cardPanel.revalidate();
 					cardPanel.repaint();
 				}
+			}
+		});
+		
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConnectionService.getInstance().setUser(null);
+				ConnectionService.getInstance().setVisited(null);
+				StartUp startUp = new StartUp();
+				startUp.setVisible(true);
+				dispose();
 			}
 		});
 	}

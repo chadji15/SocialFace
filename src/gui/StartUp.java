@@ -67,6 +67,7 @@ public class StartUp extends JFrame {
 		cardPanel.setLayout(new CardLayout(0, 0));
 		
 		login login_ = new login();
+		
 	
 		
 		cardPanel.add(login_, "name_798910024845900");
@@ -99,6 +100,14 @@ public class StartUp extends JFrame {
 				ConnectionService.getInstance().setVisited(User.dummy1);
 				JFrame main = new MainFrame();
 				main.setVisible(true);
+				dispose();
+			}
+		});
+		
+		login_.getBtnLoginDba().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Admin admin = new Admin();
+				admin.setVisible(true);
 				dispose();
 			}
 		});
