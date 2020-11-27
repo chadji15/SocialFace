@@ -292,4 +292,35 @@ AS
 
 GO
 
+/****** Object:  StoredProcedure [dbo].[checkLogin]    Script Date: 11/27/2020 11:08:36 PM ******/
+/** returns the user's id if it's a match or NULL otherwise **/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[checkLogin]
+	-- Add the parameters for the stored procedure here
+	@email sysname, @password sysname, @id INT OUTPUT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    SET @id = (
+		SELECT profile_id
+		FROM [dbo].[PROFILE]
+		WHERE email = @email AND @password = password
+		)
+
+END
+GO
+
 

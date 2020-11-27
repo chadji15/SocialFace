@@ -41,10 +41,10 @@ public class login extends JPanel {
 		lblNewLabel.setBounds(10, 118, 338, 287);
 		add(lblNewLabel);
 		
-		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUsername.setBounds(440, 137, 104, 61);
-		add(lblUsername);
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEmail.setBounds(440, 137, 104, 61);
+		add(lblEmail);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -92,5 +92,11 @@ public class login extends JPanel {
 	}
 	public JButton getLoginButton() {
 		return LoginButton;
+	}
+	public JTextField getUsernametext() {
+		return usernametext;
+	}
+	public JPasswordField getPasswordField() {
+		return passwordField;
 	}
 }
