@@ -1,4 +1,4 @@
-USER_ID	INTEREST_ID
+profile_id	interest_id
 1	26
 1	49
 2	62

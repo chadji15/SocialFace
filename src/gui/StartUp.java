@@ -18,6 +18,7 @@ import java.awt.Toolkit;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
 import java.awt.event.ActionEvent;
 
 public class StartUp extends JFrame {
@@ -103,14 +104,7 @@ public class StartUp extends JFrame {
 				dispose();
 			}
 		});
-		
-		login_.getBtnLoginDba().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Admin admin = new Admin();
-				admin.setVisible(true);
-				dispose();
-			}
-		});
+	
 	}
 	
 }

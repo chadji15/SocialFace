@@ -1,4 +1,4 @@
-USER_ID	FRIEND_ID
+profile_1	profile_2
 1	2
 1	24
 1	39

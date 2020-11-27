@@ -1,4 +1,4 @@
-INTEREST_ID	DESCRIPTION
+interest_id	interest_name
 1	Aikido
 2	Antiques
 3	Art Collecting / Collectibles

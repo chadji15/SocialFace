@@ -1,4 +1,4 @@
-CITY_ID	CITY_NAME
+city_id	name
 1	Ayia Napa
 2	Aggastina
 3	Ayia Thekla
