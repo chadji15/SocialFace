@@ -20,6 +20,7 @@ import java.awt.FlowLayout;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.SystemColor;
 
 public class viewUpdates extends JPanel {
 
@@ -27,6 +28,7 @@ public class viewUpdates extends JPanel {
 	 * Create the panel.
 	 */
 	public viewUpdates() {
+		setBackground(SystemColor.activeCaption);
 		setPreferredSize(new Dimension(765, 650));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
@@ -43,6 +45,7 @@ public class viewUpdates extends JPanel {
 		add(verticalStrut, gbc_verticalStrut);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -52,9 +55,11 @@ public class viewUpdates extends JPanel {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblCategory = new JLabel("Category:");
+		lblCategory.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblCategory);
 		
 		JComboBox categoryCombo = new JComboBox();
+		categoryCombo.setFont(new Font("Tahoma", Font.BOLD, 10));
 		categoryCombo.setModel(new DefaultComboBoxModel(new String[] {"All", "Photos", "Videos", "Links", "Events"}));
 		panel.add(categoryCombo);
 		
@@ -62,6 +67,7 @@ public class viewUpdates extends JPanel {
 		panel.add(horizontalStrut);
 		
 		JLabel lblNumberOfItems = new JLabel("Number of items:");
+		lblNumberOfItems.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblNumberOfItems);
 		
 		JSpinner spinner = new JSpinner();
@@ -73,6 +79,7 @@ public class viewUpdates extends JPanel {
 		panel.add(horizontalStrut_3);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel.add(btnSearch);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);

@@ -40,6 +40,7 @@ import java.awt.Component;
 import javax.swing.Box;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.SystemColor;
 
 public class profile extends JPanel {
 
@@ -58,6 +59,7 @@ public class profile extends JPanel {
 		setLayout(gridBagLayout);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
@@ -72,6 +74,7 @@ public class profile extends JPanel {
 		panel_1.add(photoLabel);
 
 		JLabel nameLabel = new JLabel("Firstname Lastname");
+		nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panel_1.add(nameLabel);
 
 		JPanel panel = new JPanel();
@@ -86,6 +89,7 @@ public class profile extends JPanel {
 		panel.add(scrollPane);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(SystemColor.menu);
 		scrollPane.setViewportView(tabbedPane);
 
 		JPanel home = new JPanel();

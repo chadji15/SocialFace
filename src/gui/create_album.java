@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
 import com.team21.Privacy;
 import javax.swing.JTextArea;
+import java.awt.SystemColor;
 
 public class create_album extends JDialog {
 
@@ -49,9 +50,10 @@ public class create_album extends JDialog {
 	public create_album() {
 		setModal(true);
 		setTitle("SocialFace");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(create_album.class.getResource("/images/logo16.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Katerinatz\\Desktop\\125302082_369991734446627_3387089125455958246_n.png"));
 		setBounds(100, 100, 738, 402);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.menu);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
@@ -62,7 +64,8 @@ public class create_album extends JDialog {
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblCreateAlbum = new JLabel("Create album");
-			lblCreateAlbum.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblCreateAlbum.setForeground(SystemColor.activeCaption);
+			lblCreateAlbum.setFont(new Font("Tahoma", Font.BOLD, 28));
 			GridBagConstraints gbc_lblCreateAlbum = new GridBagConstraints();
 			gbc_lblCreateAlbum.gridwidth = 2;
 			gbc_lblCreateAlbum.insets = new Insets(0, 0, 5, 5);
@@ -72,7 +75,8 @@ public class create_album extends JDialog {
 		}
 		{
 			JLabel lblAlbumName = new JLabel("Album name:");
-			lblAlbumName.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblAlbumName.setForeground(SystemColor.desktop);
+			lblAlbumName.setFont(new Font("Tahoma", Font.BOLD, 15));
 			GridBagConstraints gbc_lblAlbumName = new GridBagConstraints();
 			gbc_lblAlbumName.anchor = GridBagConstraints.EAST;
 			gbc_lblAlbumName.insets = new Insets(0, 0, 5, 5);
@@ -92,7 +96,8 @@ public class create_album extends JDialog {
 		}
 		{
 			JLabel lblDescription = new JLabel("Description:");
-			lblDescription.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblDescription.setForeground(SystemColor.desktop);
+			lblDescription.setFont(new Font("Tahoma", Font.BOLD, 15));
 			GridBagConstraints gbc_lblDescription = new GridBagConstraints();
 			gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
 			gbc_lblDescription.gridx = 1;
@@ -111,7 +116,7 @@ public class create_album extends JDialog {
 		}
 		{
 			JLabel lblLocation = new JLabel("Location:");
-			lblLocation.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblLocation.setFont(new Font("Tahoma", Font.BOLD, 15));
 			GridBagConstraints gbc_lblLocation = new GridBagConstraints();
 			gbc_lblLocation.anchor = GridBagConstraints.EAST;
 			gbc_lblLocation.insets = new Insets(0, 0, 5, 5);
@@ -130,7 +135,7 @@ public class create_album extends JDialog {
 		}
 		{
 			JLabel lblPrivacy = new JLabel("Privacy:");
-			lblPrivacy.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblPrivacy.setFont(new Font("Tahoma", Font.BOLD, 15));
 			GridBagConstraints gbc_lblPrivacy = new GridBagConstraints();
 			gbc_lblPrivacy.anchor = GridBagConstraints.EAST;
 			gbc_lblPrivacy.insets = new Insets(0, 0, 0, 5);
@@ -150,16 +155,19 @@ public class create_album extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(SystemColor.activeCaption);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setBackground(SystemColor.activeCaption);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setBackground(SystemColor.activeCaption);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

@@ -23,6 +23,8 @@ import java.awt.Component;
 import javax.swing.Box;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class UploadVideo extends JDialog {
 
@@ -49,9 +51,10 @@ public class UploadVideo extends JDialog {
 	public UploadVideo() {
 		setModal(true);
 		setTitle("SocialFace");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(UploadVideo.class.getResource("/images/logo16.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UploadVideo.class.getResource("/images/LOGO.PNG")));
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.activeCaption);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
@@ -76,6 +79,8 @@ public class UploadVideo extends JDialog {
 		contentPanel.add(horizontalStrut, gbc_horizontalStrut);
 	
 		JButton btnChooseFile = new JButton("Choose file");
+		btnChooseFile.setBackground(SystemColor.activeCaption);
+		btnChooseFile.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		GridBagConstraints gbc_btnChooseFile = new GridBagConstraints();
 		gbc_btnChooseFile.insets = new Insets(0, 0, 5, 5);
@@ -102,6 +107,7 @@ public class UploadVideo extends JDialog {
 		contentPanel.add(horizontalStrut1, gbc_horizontalStrut1);
 	
 		JLabel lblMessage = new JLabel("Message:");
+		lblMessage.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblMessage = new GridBagConstraints();
 		gbc_lblMessage.anchor = GridBagConstraints.EAST;
 		gbc_lblMessage.insets = new Insets(0, 0, 5, 5);
@@ -122,6 +128,7 @@ public class UploadVideo extends JDialog {
 	
 	
 		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblDescription = new GridBagConstraints();
 		gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDescription.gridx = 1;
@@ -153,15 +160,20 @@ public class UploadVideo extends JDialog {
 	
 	
 		JPanel buttonPane = new JPanel();
+		buttonPane.setBackground(SystemColor.menu);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("OK");
+		okButton.setBackground(SystemColor.activeCaption);
+		okButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 	
 		JButton cancelButton = new JButton("Cancel");
+		cancelButton.setBackground(SystemColor.activeCaption);
+		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 			

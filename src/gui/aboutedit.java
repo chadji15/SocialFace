@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 public class aboutedit extends JPanel {
 	private JTextField lastnameedit;
@@ -33,12 +35,13 @@ public class aboutedit extends JPanel {
 	 * Create the panel.
 	 */
 	public aboutedit() {
+		setForeground(UIManager.getColor("CheckBox.foreground"));
 		setPreferredSize(new Dimension(750, 1200));
 		setSize(new Dimension(765, 1200));
-		setBackground(new Color(204, 204, 255));
+		setBackground(SystemColor.activeCaption);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
+		panel.setBackground(SystemColor.menu);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("ABOUT");
@@ -140,7 +143,7 @@ public class aboutedit extends JPanel {
 		JComboBox hobbiesCombo = new JComboBox();
 		
 		JTextArea txtrFavoriteQuotes = new JTextArea();
-		txtrFavoriteQuotes.setBackground(new Color(204, 204, 255));
+		txtrFavoriteQuotes.setBackground(SystemColor.activeCaption);
 		txtrFavoriteQuotes.setFocusable(false);
 		txtrFavoriteQuotes.setEditable(false);
 		txtrFavoriteQuotes.setFont(new Font("Tahoma", Font.PLAIN, 13));

@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 
 import com.team21.ConnectionService;
+import java.awt.SystemColor;
 
 public class Links extends JPanel {
 	private JTextField searchLink;
@@ -27,6 +28,7 @@ public class Links extends JPanel {
 	 * Create the panel.
 	 */
 	public Links() {
+		setBackground(SystemColor.activeCaption);
 		setPreferredSize(new Dimension(765, 510));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
@@ -43,6 +45,7 @@ public class Links extends JPanel {
 		add(verticalStrut, gbc_verticalStrut);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -57,6 +60,7 @@ public class Links extends JPanel {
 		panel.setLayout(gbl_panel);
 		
 		JButton btnShareLink = new JButton("Share link");
+		btnShareLink.setBackground(SystemColor.activeCaption);
 		
 		GridBagConstraints gbc_btnShareLink = new GridBagConstraints();
 		gbc_btnShareLink.anchor = GridBagConstraints.NORTHWEST;
@@ -73,6 +77,7 @@ public class Links extends JPanel {
 		});
 		
 		JButton btnRemoveSharedLink = new JButton("Remove shared link");
+		btnRemoveSharedLink.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_btnRemoveSharedLink = new GridBagConstraints();
 		gbc_btnRemoveSharedLink.insets = new Insets(0, 0, 0, 5);
 		gbc_btnRemoveSharedLink.anchor = GridBagConstraints.NORTHWEST;
@@ -81,6 +86,7 @@ public class Links extends JPanel {
 		panel.add(btnRemoveSharedLink, gbc_btnRemoveSharedLink);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSearch.gridx = 2;

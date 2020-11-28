@@ -27,6 +27,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
+import java.awt.Font;
 
 public class ViewAlbum extends JPanel {
 	private JTable photoTable;
@@ -38,6 +39,7 @@ public class ViewAlbum extends JPanel {
 	 * Create the panel.
 	 */
 	public ViewAlbum() {
+		setBackground(SystemColor.activeCaption);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 152, 381, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 30, 0, 0, 0, 0, 0, 0, 0, 277, 0, 0, 0, 0};
@@ -75,6 +77,7 @@ public class ViewAlbum extends JPanel {
 		add(horizontalStrut_1, gbc_horizontalStrut_1);
 		
 		JLabel lblOwner = new JLabel("Owner:");
+		lblOwner.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblOwner = new GridBagConstraints();
 		gbc_lblOwner.anchor = GridBagConstraints.EAST;
 		gbc_lblOwner.insets = new Insets(0, 0, 5, 5);
@@ -83,6 +86,7 @@ public class ViewAlbum extends JPanel {
 		add(lblOwner, gbc_lblOwner);
 		
 		JLabel ownerLabel = new JLabel("Owner User");
+		ownerLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_ownerLabel = new GridBagConstraints();
 		gbc_ownerLabel.anchor = GridBagConstraints.WEST;
 		gbc_ownerLabel.insets = new Insets(0, 0, 5, 5);
@@ -91,6 +95,7 @@ public class ViewAlbum extends JPanel {
 		add(ownerLabel, gbc_ownerLabel);
 		
 		JLabel lblNewLabel = new JLabel("Description:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
@@ -119,6 +124,7 @@ public class ViewAlbum extends JPanel {
 		add(verticalStrut_2, gbc_verticalStrut_2);
 		
 		JLabel lblLocation = new JLabel("Location:");
+		lblLocation.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblLocation = new GridBagConstraints();
 		gbc_lblLocation.anchor = GridBagConstraints.EAST;
 		gbc_lblLocation.insets = new Insets(0, 0, 5, 5);
@@ -127,6 +133,7 @@ public class ViewAlbum extends JPanel {
 		add(lblLocation, gbc_lblLocation);
 		
 		JComboBox locationCombo = new JComboBox();
+		locationCombo.setBackground(SystemColor.menu);
 		locationCombo.setEnabled(false);
 		GridBagConstraints gbc_locationCombo = new GridBagConstraints();
 		gbc_locationCombo.insets = new Insets(0, 0, 5, 5);
@@ -136,6 +143,7 @@ public class ViewAlbum extends JPanel {
 		add(locationCombo, gbc_locationCombo);
 		
 		JLabel lblNewLabel_1 = new JLabel("Privacy:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
@@ -153,6 +161,7 @@ public class ViewAlbum extends JPanel {
 		gbc_privacyCombo.gridy = 6;
 		add(privacyCombo, gbc_privacyCombo);
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridwidth = 2;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -176,6 +185,7 @@ public class ViewAlbum extends JPanel {
 		panel.add(backButton, gbc_backButton);
 		
 		JButton btnAddPhoto = new JButton("Add photo");
+		btnAddPhoto.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		GridBagConstraints gbc_btnAddPhoto = new GridBagConstraints();
 		gbc_btnAddPhoto.anchor = GridBagConstraints.NORTHWEST;
@@ -191,6 +201,7 @@ public class ViewAlbum extends JPanel {
 		});
 		
 		JButton btnRemovePhoto = new JButton("Remove photo");
+		btnRemovePhoto.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_btnRemovePhoto = new GridBagConstraints();
 		gbc_btnRemovePhoto.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnRemovePhoto.insets = new Insets(0, 0, 0, 5);
@@ -199,6 +210,7 @@ public class ViewAlbum extends JPanel {
 		panel.add(btnRemovePhoto, gbc_btnRemovePhoto);
 		
 		JButton commentButton = new JButton("Comment");
+		commentButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		GridBagConstraints gbc_commentButton = new GridBagConstraints();
 		gbc_commentButton.anchor = GridBagConstraints.NORTHWEST;
@@ -215,6 +227,7 @@ public class ViewAlbum extends JPanel {
 		});
 		
 		JToggleButton editToggle = new JToggleButton("Edit");
+		editToggle.setFont(new Font("Tahoma", Font.BOLD, 10));
 		editToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (editToggle.isSelected()) {
@@ -237,6 +250,7 @@ public class ViewAlbum extends JPanel {
 		panel.add(editToggle, gbc_editToggle);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSearch.gridx = 5;
@@ -252,6 +266,7 @@ public class ViewAlbum extends JPanel {
 		searchPhotoText.setColumns(10);
 		
 		JLabel lblTotalPhotos = new JLabel("Total: 10 photographs");
+		lblTotalPhotos.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblTotalPhotos = new GridBagConstraints();
 		gbc_lblTotalPhotos.anchor = GridBagConstraints.WEST;
 		gbc_lblTotalPhotos.insets = new Insets(0, 0, 5, 5);
@@ -260,6 +275,7 @@ public class ViewAlbum extends JPanel {
 		add(lblTotalPhotos, gbc_lblTotalPhotos);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 2;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);

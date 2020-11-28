@@ -23,6 +23,8 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.ConnectException;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class SearchResults extends JPanel {
 	private JTable resultsTable;
@@ -31,6 +33,7 @@ public class SearchResults extends JPanel {
 	 * Create the panel.
 	 */
 	public SearchResults() {
+		setBackground(SystemColor.activeCaption);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 525, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
@@ -46,6 +49,7 @@ public class SearchResults extends JPanel {
 		add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		JLabel lblResults = new JLabel("Results:");
+		lblResults.setFont(new Font("Tahoma", Font.BOLD, 15));
 		GridBagConstraints gbc_lblResults = new GridBagConstraints();
 		gbc_lblResults.anchor = GridBagConstraints.WEST;
 		gbc_lblResults.insets = new Insets(0, 0, 5, 5);
@@ -75,6 +79,7 @@ public class SearchResults extends JPanel {
 		add(verticalStrut, gbc_verticalStrut);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 2;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);

@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JToggleButton;
+import java.awt.SystemColor;
 
 public class ViewFriends extends JPanel {
 
@@ -34,6 +35,7 @@ public class ViewFriends extends JPanel {
 	 * Create the panel.
 	 */
 	public ViewFriends() {
+		setBackground(SystemColor.activeCaption);
 		setPreferredSize(new Dimension(600, 625));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 294, 243, 0, 0};
@@ -50,6 +52,7 @@ public class ViewFriends extends JPanel {
 		add(verticalStrut, gbc_verticalStrut);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
@@ -58,12 +61,15 @@ public class ViewFriends extends JPanel {
 		add(panel_1, gbc_panel_1);
 		
 		JLabel lblAverageAgeOf = new JLabel("Average age of your network:");
+		lblAverageAgeOf.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_1.add(lblAverageAgeOf);
 		
 		JLabel lblAge = new JLabel("20");
+		lblAge.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_1.add(lblAge);
 		
 		JLabel lblFriends = new JLabel("Friends");
+		lblFriends.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblFriends.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblFriends = new GridBagConstraints();
 		gbc_lblFriends.insets = new Insets(0, 0, 5, 5);
@@ -72,6 +78,7 @@ public class ViewFriends extends JPanel {
 		add(lblFriends, gbc_lblFriends);
 		
 		JLabel lblFriendRequests = new JLabel("Friend Requests");
+		lblFriendRequests.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblFriendRequests = new GridBagConstraints();
 		gbc_lblFriendRequests.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFriendRequests.gridx = 2;
@@ -79,6 +86,7 @@ public class ViewFriends extends JPanel {
 		add(lblFriendRequests, gbc_lblFriendRequests);
 		
 		JToggleButton tglbtnShowFriendsWith = new JToggleButton("Show friends with common interests");
+		tglbtnShowFriendsWith.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_tglbtnShowFriendsWith = new GridBagConstraints();
 		gbc_tglbtnShowFriendsWith.insets = new Insets(0, 0, 5, 5);
 		gbc_tglbtnShowFriendsWith.gridx = 1;
@@ -86,6 +94,7 @@ public class ViewFriends extends JPanel {
 		add(tglbtnShowFriendsWith, gbc_tglbtnShowFriendsWith);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -95,13 +104,16 @@ public class ViewFriends extends JPanel {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JToggleButton tglbtnShowMostPopular = new JToggleButton("Show most popular");
+		tglbtnShowMostPopular.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel.add(tglbtnShowMostPopular);
 		
 		JButton removeFriendButton = new JButton("Remove friend");
+		removeFriendButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel.add(removeFriendButton);
 		removeFriendButton.setIcon(null);
 		
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_buttonPanel = new GridBagConstraints();
 		gbc_buttonPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_buttonPanel.fill = GridBagConstraints.BOTH;
@@ -111,12 +123,15 @@ public class ViewFriends extends JPanel {
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton acceptButton = new JButton("Accept");
+		acceptButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		buttonPanel.add(acceptButton);
 		
 		JButton declineButton = new JButton("Decline");
+		declineButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		buttonPanel.add(declineButton);
 		
 		JButton ignoreButton = new JButton("Ignore");
+		ignoreButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		buttonPanel.add(ignoreButton);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);

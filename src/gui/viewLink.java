@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import javax.swing.JToggleButton;
+import java.awt.Font;
 
 public class viewLink extends JDialog {
 	private JTextField captionText;
@@ -60,11 +61,15 @@ public class viewLink extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		
 		JPanel contentPanel_1 = new JPanel();
+		contentPanel_1.setBackground(SystemColor.activeCaption);
 		contentPanel_1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel_1, BorderLayout.CENTER);
 		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 11));
 		JLabel lblCaption = new JLabel("Caption:");
+		lblCaption.setFont(new Font("Tahoma", Font.BOLD, 11));
 		JLabel lblMessage = new JLabel("Message:");
+		lblMessage.setFont(new Font("Tahoma", Font.BOLD, 12));
 		JScrollPane scrollPane = new JScrollPane();
 		captionText = new JTextField();
 		captionText.setEditable(false);
@@ -72,18 +77,21 @@ public class viewLink extends JDialog {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		
 		JLabel lblLink = new JLabel("Link:");
+		lblLink.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		linkText = new JTextField();
 		linkText.setEditable(false);
 		linkText.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name:");
+		lblName.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		nameText = new JTextField();
 		nameText.setEditable(false);
 		nameText.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("From:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		fromText = new JTextField();
 		fromText.setEditable(false);
@@ -158,19 +166,24 @@ public class viewLink extends JDialog {
 	
 	
 		JPanel buttonPane = new JPanel();
+		buttonPane.setBackground(SystemColor.menu);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
 		JToggleButton tglbtnEdit = new JToggleButton("Edit");
+		tglbtnEdit.setFont(new Font("Tahoma", Font.BOLD, 10));
+		tglbtnEdit.setBackground(SystemColor.activeCaption);
 		
 		buttonPane.add(tglbtnEdit);
 		
 		JButton cancelButton = new JButton("Cancel");
+		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 	
 	
 		JButton okButton = new JButton("OK");
+		okButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);

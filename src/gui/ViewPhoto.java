@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class ViewPhoto extends JPanel {
 	private JButton btnBack;
@@ -23,6 +25,7 @@ public class ViewPhoto extends JPanel {
 	 * Create the panel.
 	 */
 	public ViewPhoto() {
+		setBackground(SystemColor.activeCaption);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
@@ -38,6 +41,8 @@ public class ViewPhoto extends JPanel {
 		add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		JTextField txtPhotoname = new JTextField("PhotoName");
+		txtPhotoname.setFont(new Font("Tahoma", Font.BOLD, 13));
+		txtPhotoname.setBackground(SystemColor.menu);
 		txtPhotoname.setEditable(false);
 		txtPhotoname.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_txtPhotoname = new GridBagConstraints();
@@ -65,9 +70,11 @@ public class ViewPhoto extends JPanel {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblOwner = new JLabel("Owner:");
+		lblOwner.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblOwner);
 		
 		JLabel lblOwnerlabel = new JLabel("ownerLabel");
+		lblOwnerlabel.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel.add(lblOwnerlabel);
 		
 		JPanel panel_1 = new JPanel();
@@ -80,16 +87,23 @@ public class ViewPhoto extends JPanel {
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		btnBack = new JButton("Back");
+		btnBack.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnBack.setBackground(SystemColor.activeCaption);
 		panel_1.add(btnBack);
 		
 		JToggleButton likeToggle = new JToggleButton("Like");
+		likeToggle.setFont(new Font("Tahoma", Font.BOLD, 8));
+		likeToggle.setBackground(SystemColor.activeCaption);
 		panel_1.add(likeToggle);
 		
 		JToggleButton tglbtnEdit = new JToggleButton("Edit");
+		tglbtnEdit.setBackground(SystemColor.activeCaption);
+		tglbtnEdit.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		panel_1.add(tglbtnEdit);
 		
 		JLabel lblPeopleLike = new JLabel("10 people like this");
+		lblPeopleLike.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblPeopleLike = new GridBagConstraints();
 		gbc_lblPeopleLike.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPeopleLike.gridx = 1;
@@ -105,6 +119,7 @@ public class ViewPhoto extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		JLabel lblPhoto = new JLabel("photo");
+		lblPhoto.setBackground(SystemColor.menu);
 		scrollPane.setViewportView(lblPhoto);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
