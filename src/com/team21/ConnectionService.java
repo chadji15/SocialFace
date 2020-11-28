@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-
 import gui.newEvent;
 
 public class ConnectionService {
@@ -21,7 +19,7 @@ public class ConnectionService {
 	private Connection conn;
 	
 	private ConnectionService() {
-		ConnectionService.server = "apollo.in.cs.ucy.ac.cy";
+		/*ConnectionService.server = "apollo.in.cs.ucy.ac.cy";
 		ConnectionService.database = "chadji15";
 		ConnectionService.username = "chadji15";
 		ConnectionService.pass = "RdjUFL3z";
@@ -38,7 +36,7 @@ public class ConnectionService {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public static ConnectionService getInstance() {

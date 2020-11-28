@@ -102,7 +102,7 @@ public class StartUp extends JFrame {
 		
 		login_.getLoginButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CallableStatement cs = null;
+				/*CallableStatement cs = null;
 				ResultSet rs = null;
 				int id = -1;
 				try {
@@ -120,8 +120,8 @@ public class StartUp extends JFrame {
 				if (id < 1) {
 					JOptionPane.showMessageDialog(StartUp.this, "Email or password is incorrect. Please try again.");
 					return;
-				}
-				User currUser = new User(id);
+				}*/
+				//User currUser = new User(id);
 				ConnectionService.getInstance().setUser(User.dummy1);
 				ConnectionService.getInstance().setVisited(User.dummy1);
 				JFrame main = new MainFrame();
