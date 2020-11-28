@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.SystemColor;
 
 public class signup extends JPanel {
 	private JTextField firstnametext;
@@ -29,7 +30,7 @@ public class signup extends JPanel {
 	 * Create the panel.
 	 */
 	public signup() {
-		setBackground(new Color(204, 204, 255));
+		setBackground(SystemColor.activeCaption);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -47,10 +48,13 @@ public class signup extends JPanel {
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblUsername = new JLabel("First Name:");
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JLabel lblLastName = new JLabel("Last Name:");
+		lblLastName.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JLabel lblUsername_1_1 = new JLabel("Gender:");
+		lblUsername_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		firstnametext = new JTextField();
 		firstnametext.setColumns(10);
@@ -59,23 +63,28 @@ public class signup extends JPanel {
 		lastnametext.setColumns(10);
 		
 		JRadioButton malebutton = new JRadioButton("Male");
+		malebutton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttonGroup.add(malebutton);
 		malebutton.setBackground(new Color(204, 204, 255));
 		
 		JRadioButton femalebutton = new JRadioButton("Female");
+		femalebutton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttonGroup.add(femalebutton);
 		femalebutton.setBackground(new Color(204, 204, 255));
 		
 		JRadioButton otherbutton = new JRadioButton("Other");
+		otherbutton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttonGroup.add(otherbutton);
 		otherbutton.setBackground(new Color(204, 204, 255));
 		
 		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		emailtext = new JTextField();
 		emailtext.setColumns(10);
 		
 		JLabel lblBirthday = new JLabel("Birthday:");
+		lblBirthday.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JDateChooser choosedate = new JDateChooser();
 		

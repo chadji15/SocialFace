@@ -36,11 +36,12 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.team21.ConnectionService;
 import com.team21.User;
 
-import jdk.jfr.internal.tool.Main;
+//import jdk.jfr.internal.tool.Main;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.SystemColor;
 
 public class MainFrame extends JFrame {
 
@@ -80,16 +81,20 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 726, 700);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		
 		JButton searchButton = new JButton("Search");
+		searchButton.setBackground(SystemColor.activeCaption);
 		JPanel cardPanel = new JPanel();
 		
 		JButton btnHome = new JButton("Home");
+		btnHome.setBackground(SystemColor.activeCaption);
 		
 		JButton btnLogOut = new JButton("Log out");
+		btnLogOut.setBackground(SystemColor.activeCaption);
 		
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

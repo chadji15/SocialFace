@@ -13,6 +13,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
+import java.awt.SystemColor;
 
 public class SelectPhoto extends JDialog {
 
@@ -37,7 +38,7 @@ public class SelectPhoto extends JDialog {
 	 */
 	public SelectPhoto() {
 		setModal(true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(SelectPhoto.class.getResource("/images/logo16.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SelectPhoto.class.getResource("/images/LOGO.PNG")));
 		setTitle("SocialFace");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -58,6 +59,7 @@ public class SelectPhoto extends JDialog {
 			contentPanel.add(scrollPane, gbc_scrollPane);
 			{
 				photosTable = new JTable();
+				photosTable.setBackground(SystemColor.activeCaption);
 				photosTable.setRowSelectionAllowed(false);
 				photosTable.setTableHeader(null);
 				photosTable.setModel(new DefaultTableModel(
@@ -80,16 +82,19 @@ public class SelectPhoto extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(SystemColor.activeCaption);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setBackground(SystemColor.activeCaption);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setBackground(SystemColor.activeCaption);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

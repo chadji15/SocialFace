@@ -21,6 +21,10 @@ import javax.swing.JList;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
 
 public class about extends JPanel {
 	private JButton editbutton;
@@ -32,14 +36,14 @@ public class about extends JPanel {
 		setMinimumSize(new Dimension(765, 1000));
 		setPreferredSize(new Dimension(765, 1000));
 		setSize(new Dimension(765, 1000));
-		setBackground(new Color(204, 204, 255));
+		setBackground(SystemColor.activeCaption);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
+		panel.setBackground(SystemColor.menu);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("ABOUT");
-		lblNewLabel.setForeground(new Color(0, 102, 153));
+		lblNewLabel.setForeground(SystemColor.activeCaption);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 28));
 		lblNewLabel.setBounds(289, 13, 145, 65);
 		panel.add(lblNewLabel);
@@ -53,26 +57,37 @@ public class about extends JPanel {
 		editbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
 
 		JLabel lblNewLabel_2 = new JLabel("Name:");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Birthday:");
+		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Gender:");
+		lblNewLabel_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1 = new JLabel("Worked at:");
+		lblNewLabel_2_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1_1 = new JLabel("Education:");
+		lblNewLabel_2_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1_1_1 = new JLabel("Email:");
+		lblNewLabel_2_2_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1 = new JLabel("Location:");
+		lblNewLabel_2_2_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_1 = new JLabel("Hometown:");
+		lblNewLabel_2_2_1_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2 = new JLabel("Favorite quotes:");
+		lblNewLabel_2_2_1_1_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_1 = new JLabel("Website:");
+		lblNewLabel_2_2_1_1_1_1_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_2 = new JLabel("Hobbies:");
+		lblNewLabel_2_2_1_1_1_1_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel namelabel = new JLabel("");
 		
@@ -246,6 +261,12 @@ public class about extends JPanel {
 		);
 		
 		JButton btnAddFriend = new JButton("Add friend");
+		btnAddFriend.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnAddFriend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnAddFriend.setBackground(SystemColor.activeCaption);
 		btnAddFriend.setBounds(160, 53, 91, 25);
 		panel.add(btnAddFriend);
 		btnAddFriend.setVisible(!ConnectionService.isCurrentUser());

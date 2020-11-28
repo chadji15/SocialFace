@@ -32,6 +32,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.io.File;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 
 public class ViewVideo extends JPanel {
@@ -42,6 +44,7 @@ public class ViewVideo extends JPanel {
 	 * Create the panel.
 	 */
 	public ViewVideo() {
+		setBackground(SystemColor.activeCaption);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 95, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -64,6 +67,7 @@ public class ViewVideo extends JPanel {
 		add(horizontalStrut, gbc_horizontalStrut);
 		
 		JTextField videoMessageText = new JTextField("VideoMessage");
+		videoMessageText.setFont(new Font("Tahoma", Font.BOLD, 12));
 		videoMessageText.setHorizontalAlignment(SwingConstants.CENTER);
 		videoMessageText.setEditable(false);
 		GridBagConstraints gbc_videoMessageText = new GridBagConstraints();
@@ -89,6 +93,7 @@ public class ViewVideo extends JPanel {
 		add(verticalStrut_3, gbc_verticalStrut_3);
 		
 		JLabel lblOwner = new JLabel("Owner:");
+		lblOwner.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblOwner = new GridBagConstraints();
 		gbc_lblOwner.anchor = GridBagConstraints.WEST;
 		gbc_lblOwner.insets = new Insets(0, 0, 5, 5);
@@ -97,6 +102,7 @@ public class ViewVideo extends JPanel {
 		add(lblOwner, gbc_lblOwner);
 		
 		JLabel lblOwnername = new JLabel("ownerName");
+		lblOwnername.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblOwnername = new GridBagConstraints();
 		gbc_lblOwnername.anchor = GridBagConstraints.WEST;
 		gbc_lblOwnername.insets = new Insets(0, 0, 5, 5);
@@ -105,6 +111,7 @@ public class ViewVideo extends JPanel {
 		add(lblOwnername, gbc_lblOwnername);
 		
 		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblDescription = new GridBagConstraints();
 		gbc_lblDescription.anchor = GridBagConstraints.WEST;
 		gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
@@ -142,13 +149,16 @@ public class ViewVideo extends JPanel {
 		add(panel, gbc_panel);
 		
 		btnBack = new JButton("Back");
+		btnBack.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel.add(btnBack);
 		
 		JToggleButton tglbtnEdit = new JToggleButton("Edit");
+		tglbtnEdit.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		panel.add(tglbtnEdit);
 		
 		JButton btnComment = new JButton("Comment");
+		btnComment.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		panel.add(btnComment);
 		
@@ -160,6 +170,8 @@ public class ViewVideo extends JPanel {
 		add(verticalStrut_2, gbc_verticalStrut_2);
 		
 		JLabel lblVideoThumbnail = new JLabel("videoThumb");
+		lblVideoThumbnail.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblVideoThumbnail.setBackground(SystemColor.menu);
 		
 		lblVideoThumbnail.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagConstraints gbc_lblVideoThumbnail = new GridBagConstraints();
@@ -171,6 +183,7 @@ public class ViewVideo extends JPanel {
 		add(lblVideoThumbnail, gbc_lblVideoThumbnail);
 		
 		JLabel lblComments = new JLabel("Comments:");
+		lblComments.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblComments = new GridBagConstraints();
 		gbc_lblComments.anchor = GridBagConstraints.WEST;
 		gbc_lblComments.insets = new Insets(0, 0, 5, 5);

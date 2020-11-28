@@ -38,6 +38,7 @@ import com.team21.Privacy;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
+import java.awt.Font;
 
 public class displayEvent extends JDialog {
 	private JTextField nameText;
@@ -68,14 +69,16 @@ public class displayEvent extends JDialog {
 	 * Create the dialog.
 	 */
 	public displayEvent() {
+		getContentPane().setBackground(SystemColor.activeCaption);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(displayEvent.class.getResource("/images/logosmall.png")));
 		setModal(true);
 		setMinimumSize(new Dimension(710, 370));
 		setTitle("View event");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(displayEvent.class.getResource("/images/logo16.png")));
 		setBounds(100, 100, 730, 370);
 		getContentPane().setLayout(new BorderLayout());
 		
 		JPanel buttonPane = new JPanel();
+		buttonPane.setBackground(SystemColor.activeCaption);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
@@ -91,10 +94,12 @@ public class displayEvent extends JDialog {
 		buttonPane.add(notGoingButton);
 		
 		JToggleButton tglbtnEdit = new JToggleButton("Edit");
+		tglbtnEdit.setBackground(SystemColor.activeCaption);
 		
 		buttonPane.add(tglbtnEdit);
 	
 		JButton okButton = new JButton("OK");
+		okButton.setBackground(SystemColor.activeCaption);
 		
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
@@ -119,6 +124,7 @@ public class displayEvent extends JDialog {
 		privacyText.add(verticalStrut, gbc_verticalStrut);
 		
 		JLabel lblOwner = new JLabel("Owner:");
+		lblOwner.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblOwner = new GridBagConstraints();
 		gbc_lblOwner.anchor = GridBagConstraints.EAST;
 		gbc_lblOwner.insets = new Insets(0, 0, 5, 5);
@@ -144,6 +150,7 @@ public class displayEvent extends JDialog {
 		gbc_horizontalStrut.gridy = 1;
 		privacyText.add(horizontalStrut, gbc_horizontalStrut);
 		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 15));
 		GridBagConstraints gbc_lblDescription = new GridBagConstraints();
 		gbc_lblDescription.anchor = GridBagConstraints.WEST;
 		gbc_lblDescription.insets = new Insets(0, 0, 5, 0);
@@ -151,6 +158,7 @@ public class displayEvent extends JDialog {
 		gbc_lblDescription.gridy = 1;
 		privacyText.add(lblDescription, gbc_lblDescription);
 		JLabel lblName = new JLabel("Name:");
+		lblName.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.anchor = GridBagConstraints.EAST;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
@@ -180,6 +188,7 @@ public class displayEvent extends JDialog {
 		gbc_scrollPane.gridy = 2;
 		privacyText.add(scrollPane, gbc_scrollPane);
 		JLabel lblEndTime = new JLabel("Start time:");
+		lblEndTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblEndTime = new GridBagConstraints();
 		gbc_lblEndTime.anchor = GridBagConstraints.WEST;
 		gbc_lblEndTime.insets = new Insets(0, 0, 5, 5);
@@ -196,6 +205,7 @@ public class displayEvent extends JDialog {
 		gbc_startSpinner.gridy = 3;
 		privacyText.add(startSpinner, gbc_startSpinner);
 		JLabel lblVenue = new JLabel("End time:");
+		lblVenue.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblVenue = new GridBagConstraints();
 		gbc_lblVenue.anchor = GridBagConstraints.EAST;
 		gbc_lblVenue.insets = new Insets(0, 0, 5, 5);
@@ -212,6 +222,7 @@ public class displayEvent extends JDialog {
 		gbc_endSpinner.gridy = 4;
 		privacyText.add(endSpinner, gbc_endSpinner);
 		JLabel lblLocation = new JLabel("Venue:");
+		lblLocation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblLocation = new GridBagConstraints();
 		gbc_lblLocation.anchor = GridBagConstraints.EAST;
 		gbc_lblLocation.insets = new Insets(0, 0, 5, 5);
@@ -228,6 +239,7 @@ public class displayEvent extends JDialog {
 		gbc_venueCombo.gridy = 5;
 		privacyText.add(venueCombo, gbc_venueCombo);
 		JLabel lblPrivacy = new JLabel("Location:");
+		lblPrivacy.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblPrivacy = new GridBagConstraints();
 		gbc_lblPrivacy.anchor = GridBagConstraints.EAST;
 		gbc_lblPrivacy.insets = new Insets(0, 0, 5, 5);
@@ -245,6 +257,7 @@ public class displayEvent extends JDialog {
 		gbc_locationText.gridy = 6;
 		privacyText.add(locationText, gbc_locationText);
 		JLabel lblNewLabel = new JLabel("Privacy:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.NORTHEAST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);

@@ -31,6 +31,7 @@ import javax.swing.JSpinner;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ButtonGroup;
 import javax.swing.SpinnerNumberModel;
+import java.awt.SystemColor;
 
 public class search extends JPanel {
 	private JButton btnSearch;
@@ -53,7 +54,7 @@ public class search extends JPanel {
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(153, 153, 255));
+		panel_1.setBackground(SystemColor.activeCaption);
 		panel.add(panel_1, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{56, 0, 0, 0};
@@ -78,6 +79,7 @@ public class search extends JPanel {
 		panel_1.add(horizontalStrut, gbc_horizontalStrut);
 		
 		JLabel lblSearch = new JLabel("SEARCH");
+		lblSearch.setBackground(SystemColor.activeCaption);
 		lblSearch.setFont(new Font("Tahoma", Font.BOLD, 20));
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
 		gbc_lblSearch.gridx = 2;
@@ -88,7 +90,7 @@ public class search extends JPanel {
 		panel.add(tabbedPane);
 		
 		JPanel peopleSearch = new JPanel();
-		peopleSearch.setBackground(new Color(153, 153, 255));
+		peopleSearch.setBackground(SystemColor.menu);
 		tabbedPane.addTab("People", null, peopleSearch, null);
 		GridBagLayout gbl_peopleSearch = new GridBagLayout();
 		gbl_peopleSearch.columnWidths = new int[]{0, 52, 0, 0, 0};
@@ -119,7 +121,7 @@ public class search extends JPanel {
 		peopleSearch.add(horizontalStrut_2, gbc_horizontalStrut_2);
 		
 		JPanel paramSearch_1_1 = new JPanel();
-		paramSearch_1_1.setBackground(new Color(153, 153, 255));
+		paramSearch_1_1.setBackground(SystemColor.menu);
 		paramSearch_1_1.setFocusable(false);
 		paramSearch_1_1.setEnabled(false);
 		GridBagConstraints gbc_paramSearch_1_1 = new GridBagConstraints();
@@ -159,6 +161,8 @@ public class search extends JPanel {
 		paramSearch_1_1.add(horizontalStrut_5_1_1, gbc_horizontalStrut_5_1_1);
 		
 		JCheckBox chckbxByName_2_1 = new JCheckBox("By name:");
+		chckbxByName_2_1.setFont(new Font("Tahoma", Font.BOLD, 10));
+		chckbxByName_2_1.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_chckbxByName_2_1 = new GridBagConstraints();
 		gbc_chckbxByName_2_1.anchor = GridBagConstraints.WEST;
 		gbc_chckbxByName_2_1.insets = new Insets(0, 0, 5, 5);
@@ -183,6 +187,8 @@ public class search extends JPanel {
 		paramSearch_1_1.add(horizontalStrut_6_1_1, gbc_horizontalStrut_6_1_1);
 		
 		JCheckBox chckbxByBirthday_1_1 = new JCheckBox("By birthday:");
+		chckbxByBirthday_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
+		chckbxByBirthday_1_1.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_chckbxByBirthday_1_1 = new GridBagConstraints();
 		gbc_chckbxByBirthday_1_1.anchor = GridBagConstraints.WEST;
 		gbc_chckbxByBirthday_1_1.insets = new Insets(0, 0, 5, 5);
@@ -191,6 +197,7 @@ public class search extends JPanel {
 		paramSearch_1_1.add(chckbxByBirthday_1_1, gbc_chckbxByBirthday_1_1);
 		
 		JDateChooser dateChooser_2_1 = new JDateChooser();
+		dateChooser_2_1.getCalendarButton().setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_dateChooser_2_1 = new GridBagConstraints();
 		gbc_dateChooser_2_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_dateChooser_2_1.insets = new Insets(0, 0, 5, 5);
@@ -199,6 +206,7 @@ public class search extends JPanel {
 		paramSearch_1_1.add(dateChooser_2_1, gbc_dateChooser_2_1);
 		
 		JCheckBox chckbxByLocation_1_1 = new JCheckBox("By location:");
+		chckbxByLocation_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_chckbxByLocation_1_1 = new GridBagConstraints();
 		gbc_chckbxByLocation_1_1.anchor = GridBagConstraints.WEST;
 		gbc_chckbxByLocation_1_1.insets = new Insets(0, 0, 5, 5);
@@ -216,6 +224,7 @@ public class search extends JPanel {
 		paramSearch_1_1.add(textField_5, gbc_textField_5);
 		
 		JCheckBox chckbxBySchool_1_1 = new JCheckBox("By education:");
+		chckbxBySchool_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_chckbxBySchool_1_1 = new GridBagConstraints();
 		gbc_chckbxBySchool_1_1.anchor = GridBagConstraints.WEST;
 		gbc_chckbxBySchool_1_1.insets = new Insets(0, 0, 5, 5);
@@ -257,7 +266,7 @@ public class search extends JPanel {
 		paramSearch_1_1.add(verticalStrut_5_1_1, gbc_verticalStrut_5_1_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(153, 153, 255));
+		panel_2.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
@@ -286,6 +295,7 @@ public class search extends JPanel {
 		panel_2.add(horizontalStrut_5, gbc_horizontalStrut_5);
 		
 		JRadioButton rdbtnFind_1_1 = new JRadioButton("Find people with at least:");
+		rdbtnFind_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		buttonGroup.add(rdbtnFind_1_1);
 		GridBagConstraints gbc_rdbtnFind_1_1 = new GridBagConstraints();
 		gbc_rdbtnFind_1_1.gridwidth = 2;
@@ -303,6 +313,7 @@ public class search extends JPanel {
 		panel_2.add(horizontalStrut_6, gbc_horizontalStrut_6);
 		
 		JSpinner albumSpinner_1_1 = new JSpinner();
+		albumSpinner_1_1.setBackground(SystemColor.activeCaption);
 		albumSpinner_1_1.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_albumSpinner_1_1 = new GridBagConstraints();
 		gbc_albumSpinner_1_1.fill = GridBagConstraints.HORIZONTAL;
@@ -312,6 +323,7 @@ public class search extends JPanel {
 		panel_2.add(albumSpinner_1_1, gbc_albumSpinner_1_1);
 		
 		JLabel lblAlbum_1_1 = new JLabel("Albums");
+		lblAlbum_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_lblAlbum_1_1 = new GridBagConstraints();
 		gbc_lblAlbum_1_1.anchor = GridBagConstraints.WEST;
 		gbc_lblAlbum_1_1.insets = new Insets(0, 0, 5, 5);
@@ -320,6 +332,7 @@ public class search extends JPanel {
 		panel_2.add(lblAlbum_1_1, gbc_lblAlbum_1_1);
 		
 		JLabel lblScope_1_1_1 = new JLabel("Scope:");
+		lblScope_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_lblScope_1_1_1 = new GridBagConstraints();
 		gbc_lblScope_1_1_1.anchor = GridBagConstraints.WEST;
 		gbc_lblScope_1_1_1.insets = new Insets(0, 0, 0, 5);
@@ -328,6 +341,7 @@ public class search extends JPanel {
 		panel_2.add(lblScope_1_1_1, gbc_lblScope_1_1_1);
 		
 		JComboBox comboBox_1_1 = new JComboBox();
+		comboBox_1_1.setBackground(SystemColor.activeCaption);
 		comboBox_1_1.setModel(new DefaultComboBoxModel(new String[] {"Friends", "Network"}));
 		GridBagConstraints gbc_comboBox_1_1 = new GridBagConstraints();
 		gbc_comboBox_1_1.fill = GridBagConstraints.HORIZONTAL;
@@ -337,6 +351,7 @@ public class search extends JPanel {
 		panel_2.add(comboBox_1_1, gbc_comboBox_1_1);
 		
 		btnSearch = new JButton("Search");
+		btnSearch.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.gridwidth = 2;
 		gbc_btnSearch.fill = GridBagConstraints.HORIZONTAL;

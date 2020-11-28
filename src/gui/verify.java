@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.Toolkit;
+import java.awt.SystemColor;
 
 public class verify extends JDialog {
 
@@ -37,30 +38,33 @@ public class verify extends JDialog {
 	 */
 	public verify() {
 		setTitle("Verify account");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(verify.class.getResource("/images/logo16.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(verify.class.getResource("/images/logosmall.png")));
 		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBackground(new Color(204, 204, 255));
+		contentPanel.setBackground(SystemColor.activeCaption);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			JLabel lblIsThatReally = new JLabel("Is that really you?");
-			lblIsThatReally.setBackground(new Color(255, 255, 255));
+			lblIsThatReally.setBackground(SystemColor.activeCaption);
 			lblIsThatReally.setHorizontalAlignment(SwingConstants.LEFT);
-			lblIsThatReally.setForeground(new Color(0, 102, 153));
+			lblIsThatReally.setForeground(SystemColor.menu);
 			lblIsThatReally.setFont(new Font("Tahoma", Font.BOLD, 28));
 			lblIsThatReally.setBounds(0, 0, 432, 65);
 			contentPanel.add(lblIsThatReally);
 		}
 		{
 			JLabel lblNewLabel = new JLabel("For added security, we need to verify your email address. ");
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 			lblNewLabel.setBounds(0, 55, 432, 55);
 			contentPanel.add(lblNewLabel);
 		}
 		{
 			JLabel lblWe = new JLabel("We've sent a verification code to your email.");
+			lblWe.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblWe.setBackground(SystemColor.activeCaption);
 			lblWe.setBounds(0, 99, 432, 29);
 			contentPanel.add(lblWe);
 		}
@@ -71,6 +75,7 @@ public class verify extends JDialog {
 		codetext.setColumns(10);
 		
 		JLabel lblCode = new JLabel("Code:");
+		lblCode.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCode.setBounds(112, 141, 42, 22);
 		contentPanel.add(lblCode);
 		
@@ -79,16 +84,19 @@ public class verify extends JDialog {
 		contentPanel.add(panel);
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(SystemColor.menu);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setBackground(SystemColor.activeCaption);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setBackground(SystemColor.activeCaption);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

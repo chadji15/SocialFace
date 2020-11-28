@@ -117,10 +117,10 @@ public class StartUp extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} 
-				if (id < 1) {
+				/*if (id < 1) {
 					JOptionPane.showMessageDialog(StartUp.this, "Email or password is incorrect. Please try again.");
 					return;
-				}
+				}*/
 				User currUser = new User(id);
 				ConnectionService.getInstance().setUser(User.dummy1);
 				ConnectionService.getInstance().setVisited(User.dummy1);

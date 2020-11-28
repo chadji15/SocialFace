@@ -33,7 +33,7 @@ public class login extends JPanel {
 	 * Create the panel.sd
 	 */
 	public login() {
-		setBackground(new Color(153, 153, 255));
+		setBackground(SystemColor.activeCaption);
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -42,12 +42,12 @@ public class login extends JPanel {
 		add(lblNewLabel);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblEmail.setBounds(440, 137, 104, 61);
 		add(lblEmail);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPassword.setBounds(440, 204, 80, 61);
 		add(lblPassword);
 		
@@ -58,14 +58,14 @@ public class login extends JPanel {
 		
 		LoginButton = new JButton("LOGIN");
 		LoginButton.setForeground(SystemColor.windowText);
-		LoginButton.setBackground(SystemColor.control);
+		LoginButton.setBackground(SystemColor.activeCaption);
 		LoginButton.setFont(new Font("Tahoma", Font.BOLD, 21));
 		
 		LoginButton.setBounds(430, 278, 279, 61);
 		add(LoginButton);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(SystemColor.window);
 		panel.setBounds(0, 0, 360, 640);
 		add(panel);
 		

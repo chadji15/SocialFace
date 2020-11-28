@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Dimension;
+import java.awt.SystemColor;
 
 public class shareLink extends JDialog {
 
@@ -49,13 +50,19 @@ public class shareLink extends JDialog {
 		setTitle("Share link");
 		setBounds(100, 100, 449, 465);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.activeCaption);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblLink = new JLabel("Link:");
+		lblLink.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblName = new JLabel("Name:");
+		lblName.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblCaption = new JLabel("Caption:");
+		lblCaption.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblMessage = new JLabel("Message:");
+		lblMessage.setFont(new Font("Tahoma", Font.BOLD, 13));
 		linkText = new JTextField();
 		linkText.setColumns(10);
 		nameText = new JTextField();
@@ -126,16 +133,21 @@ public class shareLink extends JDialog {
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(SystemColor.menu);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton shareButton = new JButton("Share");
+				shareButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+				shareButton.setBackground(SystemColor.activeCaption);
 				shareButton.setActionCommand("OK");
 				buttonPane.add(shareButton);
 				getRootPane().setDefaultButton(shareButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+				cancelButton.setBackground(SystemColor.activeCaption);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

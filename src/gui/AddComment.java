@@ -15,6 +15,11 @@ import javax.swing.JTextField;
 import java.awt.Insets;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.UIManager;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AddComment extends JDialog {
 
@@ -39,10 +44,11 @@ public class AddComment extends JDialog {
 	 */
 	public AddComment() {
 		setModal(true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AddComment.class.getResource("/images/logo16.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AddComment.class.getResource("/images/logosmall.png")));
 		setTitle("SocialFace");
 		setBounds(100, 100, 450, 159);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.menu);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
@@ -95,16 +101,27 @@ public class AddComment extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(SystemColor.activeCaption);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setBackground(SystemColor.activeCaption);
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setBackground(SystemColor.activeCaption);
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

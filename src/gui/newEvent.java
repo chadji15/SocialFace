@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.CompoundBorder;
+import java.awt.SystemColor;
 
 public class newEvent extends JDialog {
 
@@ -58,25 +59,32 @@ public class newEvent extends JDialog {
 	 */
 	public newEvent() {
 		setModal(true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(newEvent.class.getResource("/images/logo16.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(newEvent.class.getResource("/images/logosmall.png")));
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setTitle("Create new event");
 		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 692, 334);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.activeCaption);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblName = new JLabel("Name:");
+		lblName.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblEndTime = new JLabel("Start time:");
+		lblEndTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblVenue = new JLabel("End time:");
+		lblVenue.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblLocation = new JLabel("Venue:");
+		lblLocation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		JLabel lblPrivacy = new JLabel("Location:");
+		lblPrivacy.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		nameText = new JTextField();
 		nameText.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Privacy:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JSpinner startSpinner = new JSpinner();
 		startSpinner.setModel(new SpinnerDateModel(new Date(1605391200000L), new Date(1605391200000L), null, Calendar.DAY_OF_YEAR));
@@ -93,6 +101,7 @@ public class newEvent extends JDialog {
 		privacyCombo.setModel(new DefaultComboBoxModel(new String[] {"Open", "Closed", "Friend", "Network"}));
 		
 		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -174,12 +183,14 @@ public class newEvent extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setBackground(SystemColor.activeCaption);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setBackground(SystemColor.activeCaption);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

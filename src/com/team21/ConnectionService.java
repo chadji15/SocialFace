@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+//import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import gui.newEvent;
 

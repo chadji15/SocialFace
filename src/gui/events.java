@@ -41,6 +41,8 @@ public class events extends JPanel {
 	 * Create the panel.
 	 */
 	public events() {
+		setForeground(SystemColor.activeCaption);
+		setBackground(SystemColor.activeCaption);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 305, 0, 0};
@@ -57,6 +59,7 @@ public class events extends JPanel {
 		add(verticalStrut, gbc_verticalStrut);
 		
 		JLabel lblEventsYouAre = new JLabel("Events you created");
+		lblEventsYouAre.setFont(new Font("Tahoma", Font.BOLD, 15));
 		GridBagConstraints gbc_lblEventsYouAre = new GridBagConstraints();
 		gbc_lblEventsYouAre.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEventsYouAre.gridx = 1;
@@ -64,6 +67,7 @@ public class events extends JPanel {
 		add(lblEventsYouAre, gbc_lblEventsYouAre);
 		
 		JLabel lblEventsYouAre_1 = new JLabel("Events you are going");
+		lblEventsYouAre_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		GridBagConstraints gbc_lblEventsYouAre_1 = new GridBagConstraints();
 		gbc_lblEventsYouAre_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEventsYouAre_1.gridx = 3;
@@ -71,6 +75,7 @@ public class events extends JPanel {
 		add(lblEventsYouAre_1, gbc_lblEventsYouAre_1);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -79,10 +84,12 @@ public class events extends JPanel {
 		add(panel, gbc_panel);
 		
 		JButton btnCreateEvent = new JButton("Create event");
+		btnCreateEvent.setBackground(SystemColor.activeCaption);
 		
 		panel.add(btnCreateEvent);
 		
 		JButton btnDeleteEvent = new JButton("Delete event");
+		btnDeleteEvent.setBackground(SystemColor.activeCaption);
 		panel.add(btnDeleteEvent);
 		
 		btnCreateEvent.addActionListener(new ActionListener() {
@@ -107,6 +114,7 @@ public class events extends JPanel {
 		panel_1.setLayout(gbl_panel_1);
 		
 		JButton searchButton = new JButton("Search");
+		searchButton.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_searchButton = new GridBagConstraints();
 		gbc_searchButton.insets = new Insets(0, 0, 0, 5);
 		gbc_searchButton.gridx = 0;

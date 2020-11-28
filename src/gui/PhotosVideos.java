@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import com.team21.ConnectionService;
 
 import javax.swing.JTextField;
+import java.awt.SystemColor;
 
 public class PhotosVideos extends JPanel {
 	private JTable videoTables;
@@ -47,9 +48,11 @@ public class PhotosVideos extends JPanel {
 		cardPanel.setLayout(new CardLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(SystemColor.menu);
 		cardPanel.add(tabbedPane, "name_1005769202871000");
 		
 		JPanel albumPanel = new JPanel();
+		albumPanel.setBackground(SystemColor.activeCaption);
 		tabbedPane.addTab("Photos", null, albumPanel, null);
 		GridBagLayout gbl_albumPanel = new GridBagLayout();
 		gbl_albumPanel.columnWidths = new int[]{0, 0, 0, 0};
@@ -66,6 +69,7 @@ public class PhotosVideos extends JPanel {
 		albumPanel.add(verticalStrut, gbc_verticalStrut);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
@@ -80,6 +84,7 @@ public class PhotosVideos extends JPanel {
 		panel_2.setLayout(gbl_panel_2);
 		
 		JButton btnCreateAlbum = new JButton("Create album");
+		btnCreateAlbum.setBackground(SystemColor.activeCaption);
 		
 		GridBagConstraints gbc_btnCreateAlbum = new GridBagConstraints();
 		gbc_btnCreateAlbum.anchor = GridBagConstraints.NORTHWEST;
@@ -96,6 +101,7 @@ public class PhotosVideos extends JPanel {
 		});
 		
 		JButton btnDeleteAlbum = new JButton("Delete Album");
+		btnDeleteAlbum.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_btnDeleteAlbum = new GridBagConstraints();
 		gbc_btnDeleteAlbum.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnDeleteAlbum.insets = new Insets(0, 0, 0, 5);
@@ -104,6 +110,7 @@ public class PhotosVideos extends JPanel {
 		panel_2.add(btnDeleteAlbum, gbc_btnDeleteAlbum);
 		
 		JButton btnUploadPhoto = new JButton("Upload photo");
+		btnUploadPhoto.setBackground(SystemColor.activeCaption);
 		
 		GridBagConstraints gbc_btnUploadPhoto = new GridBagConstraints();
 		gbc_btnUploadPhoto.anchor = GridBagConstraints.NORTHWEST;
@@ -131,6 +138,7 @@ public class PhotosVideos extends JPanel {
 		});
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
