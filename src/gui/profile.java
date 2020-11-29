@@ -100,7 +100,7 @@ public class profile extends JPanel {
 		tabbedPane.addTab("Friends", null, viewFriends, null);
 
 		about about_ = new about();
-
+		nameLabel.setText(ConnectionService.getInstance().getVisited().getFullName());
 		home.add(about_, "name_636468128325600");
 
 		aboutedit aboutedit_ = new aboutedit();

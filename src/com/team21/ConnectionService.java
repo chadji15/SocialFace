@@ -19,10 +19,10 @@ public class ConnectionService {
 	private Connection conn;
 	
 	private ConnectionService() {
-		/*ConnectionService.server = "apollo.in.cs.ucy.ac.cy";
-		ConnectionService.database = "chadji15";
-		ConnectionService.username = "chadji15";
-		ConnectionService.pass = "RdjUFL3z";
+		ConnectionService.server = "apollo.in.cs.ucy.ac.cy";
+		ConnectionService.database = "atzoum01";
+		ConnectionService.username = "atzoum01";
+		ConnectionService.pass = "7RYACf6D";
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		} catch (ClassNotFoundException e1) {
@@ -36,7 +36,7 @@ public class ConnectionService {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	public static ConnectionService getInstance() {

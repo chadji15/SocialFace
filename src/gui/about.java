@@ -23,6 +23,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 
@@ -273,6 +277,32 @@ public class about extends JPanel {
 		setLayout(groupLayout);
 		
 		editbutton.setEnabled(ConnectionService.isCurrentUser());
+		
+		User visited = ConnectionService.getInstance().getVisited();
+		String SPsql = "EXEC dbo.showprofile ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			rs.next();
+			namelabel.setText(rs.getString(3));
+			visited.setFirstName(rs.getString(2));
+			visited.setLastName(rs.getString(1));
+			birthdaylabel.setText(rs.getString(4));
+			genderlabel.setText((rs.getString(9).equals("M")? "Male":"Female"));
+			emailabel.setText(rs.getString(6));
+			locationlabel.setText(rs.getString(8));
+			hometownlabel.setText(rs.getString(7));
+			websitelabel.setText(rs.getString(5));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	public JButton getEditbutton() {

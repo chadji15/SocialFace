@@ -122,8 +122,9 @@ public class StartUp extends JFrame {
 					return;
 				}*/
 				//User currUser = new User(id);
-				ConnectionService.getInstance().setUser(User.dummy1);
-				ConnectionService.getInstance().setVisited(User.dummy1);
+				User user = new User(1);
+				ConnectionService.getInstance().setUser(user);
+				ConnectionService.getInstance().setVisited(user);
 				JFrame main = new MainFrame();
 				main.setVisible(true);
 				dispose();

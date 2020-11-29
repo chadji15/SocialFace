@@ -7,6 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.User;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
 import javax.swing.JTabbedPane;
@@ -17,7 +21,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.net.IDN;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -81,8 +93,27 @@ public class aboutedit extends JPanel {
 		JTextField emailedit = new JTextField("");
 		
 		JComboBox locationedit = new JComboBox();
+		Vector<IdNamePair> vector = new Vector<>();
+		vector.add(new IdNamePair(-1, "N/A"));
+		String SPsql = "EXEC dbo.getAllCities";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			ps = con.prepareStatement(SPsql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				vector.add(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		locationedit.setModel(new DefaultComboBoxModel<IdNamePair>(vector));
+		
 		
 		JComboBox hometownedit = new JComboBox();
+		hometownedit.setModel(new DefaultComboBoxModel<IdNamePair>(vector));
 		
 		JTextField websiteedit = new JTextField("");
 		
@@ -389,6 +420,27 @@ public class aboutedit extends JPanel {
 				ver.setVisible(true);
 			}
 		});
+		
+		User visited = ConnectionService.getInstance().getVisited();
+		SPsql = "EXEC dbo.showprofile ?";
+		con = ConnectionService.getInstance().getConn();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			rs.next();
+			firstnameedit.setText(rs.getString(2));
+			lastnameedit.setText(rs.getString(1));
+			birthdayedit.setDate(rs.getDate(4));
+			emailedit.setText(rs.getString(6));
+			locationedit.setSelectedItem(new IdNamePair(rs.getString(8)));
+			hometownedit.setSelectedItem(new IdNamePair(rs.getString(7)));
+			websiteedit.setText(rs.getString(5));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	public JButton getBtnCancel() {
 		return btnCancel;
