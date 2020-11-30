@@ -29,7 +29,9 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -42,7 +44,18 @@ public class aboutedit extends JPanel {
 	private JTextField addEducationText;
 	private JButton btnCancel;
 	private JButton submitbutton;
-
+	public boolean wasUpdateSuccessful = false;
+	private JTextField firstnameedit;
+	private JDateChooser birthdayedit;
+	private JTextField emailedit;
+	private JComboBox locationedit;
+	private JComboBox hometownedit;
+	private JTextField websiteedit;
+	private JList hobbiesList;
+	private JList educationList;
+	private JList worksList;
+	private JList quotesList;
+	private JComboBox hobbiesCombo;
 	/**
 	 * Create the panel.
 	 */
@@ -68,6 +81,7 @@ public class aboutedit extends JPanel {
 		panel.add(lblNewLabel_1);
 		
 		submitbutton = new JButton("SUBMIT CHANGES");
+		
 		submitbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
 		JLabel lblNewLabel_2 = new JLabel("First Name:");
@@ -88,13 +102,13 @@ public class aboutedit extends JPanel {
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_2 = new JLabel("Hobbies:");
 		
-		JTextField firstnameedit = new JTextField("");
+		firstnameedit = new JTextField("");
 		
-		JTextField emailedit = new JTextField("");
+		emailedit = new JTextField("");
 		
-		JComboBox locationedit = new JComboBox();
+		locationedit = new JComboBox();
 		Vector<IdNamePair> vector = new Vector<>();
-		vector.add(new IdNamePair(-1, "N/A"));
+		vector.add(new IdNamePair(-1, null));
 		String SPsql = "EXEC dbo.getAllCities";
 		Connection con = ConnectionService.getInstance().getConn();
 		PreparedStatement ps;
@@ -112,12 +126,13 @@ public class aboutedit extends JPanel {
 		locationedit.setModel(new DefaultComboBoxModel<IdNamePair>(vector));
 		
 		
-		JComboBox hometownedit = new JComboBox();
+		hometownedit = new JComboBox();
 		hometownedit.setModel(new DefaultComboBoxModel<IdNamePair>(vector));
 		
-		JTextField websiteedit = new JTextField("");
+		websiteedit = new JTextField("");
 		
-		JDateChooser birthdayedit = new JDateChooser();
+		birthdayedit = new JDateChooser();
+		birthdayedit.setDateFormatString("yyyy-MM-dd");
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Birthday:");
 		
@@ -134,7 +149,7 @@ public class aboutedit extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JList worksList = new JList();
+		worksList = new JList();
 		scrollPane.setViewportView(worksList);
 		
 		JButton btnAddworkbutton = new JButton("");
@@ -145,7 +160,7 @@ public class aboutedit extends JPanel {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		
-		JList educationList = new JList();
+		educationList = new JList();
 		scrollPane_1.setViewportView(educationList);
 		
 		JButton addEducationButton = new JButton("");
@@ -156,7 +171,7 @@ public class aboutedit extends JPanel {
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		
-		JList hobbiesList = new JList();
+		hobbiesList = new JList();
 		scrollPane_2.setViewportView(hobbiesList);
 		
 		JButton addHobbieButton = new JButton("");
@@ -171,7 +186,7 @@ public class aboutedit extends JPanel {
 		addEducationText = new JTextField();
 		addEducationText.setColumns(10);
 		
-		JComboBox hobbiesCombo = new JComboBox();
+		hobbiesCombo = new JComboBox();
 		
 		JTextArea txtrFavoriteQuotes = new JTextArea();
 		txtrFavoriteQuotes.setBackground(SystemColor.activeCaption);
@@ -189,7 +204,7 @@ public class aboutedit extends JPanel {
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
 		
-		JList quotesList = new JList();
+		quotesList = new JList();
 		scrollPane_4.setViewportView(quotesList);
 		
 		JButton addQuoteButton = new JButton("");
@@ -421,9 +436,15 @@ public class aboutedit extends JPanel {
 			}
 		});
 		
+		refresh();
+	}
+	
+	public void refresh() {
 		User visited = ConnectionService.getInstance().getVisited();
-		SPsql = "EXEC dbo.showprofile ?";
-		con = ConnectionService.getInstance().getConn();
+		String SPsql = "EXEC dbo.showprofile ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement(SPsql);
 			ps.setInt(1, visited.getId());
@@ -441,11 +462,106 @@ public class aboutedit extends JPanel {
 			e.printStackTrace();
 		}
 
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showinsterests ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hobbiesList.setModel(iModel);
+		
+		DefaultListModel<String> sModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showrstudies ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				sModel.addElement(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		educationList.setModel(sModel);
+		
+		DefaultListModel<String> wModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showrworked ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				wModel.addElement(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		worksList.setModel(wModel);
+		
+		DefaultListModel<String> qModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showquotes ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				qModel.addElement(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		quotesList.setModel(qModel);
+		
+		DefaultComboBoxModel<IdNamePair> allInterests = new DefaultComboBoxModel<>();
+		SPsql = "EXEC dbo.getAllInterests";
+		try {
+			ps = con.prepareStatement(SPsql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				allInterests.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hobbiesCombo.setModel(allInterests);
 	}
+	
 	public JButton getBtnCancel() {
 		return btnCancel;
 	}
 	public JButton getSubmitbutton() {
 		return submitbutton;
+	}
+	public JTextField getFirstnameedit() {
+		return firstnameedit;
+	}
+	public JTextField getLastnameedit() {
+		return lastnameedit;
+	}
+	public JDateChooser getBirthdayedit() {
+		return birthdayedit;
+	}
+	public JTextField getEmailedit() {
+		return emailedit;
+	}
+	public JComboBox getLocationedit() {
+		return locationedit;
+	}
+	public JComboBox getHometownedit() {
+		return hometownedit;
+	}
+	public JTextField getWebsiteedit() {
+		return websiteedit;
 	}
 }

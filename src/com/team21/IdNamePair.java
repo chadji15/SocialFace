@@ -2,7 +2,7 @@ package com.team21;
 
 public class IdNamePair {
 
-	private int id;
+	private int id ;
 	private String name;
 	
 	public IdNamePair(int id, String name) {
@@ -35,7 +35,7 @@ public class IdNamePair {
 	}
 	
 	public String toString() {
-		return this.name;
+		return getName();
 	}
 	
 	public boolean equals(Object o) {

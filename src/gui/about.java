@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
 import com.team21.User;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
@@ -18,20 +19,35 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.AbstractButton;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
+import java.net.IDN;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 
 public class about extends JPanel {
 	private JButton editbutton;
+	private JLabel namelabel;
+	private JLabel birthdaylabel;
+	private JLabel genderlabel;
+	private JLabel locationlabel;
+	private JLabel emailabel;
+	private JLabel hometownlabel;
+	private JLabel websitelabel;
+	private JList interestsList;
+	private JList worksList;
+	private JList quotesList;
+	private JList educationList;
 
 	/**
 	 * Create the panel.
@@ -93,39 +109,39 @@ public class about extends JPanel {
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_2 = new JLabel("Hobbies:");
 		lblNewLabel_2_2_1_1_1_1_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		JLabel namelabel = new JLabel("");
+		namelabel = new JLabel("");
 		
-		JLabel birthdaylabel = new JLabel("");
+		 birthdaylabel = new JLabel("");
 		
-		JLabel genderlabel = new JLabel("");
+		 genderlabel = new JLabel("");
 		
-		JLabel emailabel = new JLabel("");
+		 emailabel = new JLabel("");
 		
-		JLabel locationlabel = new JLabel("");
+		 locationlabel = new JLabel("");
 		
-		JLabel hometownlabel = new JLabel("");
+		 hometownlabel = new JLabel("");
 		
-		JLabel websitelabel = new JLabel("");
+		 websitelabel = new JLabel("");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JList worksList = new JList();
+		worksList = new JList();
 		scrollPane.setViewportView(worksList);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		
-		JList educationList = new JList();
+		educationList = new JList();
 		scrollPane_1.setViewportView(educationList);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		
-		JList quotesList = new JList();
+		quotesList = new JList();
 		scrollPane_2.setViewportView(quotesList);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		
-		JList list = new JList();
-		scrollPane_3.setViewportView(list);
+		interestsList = new JList();
+		scrollPane_3.setViewportView(interestsList);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -278,6 +294,15 @@ public class about extends JPanel {
 		
 		editbutton.setEnabled(ConnectionService.isCurrentUser());
 		
+		refresh();
+	}
+	
+	public JButton getEditbutton() {
+		return editbutton;
+	}
+
+	public void refresh() {
+		// TODO Auto-generated method stub
 		User visited = ConnectionService.getInstance().getVisited();
 		String SPsql = "EXEC dbo.showprofile ?";
 		Connection con = ConnectionService.getInstance().getConn();
@@ -302,10 +327,64 @@ public class about extends JPanel {
 			e.printStackTrace();
 		}
 		
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showinsterests ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		interestsList.setModel(iModel);
 		
-	}
-	
-	public JButton getEditbutton() {
-		return editbutton;
+		DefaultListModel<String> sModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showrstudies ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				sModel.addElement(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		educationList.setModel(sModel);
+		
+		DefaultListModel<String> wModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showrworked ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				wModel.addElement(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		worksList.setModel(wModel);
+		
+		DefaultListModel<String> qModel = new DefaultListModel<>();
+		SPsql = "EXEC dbo.showquotes ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				qModel.addElement(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		quotesList.setModel(qModel);
 	}
 }

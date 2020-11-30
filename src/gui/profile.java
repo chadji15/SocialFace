@@ -2,12 +2,16 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.User;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
@@ -40,10 +44,17 @@ import java.awt.Component;
 import javax.swing.Box;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.awt.SystemColor;
 
 public class profile extends JPanel {
 
+	private about about_;
 	/**
 	 * Create the panel.
 	 */
@@ -99,7 +110,7 @@ public class profile extends JPanel {
 		ViewFriends viewFriends = new ViewFriends();
 		tabbedPane.addTab("Friends", null, viewFriends, null);
 
-		about about_ = new about();
+		about_ = new about();
 		nameLabel.setText(ConnectionService.getInstance().getVisited().getFullName());
 		home.add(about_, "name_636468128325600");
 
@@ -124,6 +135,7 @@ public class profile extends JPanel {
 		about_.getEditbutton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				home.removeAll();
+				aboutedit_.refresh();
 				home.add(aboutedit_);
 				home.revalidate();
 				home.repaint();
@@ -133,6 +145,7 @@ public class profile extends JPanel {
 		aboutedit_.getBtnCancel().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				home.removeAll();
+				about_.refresh();
 				home.add(about_);
 				home.revalidate();
 				home.repaint();
@@ -141,10 +154,47 @@ public class profile extends JPanel {
 
 		aboutedit_.getSubmitbutton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				home.removeAll();
-				home.add(about_);
-				home.revalidate();
-				home.repaint();
+				
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.editprofile ?, ?, ?, ?, ?, ?, ?, ? ";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, visited.getId());
+					ps.setString(2, aboutedit_.getFirstnameedit().getText());
+					ps.setString(3, aboutedit_.getLastnameedit().getText());
+					String date = new SimpleDateFormat("yyyy-MM-dd").format(aboutedit_.getBirthdayedit().getDate());
+					ps.setString(4, date);
+					ps.setString(5, aboutedit_.getWebsiteedit().getText());
+					ps.setString(6, aboutedit_.getEmailedit().getText());
+					IdNamePair location = (IdNamePair) aboutedit_.getLocationedit().getSelectedItem();
+					if (location.getName() == null) 
+						ps.setObject(8, null);
+					else
+						ps.setInt(8,  location.getId());
+					IdNamePair hometown = (IdNamePair) aboutedit_.getHometownedit().getSelectedItem();
+					if (hometown.getName() == null)
+						ps.setObject(7, null);
+					else
+						ps.setInt(7, hometown.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					home.removeAll();
+					about_.refresh();
+					home.add(about_);
+					home.revalidate();
+					home.repaint();
+				}
+				else {
+					JOptionPane.showMessageDialog(profile.this, "Update was not succesful. Please check that you email address is valid and not used"
+							+ " twice. Check that your birthday is a valid date.");
+				}
 			}
 		});
 

@@ -14,6 +14,8 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class verify extends JDialog {
 
@@ -89,6 +91,11 @@ public class verify extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				okButton.setBackground(SystemColor.activeCaption);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -96,6 +103,11 @@ public class verify extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setBackground(SystemColor.activeCaption);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
