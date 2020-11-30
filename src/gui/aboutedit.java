@@ -19,6 +19,7 @@ import javax.swing.JCheckBox;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.net.IDN;
@@ -153,9 +154,11 @@ public class aboutedit extends JPanel {
 		scrollPane.setViewportView(worksList);
 		
 		JButton btnAddworkbutton = new JButton("");
+		
 		btnAddworkbutton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/plus16.png")));
 		
 		JButton removeWorkButton = new JButton("");
+		
 		removeWorkButton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/minus16.png")));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -164,9 +167,11 @@ public class aboutedit extends JPanel {
 		scrollPane_1.setViewportView(educationList);
 		
 		JButton addEducationButton = new JButton("");
+		
 		addEducationButton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/plus16.png")));
 		
 		JButton removeEducationButton = new JButton("");
+		
 		removeEducationButton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/minus16.png")));
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -175,9 +180,11 @@ public class aboutedit extends JPanel {
 		scrollPane_2.setViewportView(hobbiesList);
 		
 		JButton addHobbieButton = new JButton("");
+		
 		addHobbieButton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/plus16.png")));
 		
 		JButton removeHobbieButton = new JButton("");
+		
 		removeHobbieButton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/minus16.png")));
 		
 		addWorkText = new JTextField();
@@ -208,9 +215,11 @@ public class aboutedit extends JPanel {
 		scrollPane_4.setViewportView(quotesList);
 		
 		JButton addQuoteButton = new JButton("");
+		
 		addQuoteButton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/plus16.png")));
 		
 		JButton removeQuoteButton = new JButton("");
+		
 		removeQuoteButton.setIcon(new ImageIcon(aboutedit.class.getResource("/images/minus16.png")));
 		
 		btnCancel = new JButton("Cancel");
@@ -433,6 +442,254 @@ public class aboutedit extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				verify ver = new verify();
 				ver.setVisible(true);
+			}
+		});
+		
+		btnAddworkbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (addWorkText.getText().length() == 0)
+					return;
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.inserworked ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, addWorkText.getText());
+					ps.setInt(2, ConnectionService.getInstance().getVisited().getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<String> lModel = (DefaultListModel<String>) worksList.getModel();
+					lModel.addElement(addWorkText.getText());
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				addWorkText.setText("");
+			}
+		});
+		
+		addEducationButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (addEducationText.getText().length() == 0)
+					return;
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.insertstudies ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, addEducationText.getText());
+					ps.setInt(2, ConnectionService.getInstance().getVisited().getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<String> lModel = (DefaultListModel<String>) educationList.getModel();
+					lModel.addElement(addEducationText.getText());
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				addEducationText.setText("");
+			}
+		});
+		
+		addQuoteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (quoteText.getText().length() == 0)
+					return;
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.insertquotes ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, quoteText.getText());
+					ps.setInt(2, ConnectionService.getInstance().getVisited().getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<String> lModel = (DefaultListModel<String>) quotesList.getModel();
+					lModel.addElement(quoteText.getText());
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				quoteText.setText("");
+			}
+		});
+		
+		addHobbieButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.inserttables ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				IdNamePair interest = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					interest = (IdNamePair) hobbiesCombo.getSelectedItem();
+					ps.setInt(1,interest.getId());
+					ps.setInt(2, ConnectionService.getInstance().getVisited().getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<IdNamePair> lModel = (DefaultListModel<IdNamePair>) hobbiesList.getModel();
+					lModel.addElement(interest);
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				quoteText.setText("");
+			}
+		});
+		
+		removeWorkButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (worksList.isSelectionEmpty())
+					return;
+				String company = (String) worksList.getSelectedValue();
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.deleteworked ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, ConnectionService.getInstance().getVisited().getId());
+					ps.setString(2, company);
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<String> lModel = (DefaultListModel<String>) worksList.getModel();
+					lModel.removeElement(company);
+					worksList.revalidate();
+					worksList.repaint();
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				worksList.setSelectedIndex(-1);
+			}
+		});
+		
+		removeEducationButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (educationList.isSelectionEmpty())
+					return;
+				String school = (String) educationList.getSelectedValue();
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.deletestudies ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, ConnectionService.getInstance().getVisited().getId());
+					ps.setString(2, school);
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<String> lModel = (DefaultListModel<String>) educationList.getModel();
+					lModel.removeElement(school);
+					educationList.revalidate();
+					educationList.repaint();
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				worksList.setSelectedIndex(-1);
+			}
+		});
+		
+		removeQuoteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (quotesList.isSelectionEmpty())
+					return;
+				String quote = (String) quotesList.getSelectedValue();
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.deletequotes ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, ConnectionService.getInstance().getVisited().getId());
+					ps.setString(2, quote);
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<String> lModel = (DefaultListModel<String>) quotesList.getModel();
+					lModel.removeElement(quote);
+					educationList.revalidate();
+					educationList.repaint();
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				quotesList.setSelectedIndex(-1);
+			}
+		});
+		
+		removeHobbieButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (hobbiesList.isSelectionEmpty())
+					return;
+				IdNamePair hobbie = (IdNamePair) hobbiesList.getSelectedValue();
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.deletetables ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, ConnectionService.getInstance().getVisited().getId());
+					ps.setInt(2, hobbie.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<String> lModel = (DefaultListModel<String>) hobbiesList.getModel();
+					lModel.removeElement(hobbie);
+					educationList.revalidate();
+					educationList.repaint();
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(aboutedit.this, "Update was not succesful.");
+				}
+				hobbiesList.setSelectedIndex(-1);
 			}
 		});
 		

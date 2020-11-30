@@ -16,6 +16,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class signup extends JPanel {
 	private JTextField firstnametext;
@@ -25,6 +27,10 @@ public class signup extends JPanel {
 	private JPasswordField passwordField2;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JButton createaccountbutton;
+	private JRadioButton malebutton;
+	private JRadioButton femalebutton;
+	private JDateChooser choosedate;
+	private JButton btnBack;
 
 	/**
 	 * Create the panel.
@@ -62,20 +68,16 @@ public class signup extends JPanel {
 		lastnametext = new JTextField();
 		lastnametext.setColumns(10);
 		
-		JRadioButton malebutton = new JRadioButton("Male");
+		malebutton = new JRadioButton("Male");
+		malebutton.setSelected(true);
 		malebutton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttonGroup.add(malebutton);
 		malebutton.setBackground(new Color(204, 204, 255));
 		
-		JRadioButton femalebutton = new JRadioButton("Female");
+		femalebutton = new JRadioButton("Female");
 		femalebutton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttonGroup.add(femalebutton);
 		femalebutton.setBackground(new Color(204, 204, 255));
-		
-		JRadioButton otherbutton = new JRadioButton("Other");
-		otherbutton.setFont(new Font("Tahoma", Font.BOLD, 12));
-		buttonGroup.add(otherbutton);
-		otherbutton.setBackground(new Color(204, 204, 255));
 		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -86,12 +88,14 @@ public class signup extends JPanel {
 		JLabel lblBirthday = new JLabel("Birthday:");
 		lblBirthday.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		JDateChooser choosedate = new JDateChooser();
+		choosedate = new JDateChooser();
 		
 		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblPassword.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JLabel lblComfirmPassword = new JLabel("Comfirm password:");
+		lblComfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblComfirmPassword.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		passwordField = new JPasswordField();
@@ -99,7 +103,10 @@ public class signup extends JPanel {
 		passwordField2 = new JPasswordField();
 		
 		createaccountbutton = new JButton("CREATE MY ACCOUNT!");
+	
 		createaccountbutton.setFont(new Font("Tahoma", Font.BOLD, 17));
+		
+		btnBack = new JButton("Back");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -127,9 +134,7 @@ public class signup extends JPanel {
 									.addGap(91)
 									.addComponent(malebutton, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
 							.addGap(4)
-							.addComponent(femalebutton, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(otherbutton, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE))
+							.addComponent(femalebutton, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(186)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -155,9 +160,11 @@ public class signup extends JPanel {
 							.addGap(12)
 							.addComponent(passwordField2, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(217)
+							.addGap(51)
+							.addComponent(btnBack)
+							.addGap(69)
 							.addComponent(createaccountbutton, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(115, Short.MAX_VALUE))
+					.addContainerGap(152, Short.MAX_VALUE))
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
@@ -166,60 +173,87 @@ public class signup extends JPanel {
 					.addGap(1)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(7)
-							.addComponent(firstnametext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-					.addGap(13)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(7)
-							.addComponent(lastnametext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(13)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblUsername_1_1, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(malebutton))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(femalebutton))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(otherbutton)))
-					.addGap(13)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(7)
-							.addComponent(emailtext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-					.addGap(13)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(choosedate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblBirthday, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-					.addGap(13)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(7)
-							.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(13)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblComfirmPassword, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(7)
-							.addComponent(passwordField2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(58)
-					.addComponent(createaccountbutton, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(7)
+									.addComponent(firstnametext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+							.addGap(13)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(7)
+									.addComponent(lastnametext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(13)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblUsername_1_1, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(6)
+									.addComponent(malebutton))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(6)
+									.addComponent(femalebutton)))
+							.addGap(13)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(7)
+									.addComponent(emailtext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+							.addGap(13)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(6)
+									.addComponent(choosedate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblBirthday, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+							.addGap(13)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(7)
+									.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(13)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblComfirmPassword, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(7)
+									.addComponent(passwordField2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(58)
+							.addComponent(createaccountbutton, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnBack)))
 		);
 		setLayout(groupLayout);
 
 	}
 	public JButton getCreateaccountbutton() {
 		return createaccountbutton;
+	}
+	public JRadioButton getMalebutton() {
+		return malebutton;
+	}
+	public JRadioButton getFemalebutton() {
+		return femalebutton;
+	}
+	public JTextField getFirstnametext() {
+		return firstnametext;
+	}
+	public JTextField getLastnametext() {
+		return lastnametext;
+	}
+	public JTextField getEmailtext() {
+		return emailtext;
+	}
+	public JPasswordField getPasswordField2() {
+		return passwordField2;
+	}
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+	public JDateChooser getChoosedate() {
+		return choosedate;
+	}
+	public JButton getBtnBack() {
+		return btnBack;
 	}
 }

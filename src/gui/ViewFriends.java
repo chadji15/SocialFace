@@ -8,26 +8,42 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import org.omg.CORBA.FREE_MEM;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JTabbedPane;
 import java.awt.Insets;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.User;
 import com.jgoodies.forms.layout.FormSpecs;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JToggleButton;
 import java.awt.SystemColor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.net.IDN;
+import java.awt.event.ActionEvent;
 
 public class ViewFriends extends JPanel {
 
@@ -85,13 +101,24 @@ public class ViewFriends extends JPanel {
 		gbc_lblFriendRequests.gridy = 2;
 		add(lblFriendRequests, gbc_lblFriendRequests);
 		
-		JToggleButton tglbtnShowFriendsWith = new JToggleButton("Show friends with common interests");
-		tglbtnShowFriendsWith.setFont(new Font("Tahoma", Font.BOLD, 10));
-		GridBagConstraints gbc_tglbtnShowFriendsWith = new GridBagConstraints();
-		gbc_tglbtnShowFriendsWith.insets = new Insets(0, 0, 5, 5);
-		gbc_tglbtnShowFriendsWith.gridx = 1;
-		gbc_tglbtnShowFriendsWith.gridy = 3;
-		add(tglbtnShowFriendsWith, gbc_tglbtnShowFriendsWith);
+		JPanel panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_2.gridx = 1;
+		gbc_panel_2.gridy = 3;
+		add(panel_2, gbc_panel_2);
+		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton btnShowAll = new JButton("Show all");
+		
+		btnShowAll.setFont(new Font("Tahoma", Font.BOLD, 10));
+		panel_2.add(btnShowAll);
+		
+		JButton btnShowFriendsWith = new JButton("Show friends with common interests");
+		
+		panel_2.add(btnShowFriendsWith);
+		btnShowFriendsWith.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.menu);
@@ -103,11 +130,13 @@ public class ViewFriends extends JPanel {
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JToggleButton tglbtnShowMostPopular = new JToggleButton("Show most popular");
-		tglbtnShowMostPopular.setFont(new Font("Tahoma", Font.BOLD, 10));
-		panel.add(tglbtnShowMostPopular);
+		JButton btnShowMostPopular = new JButton("Show most popular");
+		
+		btnShowMostPopular.setFont(new Font("Tahoma", Font.BOLD, 10));
+		panel.add(btnShowMostPopular);
 		
 		JButton removeFriendButton = new JButton("Remove friend");
+		
 		removeFriendButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel.add(removeFriendButton);
 		removeFriendButton.setIcon(null);
@@ -176,14 +205,140 @@ public class ViewFriends extends JPanel {
 		gbc_verticalStrut_1.gridx = 1;
 		gbc_verticalStrut_1.gridy = 6;
 		add(verticalStrut_1, gbc_verticalStrut_1);
+		
+		User visited = ConnectionService.getInstance().getVisited();
+		Connection con = ConnectionService.getInstance().getConn();
+		
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.findfriendsnames ?";
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		friendList.setModel(iModel);
 
 		if (!ConnectionService.isCurrentUser()) {
+			panel_1.setVisible(false);
 			removeFriendButton.setEnabled(false);
-			tglbtnShowFriendsWith.setEnabled(false);
-			tglbtnShowMostPopular.setEnabled(false);
+			btnShowFriendsWith.setEnabled(false);
+			btnShowMostPopular.setEnabled(false);
 			lblFriendRequests.setText("Common friends");
 			buttonPanel.setVisible(false);
 			// populate with common friends: friendRequestsList
 		}
+		else {
+			
+			 SPsql = "EXEC dbo.avgage ?";
+			try {
+				ps = con.prepareStatement(SPsql);
+				ps.setInt(1, visited.getId());
+				rs = ps.executeQuery();
+				rs.next();
+				lblAge.setText(rs.getString(1));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		btnShowAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.findfriendsnames ?";
+				PreparedStatement ps;
+				ResultSet rs;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, visited.getId());
+					rs = ps.executeQuery();
+					while(rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				friendList.setModel(iModel);
+			}
+		});
+		
+		btnShowFriendsWith.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.friendsWithSameInterest ?";
+				PreparedStatement ps;
+				ResultSet rs;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, visited.getId());
+					rs = ps.executeQuery();
+					while(rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				friendList.setModel(iModel);
+			}
+		});
+		
+		btnShowMostPopular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.mostPopularFriends ?";
+				PreparedStatement ps;
+				ResultSet rs;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, visited.getId());
+					rs = ps.executeQuery();
+					while(rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				friendList.setModel(iModel);
+			}
+		});
+		
+		removeFriendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (friendList.isSelectionEmpty()) return;
+				IdNamePair friend = (IdNamePair) friendList.getSelectedValue();
+				String SPsql = "EXEC dbo.deletefriend ?, ?";
+				PreparedStatement ps;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, visited.getId());
+					ps.setInt(2, friend.getId());
+					rs = ps.executeUpdate();
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (rs > 0) {
+					DefaultListModel<IdNamePair> rModel = (DefaultListModel<IdNamePair>) friendList.getModel();
+					rModel.removeElement(friend);
+				}
+				else {
+					JOptionPane.showMessageDialog(ViewFriends.this, "Update was not succesful.");
+				}
+				friendList.setSelectedIndex(-1);
+			}
+		});
 	}
 }

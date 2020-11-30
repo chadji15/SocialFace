@@ -9,9 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
 import com.team21.User;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.CardLayout;
@@ -21,9 +23,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class StartUp extends JFrame {
@@ -92,6 +96,43 @@ public class StartUp extends JFrame {
 		});
 		
 		signup_.getCreateaccountbutton().addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				if (!signup_.getPasswordField().getText().equals(signup_.getPasswordField2().getText())) {
+					JOptionPane.showMessageDialog(StartUp.this, "Passwords don't match");
+					return;
+				}
+				String SPsql = "EXEC dbo.insertProfile ?, ?, ?, ?, ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, signup_.getFirstnametext().getText());
+					ps.setString(2, signup_.getLastnametext().getText());
+					ps.setString(3, (signup_.getMalebutton().isSelected()? "M":"F"));
+					ps.setString(4, signup_.getEmailtext().getText());
+					String date = new SimpleDateFormat("yyyy-MM-dd").format(signup_.getChoosedate().getDate());
+					ps.setString(5, date);
+					ps.setString(6, signup_.getPasswordField().getText());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					System.out.println(rs);
+					JOptionPane.showMessageDialog(StartUp.this, "Unable to create account. Please try a different password");
+				}
+				
+
+				cardPanel.removeAll();
+				cardPanel.add(login_);
+				cardPanel.revalidate();
+				cardPanel.repaint();
+				
+			}
+		});
+		
+		signup_.getBtnBack().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
 				cardPanel.add(login_);
@@ -99,6 +140,7 @@ public class StartUp extends JFrame {
 				cardPanel.repaint();
 			}
 		});
+		
 		
 		login_.getLoginButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
