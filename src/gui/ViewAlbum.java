@@ -9,31 +9,63 @@ import java.awt.Insets;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.SystemColor;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.FlowLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 
+import com.microsoft.sqlserver.jdbc.dataclassification.ColumnSensitivity;
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
 import com.team21.Privacy;
+import com.team21.User;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
+import javax.swing.Painter;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.IDN;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+
 import javax.swing.JTextField;
 import java.awt.Font;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 public class ViewAlbum extends JPanel {
-	private JTable photoTable;
 	private JTable commentsTable;
 	private JButton backButton;
 	private JTextField searchPhotoText;
+	private JList photoList;
+	private JTextField txtAlbumName;
+	private JLabel lblOwner;
+	private JLabel ownerLabel;
+	private JTextArea descriptionText;
+	private JComboBox locationCombo;
+	private JComboBox privacyCombo;
+	private JLabel lblTotalPhotos;
 
 	/**
 	 * Create the panel.
@@ -61,13 +93,15 @@ public class ViewAlbum extends JPanel {
 		gbc_horizontalStrut.gridy = 1;
 		add(horizontalStrut, gbc_horizontalStrut);
 		
-		JLabel lblAlbumTitle = new JLabel("Album Title");
-		GridBagConstraints gbc_lblAlbumTitle = new GridBagConstraints();
-		gbc_lblAlbumTitle.gridwidth = 2;
-		gbc_lblAlbumTitle.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAlbumTitle.gridx = 1;
-		gbc_lblAlbumTitle.gridy = 1;
-		add(lblAlbumTitle, gbc_lblAlbumTitle);
+		txtAlbumName = new JTextField("Album Title");
+		txtAlbumName.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_txtAlbumName = new GridBagConstraints();
+		gbc_txtAlbumName.fill = GridBagConstraints.BOTH;
+		gbc_txtAlbumName.gridwidth = 2;
+		gbc_txtAlbumName.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAlbumName.gridx = 1;
+		gbc_txtAlbumName.gridy = 1;
+		add(txtAlbumName, gbc_txtAlbumName);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
@@ -76,7 +110,7 @@ public class ViewAlbum extends JPanel {
 		gbc_horizontalStrut_1.gridy = 1;
 		add(horizontalStrut_1, gbc_horizontalStrut_1);
 		
-		JLabel lblOwner = new JLabel("Owner:");
+		lblOwner = new JLabel("Owner:");
 		lblOwner.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblOwner = new GridBagConstraints();
 		gbc_lblOwner.anchor = GridBagConstraints.EAST;
@@ -85,7 +119,7 @@ public class ViewAlbum extends JPanel {
 		gbc_lblOwner.gridy = 2;
 		add(lblOwner, gbc_lblOwner);
 		
-		JLabel ownerLabel = new JLabel("Owner User");
+		ownerLabel = new JLabel("Owner User");
 		ownerLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_ownerLabel = new GridBagConstraints();
 		gbc_ownerLabel.anchor = GridBagConstraints.WEST;
@@ -112,7 +146,7 @@ public class ViewAlbum extends JPanel {
 		gbc_scrollPane_1.gridy = 3;
 		add(scrollPane_1, gbc_scrollPane_1);
 		
-		JTextArea descriptionText = new JTextArea();
+		descriptionText = new JTextArea();
 		descriptionText.setEditable(false);
 		scrollPane_1.setViewportView(descriptionText);
 		
@@ -132,7 +166,7 @@ public class ViewAlbum extends JPanel {
 		gbc_lblLocation.gridy = 5;
 		add(lblLocation, gbc_lblLocation);
 		
-		JComboBox locationCombo = new JComboBox();
+		locationCombo = new JComboBox();
 		locationCombo.setBackground(SystemColor.menu);
 		locationCombo.setEnabled(false);
 		GridBagConstraints gbc_locationCombo = new GridBagConstraints();
@@ -151,7 +185,7 @@ public class ViewAlbum extends JPanel {
 		gbc_lblNewLabel_1.gridy = 6;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		JComboBox privacyCombo = new JComboBox();
+		privacyCombo = new JComboBox();
 		privacyCombo.setEnabled(false);
 		privacyCombo.setModel(new DefaultComboBoxModel(Privacy.values()));
 		GridBagConstraints gbc_privacyCombo = new GridBagConstraints();
@@ -177,6 +211,7 @@ public class ViewAlbum extends JPanel {
 		panel.setLayout(gbl_panel);
 		
 		backButton = new JButton("Back");
+
 		GridBagConstraints gbc_backButton = new GridBagConstraints();
 		gbc_backButton.anchor = GridBagConstraints.NORTHWEST;
 		gbc_backButton.insets = new Insets(0, 0, 0, 5);
@@ -188,22 +223,16 @@ public class ViewAlbum extends JPanel {
 		btnAddPhoto.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		GridBagConstraints gbc_btnAddPhoto = new GridBagConstraints();
-		gbc_btnAddPhoto.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnAddPhoto.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAddPhoto.gridx = 1;
 		gbc_btnAddPhoto.gridy = 0;
 		panel.add(btnAddPhoto, gbc_btnAddPhoto);
-		btnAddPhoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SelectPhoto selectPhoto = new SelectPhoto();
-				selectPhoto.setVisible(true);
-			}
-		});
+		
 		
 		JButton btnRemovePhoto = new JButton("Remove photo");
+		
 		btnRemovePhoto.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_btnRemovePhoto = new GridBagConstraints();
-		gbc_btnRemovePhoto.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnRemovePhoto.insets = new Insets(0, 0, 0, 5);
 		gbc_btnRemovePhoto.gridx = 2;
 		gbc_btnRemovePhoto.gridy = 0;
@@ -213,43 +242,25 @@ public class ViewAlbum extends JPanel {
 		commentButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		GridBagConstraints gbc_commentButton = new GridBagConstraints();
-		gbc_commentButton.anchor = GridBagConstraints.NORTHWEST;
 		gbc_commentButton.insets = new Insets(0, 0, 0, 5);
 		gbc_commentButton.gridx = 3;
 		gbc_commentButton.gridy = 0;
 		panel.add(commentButton, gbc_commentButton);
 		
-		commentButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AddComment addComment = new AddComment();
-				addComment.setVisible(true);
-			}
-		});
+		
 		
 		JToggleButton editToggle = new JToggleButton("Edit");
 		editToggle.setFont(new Font("Tahoma", Font.BOLD, 10));
-		editToggle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (editToggle.isSelected()) {
-					locationCombo.setEnabled(true);
-					privacyCombo.setEnabled(true);
-					descriptionText.setEditable(true);
-				}
-				else {
-					locationCombo.setEnabled(false);
-					privacyCombo.setEnabled(false);
-					descriptionText.setEditable(false);
-				}
-			}
-		});
+		
 		GridBagConstraints gbc_editToggle = new GridBagConstraints();
+		gbc_editToggle.fill = GridBagConstraints.VERTICAL;
 		gbc_editToggle.insets = new Insets(0, 0, 0, 5);
-		gbc_editToggle.anchor = GridBagConstraints.NORTHWEST;
 		gbc_editToggle.gridx = 4;
 		gbc_editToggle.gridy = 0;
 		panel.add(editToggle, gbc_editToggle);
 		
 		JButton btnSearch = new JButton("Search");
+		
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
@@ -265,7 +276,7 @@ public class ViewAlbum extends JPanel {
 		panel.add(searchPhotoText, gbc_searchPhotoText);
 		searchPhotoText.setColumns(10);
 		
-		JLabel lblTotalPhotos = new JLabel("Total: 10 photographs");
+		lblTotalPhotos = new JLabel("Total: 10 photographs");
 		lblTotalPhotos.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblTotalPhotos = new GridBagConstraints();
 		gbc_lblTotalPhotos.anchor = GridBagConstraints.WEST;
@@ -284,27 +295,8 @@ public class ViewAlbum extends JPanel {
 		gbc_scrollPane.gridy = 9;
 		add(scrollPane, gbc_scrollPane);
 		
-		photoTable = new JTable();
-		
-		photoTable.setBackground(SystemColor.control);
-		photoTable.setRowSelectionAllowed(false);
-		photoTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		scrollPane.setViewportView(photoTable);
-		photoTable.setTableHeader(null);
+		photoList = new JList();
+		scrollPane.setViewportView(photoList);
 		
 		JLabel lblComments = new JLabel("Comments:");
 		GridBagConstraints gbc_lblComments = new GridBagConstraints();
@@ -324,25 +316,20 @@ public class ViewAlbum extends JPanel {
 		add(scrollPane_2, gbc_scrollPane_2);
 		
 		commentsTable = new JTable();
+		commentsTable.setEnabled(false);
 		commentsTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null},
+				{null, null},
 			},
 			new String[] {
-				"New column", "New column", "New column"
+				"New column", "New column"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Object.class, String.class, String.class
+				Object.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				true, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
 			}
 		});
 		commentsTable.setTableHeader(null);
@@ -354,18 +341,232 @@ public class ViewAlbum extends JPanel {
 		gbc_verticalStrut_1.gridx = 1;
 		gbc_verticalStrut_1.gridy = 12;
 		add(verticalStrut_1, gbc_verticalStrut_1);
+		txtAlbumName.setEditable(false);
+		
+		Connection con = ConnectionService.getInstance().getConn();
 		
 		if (!ConnectionService.isCurrentUser()) {
 			btnAddPhoto.setEnabled(false);
 			btnRemovePhoto.setEnabled(false);
 			editToggle.setEnabled(false);
 		}
+		
+		
+		editToggle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (editToggle.isSelected()) {
+					locationCombo.setEnabled(true);
+					privacyCombo.setEnabled(true);
+					descriptionText.setEditable(true);
+					txtAlbumName.setEditable(true);
+				}
+				else {
+					locationCombo.setEnabled(false);
+					privacyCombo.setEnabled(false);
+					descriptionText.setEditable(false);
+					txtAlbumName.setEditable(false);
+					User visited = ConnectionService.getInstance().getVisited();
+					IdNamePair album = ConnectionService.getInstance().getAlbum();
+					String SPsql = "EXEC dbo.editalbum ?, ?, ?, ?, ?, ?";
+					Connection con = ConnectionService.getInstance().getConn();
+					PreparedStatement ps;
+					int rs = -1;
+					try {
+						ps = con.prepareStatement(SPsql);
+						ps.setInt(1, visited.getId());
+						ps.setInt(2, album.getId());
+						ps.setString(3, txtAlbumName.getText());
+						ps.setString(4, ((Privacy)privacyCombo.getSelectedItem()).toChar());
+						ps.setString(5, descriptionText.getText());
+						IdNamePair city = (IdNamePair)locationCombo.getSelectedItem();
+						ps.setInt(6, city.getId());
+						rs = ps.executeUpdate();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(ViewAlbum.this, "Update was not successful");
+						refreshAlbum();
+						return;
+					}
+				}
+			}
+		});
+		
+		DefaultComboBoxModel<IdNamePair> iModel = new DefaultComboBoxModel<>();
+		iModel.addElement(new IdNamePair(-1, null));
+		String SPsql = "EXEC dbo.getAllCities";
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			ps = con.prepareStatement(SPsql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		locationCombo.setModel(iModel);
+		
+		commentButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddComment addComment = new AddComment();
+				addComment.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+						ViewAlbum.this.populateComments();
+					}
+				});
+				addComment.setVisible(true);
+			}
+		});
+		
+		btnAddPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectPhoto selectPhoto = new SelectPhoto();
+				selectPhoto.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+						ViewAlbum.this.refreshPhotos();
+					}
+				});
+				selectPhoto.setVisible(true);
+			}
+		});
+		
+		btnRemovePhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (photoList.isSelectionEmpty())
+					return;
+				IdNamePair album = ConnectionService.getInstance().getAlbum();
+				IdNamePair photo = (IdNamePair) photoList.getSelectedValue();
+				String SPsql = "EXEC dbo.deletecontains ?, ?";
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, album.getId());
+					ps.setInt(2, photo.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(ViewAlbum.this, "Update was not succesful.");
+				}
+		
+				DefaultListModel<String> lModel = (DefaultListModel<String>) photoList.getModel();
+				lModel.removeElement(photo);
+				photoList.setSelectedIndex(-1);
+			}
+		});
+		
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (searchPhotoText.getText().length() == 0) {
+					refreshPhotos();
+					return;
+				}
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.searchphoto ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				ResultSet rs;
+				User visited = ConnectionService.getInstance().getVisited();
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, searchPhotoText.getText());
+					ps.setInt(2, visited.getId());
+					rs = ps.executeQuery();
+					while (rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				photoList.setModel(iModel);
+			}
+		});
+		
+	}
+	
+	public void refreshAlbum() {
+		Connection con = ConnectionService.getInstance().getConn();
+		IdNamePair album = ConnectionService.getInstance().getAlbum();
+
+		String SPsql = "EXEC dbo.showalbum ?";
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, album.getId());
+			rs = ps.executeQuery();
+			rs.next();
+			txtAlbumName.setText(rs.getString(2));
+			privacyCombo.setSelectedItem(Privacy.toPrivacy(rs.getString(3)));
+			descriptionText.setText(rs.getString(4));
+			locationCombo.setSelectedItem(new IdNamePair(rs.getString(5)));
+			ownerLabel.setText(rs.getString(6));
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+	}
+	
+	public void refreshPhotos() {
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.getAlbumPhotos ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		IdNamePair album = ConnectionService.getInstance().getAlbum(); 
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, album.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		photoList.setModel(iModel);
+	}
+	
+	public void populateComments() {
+		Vector<Vector<String>> rows = new Vector<>();
+		String SPsql = "EXEC dbo.showalbumcomments ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		IdNamePair album = ConnectionService.getInstance().getAlbum(); 
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, album.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Vector<String> row = new Vector<>();
+				row.add(rs.getString(1));
+				row.add(rs.getString(2));
+				rows.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Vector<String> header = new Vector<>();
+		header.add("Name");
+		header.add("Comment");
+		commentsTable.setModel(new DefaultTableModel(rows, header));
 	}
 
 	public JButton getBackButton() {
 		return backButton;
 	}
-	public JTable getPhotoTable() {
-		return photoTable;
+	
+	public JList getPhotoList() {
+		return photoList;
 	}
 }

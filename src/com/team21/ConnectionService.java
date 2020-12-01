@@ -17,6 +17,8 @@ public class ConnectionService {
 	private User user;
 	private User visited;
 	private Connection conn;
+	private IdNamePair album;
+	private IdNamePair photo;
 	
 	private ConnectionService() {
 		ConnectionService.server = "apollo.in.cs.ucy.ac.cy";
@@ -70,5 +72,20 @@ public class ConnectionService {
 	
 	public Connection getConn() {
 		return this.conn;
+	}
+	public IdNamePair getAlbum() {
+		return album;
+	}
+
+	public void setAlbum(IdNamePair album) {
+		this.album = album;
+	}
+
+	public IdNamePair getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(IdNamePair photo) {
+		this.photo = photo;
 	}
 }

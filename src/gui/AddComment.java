@@ -5,11 +5,20 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.Privacy;
+import com.team21.User;
+
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
@@ -19,6 +28,11 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.net.IDN;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class AddComment extends JDialog {
@@ -109,6 +123,29 @@ public class AddComment extends JDialog {
 				okButton.setBackground(SystemColor.activeCaption);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						String comment = commentText.getText();
+						if (comment.length()==0)
+							dispose();
+						Connection con = ConnectionService.getInstance().getConn();
+						IdNamePair album = ConnectionService.getInstance().getAlbum();
+						User user = ConnectionService.getInstance().getUser();
+						String SPsql = "EXEC dbo.insertalbumcomments ?, ?, ?";
+						PreparedStatement ps;
+						int rs;
+						try {
+							ps = con.prepareStatement(SPsql);
+							ps.setInt(1, album.getId());
+							ps.setInt(2, user.getId());
+							ps.setString(3, comment);
+							rs = ps.executeUpdate();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(AddComment.this, "Adding comment was not successful");
+							
+						} finally {
+							dispose();
+						}
+						
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -120,6 +157,7 @@ public class AddComment extends JDialog {
 				cancelButton.setBackground(SystemColor.activeCaption);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						dispose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

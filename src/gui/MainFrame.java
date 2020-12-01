@@ -170,6 +170,8 @@ public class MainFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
+					if (searchResults.getResultsTable().getSelectionModel().isSelectionEmpty())
+						return;
 					int row = searchResults.getResultsTable().getSelectedRow();
 					User vUser = (User) searchResults.getResultsTable().getModel().getValueAt(row, 1);
 					ConnectionService.getInstance().setVisited(vUser);

@@ -147,6 +147,8 @@ public class Links extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
+					if (linksList.isSelectionEmpty())
+						return;
 					viewLink v = new viewLink();
 					v.setVisible(true);
 				}

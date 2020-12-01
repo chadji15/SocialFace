@@ -118,8 +118,6 @@ public class StartUp extends JFrame {
 					rs = ps.executeUpdate();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					System.out.println(rs);
 					JOptionPane.showMessageDialog(StartUp.this, "Unable to create account. Please try a different password");
 				}
 				

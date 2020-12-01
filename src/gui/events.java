@@ -193,6 +193,8 @@ public class events extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
+					if (myEventsList.isSelectionEmpty())
+						return;
 					displayEvent d = new displayEvent();
 					d.setVisible(true);
 				}
