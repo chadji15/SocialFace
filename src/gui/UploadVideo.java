@@ -11,8 +11,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import com.team21.ConnectionService;
+import com.team21.User;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
@@ -22,6 +27,9 @@ import java.awt.Toolkit;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.Font;
@@ -165,6 +173,7 @@ public class UploadVideo extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("OK");
+		
 		okButton.setBackground(SystemColor.activeCaption);
 		okButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		okButton.setActionCommand("OK");
@@ -172,6 +181,11 @@ public class UploadVideo extends JDialog {
 		getRootPane().setDefaultButton(okButton);
 	
 		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		cancelButton.setBackground(SystemColor.activeCaption);
 		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		cancelButton.setActionCommand("Cancel");
@@ -189,6 +203,31 @@ public class UploadVideo extends JDialog {
 		        if (returnValue == JFileChooser.APPROVE_OPTION) {
 		            fileText.setText(jfc.getSelectedFile().getPath());
 		        }
+			}
+		});
+		
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection con = ConnectionService.getInstance().getConn();
+				User visited = ConnectionService.getInstance().getVisited();
+				String SPsql = "EXEC dbo.insertvideo ?, ?, ?, ?";
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, messageText.getText());
+					ps.setInt(2, visited.getId());
+					ps.setString(3, fileText.getText());
+					ps.setString(4, descriptionText.getText());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(UploadVideo.this, "Video upload was not successful");
+				}
+				finally {
+					dispose();
+				}
 			}
 		});
 	}

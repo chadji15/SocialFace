@@ -40,6 +40,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.IDN;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -332,7 +333,6 @@ public class ViewAlbum extends JPanel {
 				return columnTypes[columnIndex];
 			}
 		});
-		commentsTable.setTableHeader(null);
 		scrollPane_2.setViewportView(commentsTable);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
@@ -429,6 +429,7 @@ public class ViewAlbum extends JPanel {
 					@Override
 					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
 						ViewAlbum.this.refreshPhotos();
+						ViewAlbum.this.refreshAlbum();
 					}
 				});
 				selectPhoto.setVisible(true);
@@ -458,6 +459,7 @@ public class ViewAlbum extends JPanel {
 				DefaultListModel<String> lModel = (DefaultListModel<String>) photoList.getModel();
 				lModel.removeElement(photo);
 				photoList.setSelectedIndex(-1);
+				ViewAlbum.this.refreshAlbum();
 			}
 		});
 		
@@ -508,6 +510,18 @@ public class ViewAlbum extends JPanel {
 			descriptionText.setText(rs.getString(4));
 			locationCombo.setSelectedItem(new IdNamePair(rs.getString(5)));
 			ownerLabel.setText(rs.getString(6));
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		SPsql = "EXEC dbo.countsphotosalbum ?, ?";
+		CallableStatement cs;
+		try {
+			cs = con.prepareCall(SPsql);
+			cs.setInt(1, album.getId());
+			cs.registerOutParameter(2, Types.INTEGER);
+			cs.execute();
+			lblTotalPhotos.setText("Total " + cs.getInt(2) + " photos in this album");
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}

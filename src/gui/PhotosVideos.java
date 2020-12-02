@@ -23,9 +23,13 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.IDN;
 import java.nio.file.Path;
 import java.security.interfaces.RSAMultiPrimePrivateCrtKey;
@@ -48,12 +52,12 @@ import java.awt.SystemColor;
 import java.awt.Color;
 
 public class PhotosVideos extends JPanel {
-	private JTable videoTables;
 	private JTextField searchText;
 	private JTextField searchVideoText;
 	private JList albumList;
 	private int albumid = -1;
 	private JList allPhotosList;
+	private JList videoList;
 	/**
 	 * Create the panel.
 	 */
@@ -162,13 +166,22 @@ public class PhotosVideos extends JPanel {
 				jfc.setAcceptAllFileFilterUsed(false);
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg images", "jpg");
 				jfc.addChoosableFileFilter(filter);
-
 				int returnValue = jfc.showOpenDialog(null);
+				String path = jfc.getSelectedFile().getAbsolutePath();
+				String filename = jfc.getSelectedFile().getName();
+				BufferedImage bimg = null;
+				try {
+					bimg = ImageIO.read(new File(path));
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				int width          = bimg.getWidth();
+				int height         = bimg.getHeight();
+				
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 					// upload photo and refresh
-					String path = jfc.getSelectedFile().getPath();
-					String filename = jfc.getSelectedFile().getName();
-					String SPsql = "EXEC dbo.insertphoto ?, ?, ?";
+					String SPsql = "EXEC dbo.insertphoto ?, ?, ?, ?, ?";
 					PreparedStatement ps = null;
 					int rs = -1;
 					try {
@@ -176,6 +189,8 @@ public class PhotosVideos extends JPanel {
 						ps.setString(1, filename);
 						ps.setString(2, path);
 						ps.setInt(3, visited.getId());
+						ps.setInt(4, width);
+						ps.setInt(5, height);
 						rs = ps.executeUpdate();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -242,6 +257,7 @@ public class PhotosVideos extends JPanel {
 		albumPanel.add(verticalStrut_1, gbc_verticalStrut_1);
 
 		JPanel videoPanel = new JPanel();
+		videoPanel.setBackground(new Color(153, 180, 209));
 		tabbedPane.addTab("Videos", null, videoPanel, null);
 		GridBagLayout gbl_videoPanel = new GridBagLayout();
 		gbl_videoPanel.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -280,15 +296,10 @@ public class PhotosVideos extends JPanel {
 		gbc_btnUploadVideo.gridy = 0;
 		panel.add(btnUploadVideo, gbc_btnUploadVideo);
 
-		btnUploadVideo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UploadVideo uploadVideo = new UploadVideo();
-				uploadVideo.setVisible(true);
-
-			}
-		});
+		
 
 		JButton btnDeleteVideo = new JButton("Delete video");
+		
 		GridBagConstraints gbc_btnDeleteVideo = new GridBagConstraints();
 		gbc_btnDeleteVideo.insets = new Insets(0, 0, 0, 5);
 		gbc_btnDeleteVideo.anchor = GridBagConstraints.NORTHWEST;
@@ -297,6 +308,7 @@ public class PhotosVideos extends JPanel {
 		panel.add(btnDeleteVideo, gbc_btnDeleteVideo);
 
 		JButton btnSearch_1 = new JButton("Search");
+		
 		GridBagConstraints gbc_btnSearch_1 = new GridBagConstraints();
 		gbc_btnSearch_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSearch_1.gridx = 2;
@@ -325,20 +337,10 @@ public class PhotosVideos extends JPanel {
 		gbc_scrollPane_1.gridx = 1;
 		gbc_scrollPane_1.gridy = 2;
 		videoPanel.add(scrollPane_1, gbc_scrollPane_1);
-
-		videoTables = new JTable();
-
-		videoTables.setTableHeader(null);
-		videoTables.setRowSelectionAllowed(false);
-		videoTables.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, },
-				new String[] { "New column", "New column", "New column" }) {
-			boolean[] columnEditables = new boolean[] { false, false, false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		scrollPane_1.setViewportView(videoTables);
+		
+		videoList = new JList();
+		
+		scrollPane_1.setViewportView(videoList);
 
 		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_3 = new GridBagConstraints();
@@ -383,14 +385,31 @@ public class PhotosVideos extends JPanel {
 		gbc_verticalStrut_4.gridy = 0;
 		viewAllPhotos.add(verticalStrut_4, gbc_verticalStrut_4);
 		
-		JButton btnBack = new JButton("Back");
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(153, 180, 209));
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_1.gridx = 1;
+		gbc_panel_1.gridy = 1;
+		viewAllPhotos.add(panel_1, gbc_panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		GridBagConstraints gbc_btnBack = new GridBagConstraints();
-		gbc_btnBack.anchor = GridBagConstraints.WEST;
-		gbc_btnBack.insets = new Insets(0, 0, 5, 5);
-		gbc_btnBack.gridx = 1;
-		gbc_btnBack.gridy = 1;
-		viewAllPhotos.add(btnBack, gbc_btnBack);
+		JButton btnBack = new JButton("Back");
+		panel_1.add(btnBack);
+		
+		JButton btnDeletePhoto = new JButton("Delete photo");
+		
+		panel_1.add(btnDeletePhoto);
+		
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardPanel.removeAll();
+				cardPanel.add(tabbedPane);
+				cardPanel.revalidate();
+				cardPanel.repaint();
+			}
+		});
 		
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_4 = new GridBagConstraints();
@@ -460,8 +479,11 @@ public class PhotosVideos extends JPanel {
 				if (e.getClickCount() == 2) {
 					if (viewAlbum.getPhotoList().isSelectionEmpty())
 						return;
+					IdNamePair photo = (IdNamePair) viewAlbum.getPhotoList().getSelectedValue(); 
+					ConnectionService.getInstance().setPhoto(photo);
 					cardPanel.removeAll();
 					cardPanel.add(viewPhoto);
+					viewPhoto.refresh();
 					cardPanel.revalidate();
 					cardPanel.repaint();
 				}
@@ -470,26 +492,16 @@ public class PhotosVideos extends JPanel {
 		viewPhoto.getBtnBack().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
-				if (ConnectionService.getInstance().getAlbum().getId() == -1)
+				if (ConnectionService.getInstance().getAlbum().getId() == -1) {
 					cardPanel.add(viewAllPhotos);
-				else
+					loadAllPhotos();
+				}
+				else {
 					cardPanel.add(viewAlbum);
+					viewAlbum.refreshPhotos();
+				}
 				cardPanel.revalidate();
 				cardPanel.repaint();
-			}
-		});
-		videoTables.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					if (videoTables.getSelectionModel().isSelectionEmpty()) 
-						return;
-					
-					cardPanel.removeAll();
-					cardPanel.add(viewVideo);
-					cardPanel.revalidate();
-					cardPanel.repaint();
-				}
 			}
 		});
 
@@ -500,6 +512,7 @@ public class PhotosVideos extends JPanel {
 				// TODO Auto-generated method stub
 				cardPanel.removeAll();
 				cardPanel.add(tabbedPane);
+				refreshVideos();
 				cardPanel.revalidate();
 				cardPanel.repaint();
 			}
@@ -529,13 +542,12 @@ public class PhotosVideos extends JPanel {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
-				if (rs > 0) {
-					DefaultListModel<String> lModel = (DefaultListModel<String>) albumList.getModel();
-					lModel.removeElement(album);
-				} else {
 					JOptionPane.showMessageDialog(PhotosVideos.this, "Update was not succesful.");
 				}
+				
+				DefaultListModel<String> lModel = (DefaultListModel<String>) albumList.getModel();
+				lModel.removeElement(album);
+		
 				albumList.setSelectedIndex(-1);
 			}
 		});
@@ -581,15 +593,6 @@ public class PhotosVideos extends JPanel {
 			}
 		});
 		
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cardPanel.removeAll();
-				cardPanel.add(tabbedPane);
-				cardPanel.revalidate();
-				cardPanel.repaint();
-			}
-		});
-		
 		allPhotosList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -599,17 +602,130 @@ public class PhotosVideos extends JPanel {
 					return;
 				cardPanel.removeAll();
 				cardPanel.add(viewPhoto);
+				ConnectionService.getInstance().setPhoto((IdNamePair) allPhotosList.getSelectedValue()); 
+				viewPhoto.refresh();
 				cardPanel.revalidate();
 				cardPanel.repaint();
 			}
 		});
+		
+		btnDeletePhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (allPhotosList.isSelectionEmpty())
+					return;
+				IdNamePair photo = (IdNamePair) allPhotosList.getSelectedValue();
+				String SPsql = "EXEC dbo.deletephotos ?";
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, photo.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(PhotosVideos.this, "Update was not succesful.");
+				}
+		
+				DefaultListModel<String> lModel = (DefaultListModel<String>) allPhotosList.getModel();
+				lModel.removeElement(photo);
+				allPhotosList.setSelectedIndex(-1);
+			}
+		});
+		
+		btnUploadVideo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UploadVideo uploadVideo = new UploadVideo();
+				uploadVideo.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+						PhotosVideos.this.refreshVideos();
+					}
+				});
+				uploadVideo.setVisible(true);
+			}
+		});
+		
+		btnDeleteVideo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (videoList.isSelectionEmpty())
+					return;
+				IdNamePair video = (IdNamePair) videoList.getSelectedValue();
+				String SPsql = "EXEC dbo.deletevideo ?";
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, video.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(PhotosVideos.this, "Update was not succesful.");
+					return;
+				}
+		
+				DefaultListModel<String> lModel = (DefaultListModel<String>) videoList.getModel();
+				lModel.removeElement(video);
+				allPhotosList.setSelectedIndex(-1);
+			}
+		});
 
+		btnSearch_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String searchstr = searchVideoText.getText();
+				if (searchstr.length() == 0) {
+					refreshVideos();
+					return;
+				}
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.searchvideo ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				ResultSet rs;
+				User visited = ConnectionService.getInstance().getVisited();
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, searchstr);
+					ps.setInt(2, visited.getId());
+					rs = ps.executeQuery();
+					while (rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(PhotosVideos.this, "Search failed");
+					
+				}
+				videoList.setModel(iModel);
+			}
+		});
+		
+		videoList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() < 2)
+					return;
+				if (videoList.isSelectionEmpty())
+					return;
+				IdNamePair video = (IdNamePair) videoList.getSelectedValue();
+				ConnectionService.getInstance().setVideo(video);
+				cardPanel.removeAll();
+				cardPanel.add(viewVideo);
+				viewVideo.refreshVideo();
+				viewVideo.refreshComments();
+				cardPanel.revalidate();
+				cardPanel.repaint();
+			}
+		});
+			
 		refresh();
+		refreshVideos();
 	}
 
 	public void refresh() {
 		if (ConnectionService.isCurrentUser())
 			refreshCurr();
+			
 	}
 
 	private void refreshCurr() {
@@ -655,6 +771,27 @@ public class PhotosVideos extends JPanel {
 			e.printStackTrace();
 		}
 		allPhotosList.setModel(iModel);
+	}
+	
+	public void refreshVideos() {
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.getuserVideos ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		User visited = ConnectionService.getInstance().getVisited();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		videoList.setModel(iModel);
 	}
 
 }

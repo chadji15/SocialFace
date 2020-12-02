@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.net.IDN;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,6 +40,7 @@ public class AddComment extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField commentText;
+	private JButton okButton;
 
 	/**
 	 * Launch the application.
@@ -119,7 +121,7 @@ public class AddComment extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.setBackground(SystemColor.activeCaption);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -130,10 +132,10 @@ public class AddComment extends JDialog {
 						IdNamePair album = ConnectionService.getInstance().getAlbum();
 						User user = ConnectionService.getInstance().getUser();
 						String SPsql = "EXEC dbo.insertalbumcomments ?, ?, ?";
-						PreparedStatement ps;
+						CallableStatement ps;
 						int rs;
 						try {
-							ps = con.prepareStatement(SPsql);
+							ps = con.prepareCall(SPsql);
 							ps.setInt(1, album.getId());
 							ps.setInt(2, user.getId());
 							ps.setString(3, comment);
@@ -164,6 +166,39 @@ public class AddComment extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	public void setVideoComment() {
+		 for( ActionListener al : okButton.getActionListeners() ) {
+		        okButton.removeActionListener( al );
+		    }
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String comment = commentText.getText();
+				if (comment.length()==0)
+					dispose();
+				Connection con = ConnectionService.getInstance().getConn();
+				IdNamePair video = ConnectionService.getInstance().getVideo();
+				User user = ConnectionService.getInstance().getUser();
+				String SPsql = "EXEC dbo.insertvideocomment ?, ?, ?";
+				CallableStatement ps;
+				int rs;
+				try {
+					ps = con.prepareCall(SPsql);
+					ps.setString(1, comment);
+					ps.setInt(2, video.getId());
+					ps.setInt(3, user.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(AddComment.this, "Adding comment was not successful");
+					
+				} finally {
+					dispose();
+				}
+				
+			}
+		});
 	}
 
 }

@@ -19,7 +19,10 @@ public class ConnectionService {
 	private Connection conn;
 	private IdNamePair album;
 	private IdNamePair photo;
+	private IdNamePair video;
 	
+	
+
 	private ConnectionService() {
 		ConnectionService.server = "apollo.in.cs.ucy.ac.cy";
 		ConnectionService.database = "atzoum01";
@@ -87,5 +90,13 @@ public class ConnectionService {
 
 	public void setPhoto(IdNamePair photo) {
 		this.photo = photo;
+	}
+	
+	public IdNamePair getVideo() {
+		return video;
+	}
+
+	public void setVideo(IdNamePair video) {
+		this.video = video;
 	}
 }
