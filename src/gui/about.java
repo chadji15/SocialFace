@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -27,6 +28,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.net.IDN;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -282,10 +284,7 @@ public class about extends JPanel {
 		
 		JButton btnAddFriend = new JButton("Add friend");
 		btnAddFriend.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnAddFriend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		
 		btnAddFriend.setBackground(SystemColor.activeCaption);
 		btnAddFriend.setBounds(160, 53, 91, 25);
 		panel.add(btnAddFriend);
@@ -293,6 +292,28 @@ public class about extends JPanel {
 		setLayout(groupLayout);
 		
 		editbutton.setEnabled(ConnectionService.isCurrentUser());
+		
+		btnAddFriend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				User user = ConnectionService.getInstance().getUser();
+				User visited = ConnectionService.getInstance().getVisited();
+				Connection con = ConnectionService.getInstance().getConn();
+				String SPsql = "EXEC dbo.insertrequests ?, ?";
+				CallableStatement ps;
+				int rs;
+				try {
+					ps = con.prepareCall(SPsql);
+					ps.setInt(1, user.getId());
+					ps.setInt(2, visited.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(about.this, "You have already sent a friend request to this person.");
+
+				}
+			}
+		});
 		
 		refresh();
 	}

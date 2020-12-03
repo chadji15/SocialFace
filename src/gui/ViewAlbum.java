@@ -58,7 +58,6 @@ import javax.swing.SwingConstants;
 public class ViewAlbum extends JPanel {
 	private JTable commentsTable;
 	private JButton backButton;
-	private JTextField searchPhotoText;
 	private JList photoList;
 	private JTextField txtAlbumName;
 	private JLabel lblOwner;
@@ -260,23 +259,6 @@ public class ViewAlbum extends JPanel {
 		gbc_editToggle.gridy = 0;
 		panel.add(editToggle, gbc_editToggle);
 		
-		JButton btnSearch = new JButton("Search");
-		
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 10));
-		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
-		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSearch.gridx = 5;
-		gbc_btnSearch.gridy = 0;
-		panel.add(btnSearch, gbc_btnSearch);
-		
-		searchPhotoText = new JTextField();
-		GridBagConstraints gbc_searchPhotoText = new GridBagConstraints();
-		gbc_searchPhotoText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_searchPhotoText.gridx = 6;
-		gbc_searchPhotoText.gridy = 0;
-		panel.add(searchPhotoText, gbc_searchPhotoText);
-		searchPhotoText.setColumns(10);
-		
 		lblTotalPhotos = new JLabel("Total: 10 photographs");
 		lblTotalPhotos.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblTotalPhotos = new GridBagConstraints();
@@ -460,34 +442,6 @@ public class ViewAlbum extends JPanel {
 				lModel.removeElement(photo);
 				photoList.setSelectedIndex(-1);
 				ViewAlbum.this.refreshAlbum();
-			}
-		});
-		
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (searchPhotoText.getText().length() == 0) {
-					refreshPhotos();
-					return;
-				}
-				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
-				String SPsql = "EXEC dbo.searchphoto ?, ?";
-				Connection con = ConnectionService.getInstance().getConn();
-				PreparedStatement ps;
-				ResultSet rs;
-				User visited = ConnectionService.getInstance().getVisited();
-				try {
-					ps = con.prepareStatement(SPsql);
-					ps.setString(1, searchPhotoText.getText());
-					ps.setInt(2, visited.getId());
-					rs = ps.executeQuery();
-					while (rs.next()) {
-						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				photoList.setModel(iModel);
 			}
 		});
 		

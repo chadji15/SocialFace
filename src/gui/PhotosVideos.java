@@ -58,6 +58,7 @@ public class PhotosVideos extends JPanel {
 	private int albumid = -1;
 	private JList allPhotosList;
 	private JList videoList;
+	private JTextField txtSearchAllPhotos;
 	/**
 	 * Create the panel.
 	 */
@@ -393,14 +394,20 @@ public class PhotosVideos extends JPanel {
 		gbc_panel_1.gridx = 1;
 		gbc_panel_1.gridy = 1;
 		viewAllPhotos.add(panel_1, gbc_panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{59, 105, 73, 116, 0};
+		gbl_panel_1.rowHeights = new int[]{25, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
 		
 		JButton btnBack = new JButton("Back");
-		panel_1.add(btnBack);
-		
-		JButton btnDeletePhoto = new JButton("Delete photo");
-		
-		panel_1.add(btnDeletePhoto);
+		GridBagConstraints gbc_btnBack = new GridBagConstraints();
+		gbc_btnBack.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnBack.insets = new Insets(0, 0, 0, 5);
+		gbc_btnBack.gridx = 0;
+		gbc_btnBack.gridy = 0;
+		panel_1.add(btnBack, gbc_btnBack);
 		
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -410,6 +417,56 @@ public class PhotosVideos extends JPanel {
 				cardPanel.repaint();
 			}
 		});
+		
+		JButton btnDeletePhoto = new JButton("Delete photo");
+		
+		GridBagConstraints gbc_btnDeletePhoto = new GridBagConstraints();
+		gbc_btnDeletePhoto.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnDeletePhoto.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDeletePhoto.gridx = 1;
+		gbc_btnDeletePhoto.gridy = 0;
+		panel_1.add(btnDeletePhoto, gbc_btnDeletePhoto);
+		
+		btnDeletePhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (allPhotosList.isSelectionEmpty())
+					return;
+				IdNamePair photo = (IdNamePair) allPhotosList.getSelectedValue();
+				String SPsql = "EXEC dbo.deletephotos ?";
+				PreparedStatement ps = null;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, photo.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(PhotosVideos.this, "Update was not succesful.");
+				}
+		
+				DefaultListModel<String> lModel = (DefaultListModel<String>) allPhotosList.getModel();
+				lModel.removeElement(photo);
+				allPhotosList.setSelectedIndex(-1);
+			}
+		});
+		
+		JButton btnSearchAllPhotos = new JButton("Search");
+		
+		GridBagConstraints gbc_btnSearchAllPhotos = new GridBagConstraints();
+		gbc_btnSearchAllPhotos.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnSearchAllPhotos.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSearchAllPhotos.gridx = 2;
+		gbc_btnSearchAllPhotos.gridy = 0;
+		panel_1.add(btnSearchAllPhotos, gbc_btnSearchAllPhotos);
+		
+		txtSearchAllPhotos = new JTextField();
+		GridBagConstraints gbc_txtSearchAllPhotos = new GridBagConstraints();
+		gbc_txtSearchAllPhotos.fill = GridBagConstraints.BOTH;
+		gbc_txtSearchAllPhotos.gridx = 3;
+		gbc_txtSearchAllPhotos.gridy = 0;
+		panel_1.add(txtSearchAllPhotos, gbc_txtSearchAllPhotos);
+		txtSearchAllPhotos.setColumns(10);
 		
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_4 = new GridBagConstraints();
@@ -524,6 +581,7 @@ public class PhotosVideos extends JPanel {
 			btnDeleteVideo.setEnabled(false);
 			btnUploadPhoto.setEnabled(false);
 			btnUploadVideo.setEnabled(false);
+			btnDeletePhoto.setEnabled(false);
 		}
 
 		btnDeleteAlbum.addActionListener(new ActionListener() {
@@ -609,30 +667,6 @@ public class PhotosVideos extends JPanel {
 			}
 		});
 		
-		btnDeletePhoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (allPhotosList.isSelectionEmpty())
-					return;
-				IdNamePair photo = (IdNamePair) allPhotosList.getSelectedValue();
-				String SPsql = "EXEC dbo.deletephotos ?";
-				PreparedStatement ps = null;
-				int rs = -1;
-				try {
-					ps = con.prepareStatement(SPsql);
-					ps.setInt(1, photo.getId());
-					rs = ps.executeUpdate();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(PhotosVideos.this, "Update was not succesful.");
-				}
-		
-				DefaultListModel<String> lModel = (DefaultListModel<String>) allPhotosList.getModel();
-				lModel.removeElement(photo);
-				allPhotosList.setSelectedIndex(-1);
-			}
-		});
-		
 		btnUploadVideo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UploadVideo uploadVideo = new UploadVideo();
@@ -715,6 +749,34 @@ public class PhotosVideos extends JPanel {
 				viewVideo.refreshComments();
 				cardPanel.revalidate();
 				cardPanel.repaint();
+			}
+		});
+		
+		btnSearchAllPhotos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (txtSearchAllPhotos.getText().length() == 0) {
+					loadAllPhotos();
+					return;
+				}
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.searchphoto ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				ResultSet rs;
+				User visited = ConnectionService.getInstance().getVisited();
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setString(1, txtSearchAllPhotos.getText());
+					ps.setInt(2, visited.getId());
+					rs = ps.executeQuery();
+					while (rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				allPhotosList.setModel(iModel);
 			}
 		});
 			

@@ -145,6 +145,7 @@ public class search extends JPanel {
 		paramSearch_1_1.add(verticalStrut_4_1_1, gbc_verticalStrut_4_1_1);
 		
 		JRadioButton rdbtnSeach_1_1 = new JRadioButton("Search:");
+		rdbtnSeach_1_1.setSelected(true);
 		buttonGroup.add(rdbtnSeach_1_1);
 		GridBagConstraints gbc_rdbtnSeach_1_1 = new GridBagConstraints();
 		gbc_rdbtnSeach_1_1.anchor = GridBagConstraints.WEST;
@@ -275,9 +276,9 @@ public class search extends JPanel {
 		peopleSearch.add(panel_2, gbc_panel_2);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
 		gbl_panel_2.columnWidths = new int[]{34, 83, 30, 42, 0};
-		gbl_panel_2.rowHeights = new int[]{0, 25, 0, 0, 0};
+		gbl_panel_2.rowHeights = new int[]{0, 25, 0, 0, 0, 0, 0};
 		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -335,7 +336,7 @@ public class search extends JPanel {
 		lblScope_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_lblScope_1_1_1 = new GridBagConstraints();
 		gbc_lblScope_1_1_1.anchor = GridBagConstraints.WEST;
-		gbc_lblScope_1_1_1.insets = new Insets(0, 0, 0, 5);
+		gbc_lblScope_1_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblScope_1_1_1.gridx = 1;
 		gbc_lblScope_1_1_1.gridy = 3;
 		panel_2.add(lblScope_1_1_1, gbc_lblScope_1_1_1);
@@ -345,10 +346,19 @@ public class search extends JPanel {
 		comboBox_1_1.setModel(new DefaultComboBoxModel(new String[] {"Friends", "Network"}));
 		GridBagConstraints gbc_comboBox_1_1 = new GridBagConstraints();
 		gbc_comboBox_1_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1_1.insets = new Insets(0, 0, 0, 5);
+		gbc_comboBox_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_1_1.gridx = 2;
 		gbc_comboBox_1_1.gridy = 3;
 		panel_2.add(comboBox_1_1, gbc_comboBox_1_1);
+		
+		JRadioButton rdbtnFindFriendsWith = new JRadioButton("Find friends with common friends");
+		buttonGroup.add(rdbtnFindFriendsWith);
+		GridBagConstraints gbc_rdbtnFindFriendsWith = new GridBagConstraints();
+		gbc_rdbtnFindFriendsWith.gridwidth = 2;
+		gbc_rdbtnFindFriendsWith.insets = new Insets(0, 0, 0, 5);
+		gbc_rdbtnFindFriendsWith.gridx = 1;
+		gbc_rdbtnFindFriendsWith.gridy = 5;
+		panel_2.add(rdbtnFindFriendsWith, gbc_rdbtnFindFriendsWith);
 		
 		btnSearch = new JButton("Search");
 		btnSearch.setBackground(SystemColor.activeCaption);

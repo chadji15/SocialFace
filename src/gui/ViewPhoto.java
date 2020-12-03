@@ -273,6 +273,6 @@ public class ViewPhoto extends JPanel {
 			e1.printStackTrace();
 		}
 		
-		
+		tglbtnEdit.setEnabled(ConnectionService.isCurrentUser());
 	}
 }

@@ -20,7 +20,7 @@ public class ConnectionService {
 	private IdNamePair album;
 	private IdNamePair photo;
 	private IdNamePair video;
-	
+	private IdNamePair event;
 	
 
 	private ConnectionService() {
@@ -99,4 +99,14 @@ public class ConnectionService {
 	public void setVideo(IdNamePair video) {
 		this.video = video;
 	}
+	
+
+	public IdNamePair getEvent() {
+		return event;
+	}
+
+	public void setEvent(IdNamePair event) {
+		this.event = event;
+	}
+
 }

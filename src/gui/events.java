@@ -13,6 +13,8 @@ import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
 
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.User;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
@@ -20,22 +22,32 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.AbstractListModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.EventListener;
+
 import javax.swing.JTextField;
 
 public class events extends JPanel {
 	private JTextField searchEventText;
+	private JList eventsList;
 
 	/**
 	 * Create the panel.
@@ -89,15 +101,11 @@ public class events extends JPanel {
 		panel.add(btnCreateEvent);
 		
 		JButton btnDeleteEvent = new JButton("Delete event");
+		
 		btnDeleteEvent.setBackground(SystemColor.activeCaption);
 		panel.add(btnDeleteEvent);
 		
-		btnCreateEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				newEvent n = new newEvent();
-				n.setVisible(true);
-			}
-		});
+		
 		
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -114,6 +122,7 @@ public class events extends JPanel {
 		panel_1.setLayout(gbl_panel_1);
 		
 		JButton searchButton = new JButton("Search");
+		
 		searchButton.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_searchButton = new GridBagConstraints();
 		gbc_searchButton.insets = new Insets(0, 0, 0, 5);
@@ -144,9 +153,9 @@ public class events extends JPanel {
 		gbc_scrollPane.gridy = 4;
 		add(scrollPane, gbc_scrollPane);
 		
-		JList myEventsList = new JList();
+		eventsList = new JList();
 		
-		myEventsList.setModel(new AbstractListModel() {
+		eventsList.setModel(new AbstractListModel() {
 			String[] values = new String[] {"event1"};
 			public int getSize() {
 				return values.length;
@@ -155,7 +164,7 @@ public class events extends JPanel {
 				return values[index];
 			}
 		});
-		scrollPane.setViewportView(myEventsList);
+		scrollPane.setViewportView(eventsList);
 		
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
@@ -189,11 +198,11 @@ public class events extends JPanel {
 		gbc_verticalStrut_1.gridy = 5;
 		add(verticalStrut_1, gbc_verticalStrut_1);
 
-		myEventsList.addMouseListener(new MouseAdapter() {
+		eventsList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					if (myEventsList.isSelectionEmpty())
+					if (eventsList.isSelectionEmpty())
 						return;
 					displayEvent d = new displayEvent();
 					d.setVisible(true);
@@ -207,5 +216,87 @@ public class events extends JPanel {
 			lblEventsYouAre.setText("Events " + ConnectionService.getInstance().getVisited() + " created");
 			lblEventsYouAre_1.setText("Events you are both attending");
 		}
+		
+		btnCreateEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newEvent n = new newEvent();
+				n.setVisible(true);
+				refreshEvents();
+			}
+		});
+		
+		searchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.searchUserEvents ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				ResultSet rs;
+				User visited = ConnectionService.getInstance().getVisited();
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, visited.getId());
+					ps.setString(2, searchEventText.getText());
+					rs = ps.executeQuery();
+					while (rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				eventsList.setModel(iModel);
+			}
+		});
+		
+		
+		btnDeleteEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (eventsList.isSelectionEmpty())
+					return;
+				IdNamePair event = (IdNamePair) eventsList.getSelectedValue();
+				String SPsql = "EXEC dbo.deleteevents ?";
+				PreparedStatement ps = null;
+				Connection con = ConnectionService.getInstance().getConn();
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, event.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(events.this, "Update was not succesful.");
+					return;
+				}
+		
+				DefaultListModel<String> lModel = (DefaultListModel<String>) eventsList.getModel();
+				lModel.removeElement(event);
+				eventsList.setSelectedIndex(-1);
+			}
+		});
+		
+		refreshEvents();
+	}
+	
+	public void refreshEvents() {
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.getUserEvents ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		User visited = ConnectionService.getInstance().getVisited();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		eventsList.setModel(iModel);
 	}
 }

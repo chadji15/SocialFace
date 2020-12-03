@@ -120,6 +120,19 @@ public class ViewFriends extends JPanel {
 		panel_2.add(btnShowFriendsWith);
 		btnShowFriendsWith.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
+		JPanel panel_3 = new JPanel();
+		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_3.fill = GridBagConstraints.BOTH;
+		gbc_panel_3.gridx = 2;
+		gbc_panel_3.gridy = 3;
+		add(panel_3, gbc_panel_3);
+		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JToggleButton btnShowIgnored = new JToggleButton("Show ignored");
+		
+		panel_3.add(btnShowIgnored);
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -152,14 +165,17 @@ public class ViewFriends extends JPanel {
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton acceptButton = new JButton("Accept");
+		
 		acceptButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		buttonPanel.add(acceptButton);
 		
 		JButton declineButton = new JButton("Decline");
+		
 		declineButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		buttonPanel.add(declineButton);
 		
 		JButton ignoreButton = new JButton("Ignore");
+		
 		ignoreButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		buttonPanel.add(ignoreButton);
 		
@@ -207,6 +223,7 @@ public class ViewFriends extends JPanel {
 		add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		User visited = ConnectionService.getInstance().getVisited();
+		User user = ConnectionService.getInstance().getUser();
 		Connection con = ConnectionService.getInstance().getConn();
 		
 		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
@@ -231,8 +248,11 @@ public class ViewFriends extends JPanel {
 			removeFriendButton.setEnabled(false);
 			btnShowFriendsWith.setEnabled(false);
 			btnShowMostPopular.setEnabled(false);
-			lblFriendRequests.setText("Common friends");
+			lblFriendRequests.setVisible(false);
 			buttonPanel.setVisible(false);
+			panel_3.setVisible(false);
+			friendRequestsList.setVisible(false);
+			scrollPane_1.setVisible(false);
 			// populate with common friends: friendRequestsList
 		}
 		else {
@@ -248,7 +268,23 @@ public class ViewFriends extends JPanel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			 SPsql = "EXEC dbo.showNotIgnored ?";
+			 DefaultListModel<IdNamePair> rModel = new DefaultListModel<>();
+			 try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, user.getId());
+					rs = ps.executeQuery();
+					while(rs.next()) {
+						rModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 friendRequestsList.setModel(rModel);
 		}
+		
 		
 		btnShowAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -338,6 +374,141 @@ public class ViewFriends extends JPanel {
 					JOptionPane.showMessageDialog(ViewFriends.this, "Update was not succesful.");
 				}
 				friendList.setSelectedIndex(-1);
+			}
+		});
+		
+		acceptButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (friendRequestsList.isSelectionEmpty()) return;
+				IdNamePair request = (IdNamePair) friendRequestsList.getSelectedValue();
+				String SPsql = "EXEC dbo.insertFriends ?, ?";
+				PreparedStatement ps;
+				int rs = -1;
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, user.getId());
+					ps.setInt(2, request.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(ViewFriends.this, "Update was not succesful.");
+					return;
+				}
+				
+				SPsql = "EXEC dbo.deleterequests ?, ?";
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, request.getId());
+					ps.setInt(2, user.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(ViewFriends.this, "Update was not succesful.");
+					return;
+				}
+				
+				friendRequestsList.setSelectedIndex(-1);
+				
+				DefaultListModel<IdNamePair> rModel = (DefaultListModel<IdNamePair>) friendRequestsList.getModel();
+				rModel.removeElement(request);
+				DefaultListModel<IdNamePair> fModel = (DefaultListModel<IdNamePair>) friendList.getModel();
+				fModel.addElement(request);
+
+			}
+		});
+		
+		declineButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (friendRequestsList.isSelectionEmpty()) return;
+				IdNamePair request = (IdNamePair) friendRequestsList.getSelectedValue();
+				String SPsql;
+				PreparedStatement ps;
+				int rs = -1;
+				SPsql = "EXEC dbo.deleterequests ?, ?";
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, request.getId());
+					ps.setInt(2, user.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(ViewFriends.this, "Update was not succesful.");
+					return;
+				}
+				friendRequestsList.setSelectedIndex(-1);
+				
+				DefaultListModel<IdNamePair> rModel = (DefaultListModel<IdNamePair>) friendRequestsList.getModel();
+				rModel.removeElement(request);
+			}
+		});
+		
+		ignoreButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (friendRequestsList.isSelectionEmpty()) return;
+				IdNamePair request = (IdNamePair) friendRequestsList.getSelectedValue();
+				String SPsql;
+				PreparedStatement ps;
+				int rs = -1;
+				SPsql = "EXEC dbo.ignoreRequest ?, ?";
+				try {
+					ps = con.prepareStatement(SPsql);
+					ps.setInt(1, request.getId());
+					ps.setInt(2, user.getId());
+					rs = ps.executeUpdate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(ViewFriends.this, "Update was not succesful.");
+					return;
+				}
+				friendRequestsList.setSelectedIndex(-1);
+				
+				DefaultListModel<IdNamePair> rModel = (DefaultListModel<IdNamePair>) friendRequestsList.getModel();
+				rModel.removeElement(request);
+			}
+		});
+		
+		btnShowIgnored.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String SPsql;
+				PreparedStatement ps;
+				Connection con = ConnectionService.getInstance().getConn();
+				ResultSet rs;
+ 				if (btnShowIgnored.isSelected()) {
+ 					 SPsql = "EXEC dbo.showrequests ?";
+ 					 DefaultListModel<IdNamePair> rModel = new DefaultListModel<>();
+ 					 try {
+ 							ps = con.prepareStatement(SPsql);
+ 							ps.setInt(1, user.getId());
+ 							rs = ps.executeQuery();
+ 							while(rs.next()) {
+ 								rModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+ 							}
+ 						} catch (SQLException e1) {
+ 							// TODO Auto-generated catch block
+ 							e1.printStackTrace();
+ 						}
+ 					 friendRequestsList.setModel(rModel);
+				}
+				else {
+					 SPsql = "EXEC dbo.showNotIgnored ?";
+					 DefaultListModel<IdNamePair> rModel = new DefaultListModel<>();
+					 try {
+							ps = con.prepareStatement(SPsql);
+							ps.setInt(1, user.getId());
+							rs = ps.executeQuery();
+							while(rs.next()) {
+								rModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					 friendRequestsList.setModel(rModel);
+				}
 			}
 		});
 	}
