@@ -6,6 +6,10 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+
+import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.User;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
@@ -29,19 +33,37 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JSpinner;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ButtonGroup;
 import javax.swing.SpinnerNumberModel;
 import java.awt.SystemColor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
 
 public class search extends JPanel {
 	private JButton btnSearch;
 	private JTextField txtEventName;
 	private JTextField txtVenue;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
+	private JCheckBox chckbxByName_2;
+	private JCheckBox chckbxByBirthday_1;
+	private JCheckBox chckbxByLocation_1;
+	private JCheckBox chckbxBySchool_1;
+	private JCheckBox chckbxByEmployer_1;
+	private JDateChooser birthdayLine;
+	private JRadioButton rdbtnFindFriends;
+	private JRadioButton rdbtnSearch;
+	private JRadioButton rdbtnFindFriendsWith;
+	private JSpinner albumSpinner_1;
+	private JComboBox scopeCombo;
+	private JTextField txtname;
+	private JComboBox comboLocation;
+	private JTextField txtEducation;
+	private JTextField txtemployer;
 
 	/**
 	 * Create the panel.
@@ -144,15 +166,15 @@ public class search extends JPanel {
 		gbc_verticalStrut_4_1_1.gridy = 0;
 		paramSearch_1_1.add(verticalStrut_4_1_1, gbc_verticalStrut_4_1_1);
 		
-		JRadioButton rdbtnSeach_1_1 = new JRadioButton("Search:");
-		rdbtnSeach_1_1.setSelected(true);
-		buttonGroup.add(rdbtnSeach_1_1);
-		GridBagConstraints gbc_rdbtnSeach_1_1 = new GridBagConstraints();
-		gbc_rdbtnSeach_1_1.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnSeach_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnSeach_1_1.gridx = 1;
-		gbc_rdbtnSeach_1_1.gridy = 1;
-		paramSearch_1_1.add(rdbtnSeach_1_1, gbc_rdbtnSeach_1_1);
+		rdbtnSearch = new JRadioButton("Search:");
+		rdbtnSearch.setSelected(true);
+		buttonGroup.add(rdbtnSearch);
+		GridBagConstraints gbc_rdbtnSearch = new GridBagConstraints();
+		gbc_rdbtnSearch.anchor = GridBagConstraints.WEST;
+		gbc_rdbtnSearch.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnSearch.gridx = 1;
+		gbc_rdbtnSearch.gridy = 1;
+		paramSearch_1_1.add(rdbtnSearch, gbc_rdbtnSearch);
 		
 		Component horizontalStrut_5_1_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_5_1_1 = new GridBagConstraints();
@@ -161,24 +183,24 @@ public class search extends JPanel {
 		gbc_horizontalStrut_5_1_1.gridy = 2;
 		paramSearch_1_1.add(horizontalStrut_5_1_1, gbc_horizontalStrut_5_1_1);
 		
-		JCheckBox chckbxByName_2_1 = new JCheckBox("By name:");
-		chckbxByName_2_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		chckbxByName_2_1.setBackground(SystemColor.menu);
-		GridBagConstraints gbc_chckbxByName_2_1 = new GridBagConstraints();
-		gbc_chckbxByName_2_1.anchor = GridBagConstraints.WEST;
-		gbc_chckbxByName_2_1.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxByName_2_1.gridx = 1;
-		gbc_chckbxByName_2_1.gridy = 2;
-		paramSearch_1_1.add(chckbxByName_2_1, gbc_chckbxByName_2_1);
+		chckbxByName_2 = new JCheckBox("By name:");
+		chckbxByName_2.setFont(new Font("Tahoma", Font.BOLD, 10));
+		chckbxByName_2.setBackground(SystemColor.menu);
+		GridBagConstraints gbc_chckbxByName_2 = new GridBagConstraints();
+		gbc_chckbxByName_2.anchor = GridBagConstraints.WEST;
+		gbc_chckbxByName_2.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxByName_2.gridx = 1;
+		gbc_chckbxByName_2.gridy = 2;
+		paramSearch_1_1.add(chckbxByName_2, gbc_chckbxByName_2);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 2;
-		paramSearch_1_1.add(textField_4, gbc_textField_4);
+		txtname = new JTextField();
+		txtname.setColumns(10);
+		GridBagConstraints gbc_txtname = new GridBagConstraints();
+		gbc_txtname.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtname.insets = new Insets(0, 0, 5, 5);
+		gbc_txtname.gridx = 2;
+		gbc_txtname.gridy = 2;
+		paramSearch_1_1.add(txtname, gbc_txtname);
 		
 		Component horizontalStrut_6_1_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_6_1_1 = new GridBagConstraints();
@@ -187,77 +209,76 @@ public class search extends JPanel {
 		gbc_horizontalStrut_6_1_1.gridy = 2;
 		paramSearch_1_1.add(horizontalStrut_6_1_1, gbc_horizontalStrut_6_1_1);
 		
-		JCheckBox chckbxByBirthday_1_1 = new JCheckBox("By birthday:");
-		chckbxByBirthday_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		chckbxByBirthday_1_1.setBackground(SystemColor.menu);
-		GridBagConstraints gbc_chckbxByBirthday_1_1 = new GridBagConstraints();
-		gbc_chckbxByBirthday_1_1.anchor = GridBagConstraints.WEST;
-		gbc_chckbxByBirthday_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxByBirthday_1_1.gridx = 1;
-		gbc_chckbxByBirthday_1_1.gridy = 3;
-		paramSearch_1_1.add(chckbxByBirthday_1_1, gbc_chckbxByBirthday_1_1);
+		chckbxByBirthday_1 = new JCheckBox("By birthday:");
+		chckbxByBirthday_1.setFont(new Font("Tahoma", Font.BOLD, 10));
+		chckbxByBirthday_1.setBackground(SystemColor.menu);
+		GridBagConstraints gbc_chckbxByBirthday_1 = new GridBagConstraints();
+		gbc_chckbxByBirthday_1.anchor = GridBagConstraints.WEST;
+		gbc_chckbxByBirthday_1.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxByBirthday_1.gridx = 1;
+		gbc_chckbxByBirthday_1.gridy = 3;
+		paramSearch_1_1.add(chckbxByBirthday_1, gbc_chckbxByBirthday_1);
 		
-		JDateChooser dateChooser_2_1 = new JDateChooser();
-		dateChooser_2_1.getCalendarButton().setBackground(SystemColor.activeCaption);
-		GridBagConstraints gbc_dateChooser_2_1 = new GridBagConstraints();
-		gbc_dateChooser_2_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_dateChooser_2_1.insets = new Insets(0, 0, 5, 5);
-		gbc_dateChooser_2_1.gridx = 2;
-		gbc_dateChooser_2_1.gridy = 3;
-		paramSearch_1_1.add(dateChooser_2_1, gbc_dateChooser_2_1);
+		birthdayLine = new JDateChooser();
+		birthdayLine.getCalendarButton().setBackground(SystemColor.activeCaption);
+		GridBagConstraints gbc_birthdayLine = new GridBagConstraints();
+		gbc_birthdayLine.fill = GridBagConstraints.HORIZONTAL;
+		gbc_birthdayLine.insets = new Insets(0, 0, 5, 5);
+		gbc_birthdayLine.gridx = 2;
+		gbc_birthdayLine.gridy = 3;
+		paramSearch_1_1.add(birthdayLine, gbc_birthdayLine);
 		
-		JCheckBox chckbxByLocation_1_1 = new JCheckBox("By location:");
-		chckbxByLocation_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		GridBagConstraints gbc_chckbxByLocation_1_1 = new GridBagConstraints();
-		gbc_chckbxByLocation_1_1.anchor = GridBagConstraints.WEST;
-		gbc_chckbxByLocation_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxByLocation_1_1.gridx = 1;
-		gbc_chckbxByLocation_1_1.gridy = 4;
-		paramSearch_1_1.add(chckbxByLocation_1_1, gbc_chckbxByLocation_1_1);
+		chckbxByLocation_1 = new JCheckBox("By location:");
+		chckbxByLocation_1.setFont(new Font("Tahoma", Font.BOLD, 10));
+		GridBagConstraints gbc_chckbxByLocation_1 = new GridBagConstraints();
+		gbc_chckbxByLocation_1.anchor = GridBagConstraints.WEST;
+		gbc_chckbxByLocation_1.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxByLocation_1.gridx = 1;
+		gbc_chckbxByLocation_1.gridy = 4;
+		paramSearch_1_1.add(chckbxByLocation_1, gbc_chckbxByLocation_1);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_5.gridx = 2;
-		gbc_textField_5.gridy = 4;
-		paramSearch_1_1.add(textField_5, gbc_textField_5);
+		comboLocation = new JComboBox();
+		GridBagConstraints gbc_comboLocation = new GridBagConstraints();
+		gbc_comboLocation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboLocation.insets = new Insets(0, 0, 5, 5);
+		gbc_comboLocation.gridx = 2;
+		gbc_comboLocation.gridy = 4;
+		paramSearch_1_1.add(comboLocation, gbc_comboLocation);
 		
-		JCheckBox chckbxBySchool_1_1 = new JCheckBox("By education:");
-		chckbxBySchool_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		GridBagConstraints gbc_chckbxBySchool_1_1 = new GridBagConstraints();
-		gbc_chckbxBySchool_1_1.anchor = GridBagConstraints.WEST;
-		gbc_chckbxBySchool_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxBySchool_1_1.gridx = 1;
-		gbc_chckbxBySchool_1_1.gridy = 5;
-		paramSearch_1_1.add(chckbxBySchool_1_1, gbc_chckbxBySchool_1_1);
+		chckbxBySchool_1 = new JCheckBox("By education:");
+		chckbxBySchool_1.setFont(new Font("Tahoma", Font.BOLD, 10));
+		GridBagConstraints gbc_chckbxBySchool_1 = new GridBagConstraints();
+		gbc_chckbxBySchool_1.anchor = GridBagConstraints.WEST;
+		gbc_chckbxBySchool_1.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxBySchool_1.gridx = 1;
+		gbc_chckbxBySchool_1.gridy = 5;
+		paramSearch_1_1.add(chckbxBySchool_1, gbc_chckbxBySchool_1);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_6.gridx = 2;
-		gbc_textField_6.gridy = 5;
-		paramSearch_1_1.add(textField_6, gbc_textField_6);
+		txtEducation = new JTextField();
+		txtEducation.setColumns(10);
+		GridBagConstraints gbc_txtEducation = new GridBagConstraints();
+		gbc_txtEducation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEducation.insets = new Insets(0, 0, 5, 5);
+		gbc_txtEducation.gridx = 2;
+		gbc_txtEducation.gridy = 5;
+		paramSearch_1_1.add(txtEducation, gbc_txtEducation);
 		
-		JCheckBox chckbxByEmployer_1_1 = new JCheckBox("By employer:");
-		GridBagConstraints gbc_chckbxByEmployer_1_1 = new GridBagConstraints();
-		gbc_chckbxByEmployer_1_1.anchor = GridBagConstraints.WEST;
-		gbc_chckbxByEmployer_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxByEmployer_1_1.gridx = 1;
-		gbc_chckbxByEmployer_1_1.gridy = 6;
-		paramSearch_1_1.add(chckbxByEmployer_1_1, gbc_chckbxByEmployer_1_1);
+		chckbxByEmployer_1 = new JCheckBox("By employer:");
+		GridBagConstraints gbc_chckbxByEmployer_1 = new GridBagConstraints();
+		gbc_chckbxByEmployer_1.anchor = GridBagConstraints.WEST;
+		gbc_chckbxByEmployer_1.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxByEmployer_1.gridx = 1;
+		gbc_chckbxByEmployer_1.gridy = 6;
+		paramSearch_1_1.add(chckbxByEmployer_1, gbc_chckbxByEmployer_1);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		GridBagConstraints gbc_textField_7 = new GridBagConstraints();
-		gbc_textField_7.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_7.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_7.gridx = 2;
-		gbc_textField_7.gridy = 6;
-		paramSearch_1_1.add(textField_7, gbc_textField_7);
+		txtemployer = new JTextField();
+		txtemployer.setColumns(10);
+		GridBagConstraints gbc_txtemployer = new GridBagConstraints();
+		gbc_txtemployer.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtemployer.insets = new Insets(0, 0, 5, 5);
+		gbc_txtemployer.gridx = 2;
+		gbc_txtemployer.gridy = 6;
+		paramSearch_1_1.add(txtemployer, gbc_txtemployer);
 		
 		Component verticalStrut_5_1_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_5_1_1 = new GridBagConstraints();
@@ -295,16 +316,16 @@ public class search extends JPanel {
 		gbc_horizontalStrut_5.gridy = 1;
 		panel_2.add(horizontalStrut_5, gbc_horizontalStrut_5);
 		
-		JRadioButton rdbtnFind_1_1 = new JRadioButton("Find people with at least:");
-		rdbtnFind_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		buttonGroup.add(rdbtnFind_1_1);
-		GridBagConstraints gbc_rdbtnFind_1_1 = new GridBagConstraints();
-		gbc_rdbtnFind_1_1.gridwidth = 2;
-		gbc_rdbtnFind_1_1.anchor = GridBagConstraints.NORTHWEST;
-		gbc_rdbtnFind_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnFind_1_1.gridx = 1;
-		gbc_rdbtnFind_1_1.gridy = 1;
-		panel_2.add(rdbtnFind_1_1, gbc_rdbtnFind_1_1);
+		rdbtnFindFriends = new JRadioButton("Find people with albums with al least:");
+		rdbtnFindFriends.setFont(new Font("Tahoma", Font.BOLD, 10));
+		buttonGroup.add(rdbtnFindFriends);
+		GridBagConstraints gbc_rdbtnFindFriends = new GridBagConstraints();
+		gbc_rdbtnFindFriends.gridwidth = 2;
+		gbc_rdbtnFindFriends.anchor = GridBagConstraints.NORTHWEST;
+		gbc_rdbtnFindFriends.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnFindFriends.gridx = 1;
+		gbc_rdbtnFindFriends.gridy = 1;
+		panel_2.add(rdbtnFindFriends, gbc_rdbtnFindFriends);
 		
 		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_6 = new GridBagConstraints();
@@ -313,17 +334,17 @@ public class search extends JPanel {
 		gbc_horizontalStrut_6.gridy = 1;
 		panel_2.add(horizontalStrut_6, gbc_horizontalStrut_6);
 		
-		JSpinner albumSpinner_1_1 = new JSpinner();
-		albumSpinner_1_1.setBackground(SystemColor.activeCaption);
-		albumSpinner_1_1.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		GridBagConstraints gbc_albumSpinner_1_1 = new GridBagConstraints();
-		gbc_albumSpinner_1_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_albumSpinner_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_albumSpinner_1_1.gridx = 1;
-		gbc_albumSpinner_1_1.gridy = 2;
-		panel_2.add(albumSpinner_1_1, gbc_albumSpinner_1_1);
+		albumSpinner_1 = new JSpinner();
+		albumSpinner_1.setBackground(SystemColor.activeCaption);
+		albumSpinner_1.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		GridBagConstraints gbc_albumSpinner_1 = new GridBagConstraints();
+		gbc_albumSpinner_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_albumSpinner_1.insets = new Insets(0, 0, 5, 5);
+		gbc_albumSpinner_1.gridx = 1;
+		gbc_albumSpinner_1.gridy = 2;
+		panel_2.add(albumSpinner_1, gbc_albumSpinner_1);
 		
-		JLabel lblAlbum_1_1 = new JLabel("Albums");
+		JLabel lblAlbum_1_1 = new JLabel("photos");
 		lblAlbum_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		GridBagConstraints gbc_lblAlbum_1_1 = new GridBagConstraints();
 		gbc_lblAlbum_1_1.anchor = GridBagConstraints.WEST;
@@ -341,17 +362,17 @@ public class search extends JPanel {
 		gbc_lblScope_1_1_1.gridy = 3;
 		panel_2.add(lblScope_1_1_1, gbc_lblScope_1_1_1);
 		
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setBackground(SystemColor.activeCaption);
-		comboBox_1_1.setModel(new DefaultComboBoxModel(new String[] {"Friends", "Network"}));
-		GridBagConstraints gbc_comboBox_1_1 = new GridBagConstraints();
-		gbc_comboBox_1_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_1_1.gridx = 2;
-		gbc_comboBox_1_1.gridy = 3;
-		panel_2.add(comboBox_1_1, gbc_comboBox_1_1);
+		scopeCombo = new JComboBox();
+		scopeCombo.setBackground(SystemColor.activeCaption);
+		scopeCombo.setModel(new DefaultComboBoxModel(new String[] {"Friends", "Network"}));
+		GridBagConstraints gbc_scopeCombo = new GridBagConstraints();
+		gbc_scopeCombo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_scopeCombo.insets = new Insets(0, 0, 5, 5);
+		gbc_scopeCombo.gridx = 2;
+		gbc_scopeCombo.gridy = 3;
+		panel_2.add(scopeCombo, gbc_scopeCombo);
 		
-		JRadioButton rdbtnFindFriendsWith = new JRadioButton("Find friends with common friends");
+		rdbtnFindFriendsWith = new JRadioButton("Find friends with common friends");
 		buttonGroup.add(rdbtnFindFriendsWith);
 		GridBagConstraints gbc_rdbtnFindFriendsWith = new GridBagConstraints();
 		gbc_rdbtnFindFriendsWith.gridwidth = 2;
@@ -503,6 +524,46 @@ public class search extends JPanel {
 		eventSearch.add(verticalStrut_2, gbc_verticalStrut_2);
 
 	}
+	
+	public DefaultListModel<IdNamePair> searchPeople() {
+		if (!chckbxByBirthday_1.isSelected() && !chckbxByEmployer_1.isSelected() && !chckbxByLocation_1.isSelected() && !chckbxByName_2.isSelected()
+				&& !chckbxBySchool_1.isSelected())
+			return null;
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.searchPeople ?, ?, ?, ?, ?, ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		User user = ConnectionService.getInstance().getUser();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, user.getId());
+			ps.setString(2, txtname.getText() );
+			if (birthdayLine.getDate() == null)
+				ps.setNull(3, Types.VARCHAR);
+			else {
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(birthdayLine.getDate());
+				ps.setString(3, date);
+			}
+			if (comboLocation.getSelectedIndex() == 0)
+				ps.setNull(4, Types.INTEGER);
+			else
+				ps.setInt(4, comboLocation.getSelectedIndex());
+			ps.setString(5, txtEducation.getText());
+			ps.setString(6, txtemployer.getText());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return iModel;
+	}
+	
+	
 	public JButton getBtnSearch() {
 		return btnSearch;
 	}
