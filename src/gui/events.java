@@ -48,6 +48,7 @@ import javax.swing.JTextField;
 public class events extends JPanel {
 	private JTextField searchEventText;
 	private JList eventsList;
+	private JList goingList;
 
 	/**
 	 * Create the panel.
@@ -181,7 +182,8 @@ public class events extends JPanel {
 		gbc_scrollPane_1.gridy = 4;
 		add(scrollPane_1, gbc_scrollPane_1);
 		
-		JList goingList = new JList();
+		goingList = new JList();
+		
 		scrollPane_1.setViewportView(goingList);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -201,9 +203,11 @@ public class events extends JPanel {
 		eventsList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
+				if (e.getClickCount() >= 2) {
 					if (eventsList.isSelectionEmpty())
 						return;
+					IdNamePair event = (IdNamePair) eventsList.getSelectedValue();
+					ConnectionService.getInstance().setEvent(event);
 					displayEvent d = new displayEvent();
 					d.setVisible(true);
 				}
@@ -222,6 +226,7 @@ public class events extends JPanel {
 				newEvent n = new newEvent();
 				n.setVisible(true);
 				refreshEvents();
+				refreshGoingEvents();
 			}
 		});
 		
@@ -276,7 +281,23 @@ public class events extends JPanel {
 			}
 		});
 		
+		goingList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() >= 2) {
+					if (goingList.isSelectionEmpty())
+						return;
+					IdNamePair event = (IdNamePair) goingList.getSelectedValue();
+					ConnectionService.getInstance().setEvent(event);
+					displayEvent d = new displayEvent();
+					d.setVisible(true);
+					refreshGoingEvents();
+				}
+			}
+		});
+		
 		refreshEvents();
+		refreshGoingEvents();
 	}
 	
 	public void refreshEvents() {
@@ -298,5 +319,26 @@ public class events extends JPanel {
 			e.printStackTrace();
 		}
 		eventsList.setModel(iModel);
+	}
+	
+	public void refreshGoingEvents() {
+		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.showGoing ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		User visited = ConnectionService.getInstance().getVisited();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, visited.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		goingList.setModel(iModel);
 	}
 }

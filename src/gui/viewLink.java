@@ -10,17 +10,26 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.Privacy;
+import com.team21.User;
 
 import java.awt.Toolkit;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import javax.swing.JToggleButton;
@@ -30,7 +39,8 @@ public class viewLink extends JDialog {
 	private JTextField captionText;
 	private JTextField linkText;
 	private JTextField nameText;
-	private JTextField fromText;
+	private JTextArea descriptionText;
+	private JTextArea messageText;
 
 	/**
 	 * Launch the application.
@@ -93,7 +103,7 @@ public class viewLink extends JDialog {
 		JLabel lblNewLabel = new JLabel("From:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		fromText = new JTextField();
+		JTextField fromText = new JTextField();
 		fromText.setEditable(false);
 		fromText.setColumns(10);
 		GroupLayout gl_contentPanel_1 = new GroupLayout(contentPanel_1);
@@ -153,12 +163,12 @@ public class viewLink extends JDialog {
 					.addContainerGap())
 		);
 		
-		JTextArea messageText = new JTextArea();
+		messageText = new JTextArea();
 		messageText.setBackground(SystemColor.control);
 		messageText.setEditable(false);
 		scrollPane_1.setViewportView(messageText);
 		
-		JTextArea descriptionText = new JTextArea();
+		descriptionText = new JTextArea();
 		descriptionText.setBackground(SystemColor.control);
 		descriptionText.setEditable(false);
 		scrollPane.setViewportView(descriptionText);
@@ -177,17 +187,30 @@ public class viewLink extends JDialog {
 		buttonPane.add(tglbtnEdit);
 		
 		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 	
 	
 		JButton okButton = new JButton("OK");
+		
 		okButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 		
+		User user = ConnectionService.getInstance().getVisited();
+		User visited = ConnectionService.getInstance().getVisited();
+		IdNamePair link = ConnectionService.getInstance().getLink();
+		String SPsql;
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps = null;
+		ResultSet rs;
 	
 		tglbtnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -208,6 +231,7 @@ public class viewLink extends JDialog {
 					messageText.setEditable(false);
 					messageText.setBackground(new Color(240,240,240));
 					captionText.setEditable(false);
+					editLink();
 				}
 			}
 		});
@@ -215,5 +239,55 @@ public class viewLink extends JDialog {
 		if (!ConnectionService.isCurrentUser()){
 			tglbtnEdit.setVisible(false);
 		}
+		
+		SPsql = "EXEC dbo.showlink ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, link.getId());
+			rs = ps.executeQuery();
+			rs.next();
+			linkText.setText(rs.getString(1));
+			nameText.setText(rs.getString(2));
+			captionText.setText(rs.getString(3));
+			descriptionText.setText(rs.getString(4));
+			messageText.setText(rs.getString(5));
+			fromText.setText(rs.getString(6));
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int rs = editLink();
+				if (rs == 0) dispose();
+			}
+		});
+	}
+	
+	public int editLink() {
+		IdNamePair link = ConnectionService.getInstance().getLink();
+		String SPsql;
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps = null;
+		int rs;
+
+		SPsql = "EXEC dbo.editlink ?, ?, ?, ?, ?, ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, link.getId());
+			ps.setString(2, linkText.getText());
+			ps.setString(3, nameText.getText());
+			ps.setString(4, captionText.getText());
+			ps.setString(5, descriptionText.getText());
+			ps.setString(6, messageText.getText());
+			rs = ps.executeUpdate();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(viewLink.this, "Update was not succesful.");
+			return 1;
+		}
+		return 0;
 	}
 }

@@ -6,6 +6,12 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
+
+import com.team21.ConnectionService;
+import com.team21.IdNamePair;
+import com.team21.User;
+
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -21,8 +27,19 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.SystemColor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+
+import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class viewUpdates extends JPanel {
+	private JSpinner spinner;
+	private JTable updateTable;
 
 	/**
 	 * Create the panel.
@@ -60,7 +77,7 @@ public class viewUpdates extends JPanel {
 		
 		JComboBox categoryCombo = new JComboBox();
 		categoryCombo.setFont(new Font("Tahoma", Font.BOLD, 10));
-		categoryCombo.setModel(new DefaultComboBoxModel(new String[] {"All", "Photos", "Videos", "Links", "Events"}));
+		categoryCombo.setModel(new DefaultComboBoxModel(new String[] {"All", "Albums", "Photos", "Videos", "Links", "Events"}));
 		panel.add(categoryCombo);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
@@ -70,7 +87,7 @@ public class viewUpdates extends JPanel {
 		lblNumberOfItems.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblNumberOfItems);
 		
-		JSpinner spinner = new JSpinner();
+		spinner = new JSpinner();
 		spinner.setMinimumSize(new Dimension(40, 22));
 		spinner.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
 		panel.add(spinner);
@@ -79,6 +96,7 @@ public class viewUpdates extends JPanel {
 		panel.add(horizontalStrut_3);
 		
 		JButton btnSearch = new JButton("Search");
+		
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel.add(btnSearch);
 		
@@ -97,8 +115,8 @@ public class viewUpdates extends JPanel {
 		gbc_scrollPane.gridy = 2;
 		add(scrollPane, gbc_scrollPane);
 		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
+		updateTable = new JTable();
+		scrollPane.setViewportView(updateTable);
 		
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
@@ -113,6 +131,72 @@ public class viewUpdates extends JPanel {
 		gbc_verticalStrut_1.gridx = 1;
 		gbc_verticalStrut_1.gridy = 3;
 		add(verticalStrut_1, gbc_verticalStrut_1);
+		
+	
+		String sql  =  "EXEC dbo.showalbumcomments ?, ?";
 
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int n = (Integer) spinner.getValue();
+				if (n < 1)
+					return;
+				switch (((String)categoryCombo.getSelectedItem())) {
+				case "All":
+					fillTable( "EXEC dbo.getUpdatesAll ?, ?");
+					break;
+				case "Albums":
+					fillTable( "EXEC dbo.getUpdatesAlbum ?, ?");
+					break;
+				case "Events":
+					fillTable( "EXEC dbo.getUpdatesEvents ?, ?");
+					break;
+				case "Photos":
+					fillTable( "EXEC dbo.getUpdatesPhotos ?, ?");
+					break;
+				case "Videos":
+					fillTable( "EXEC dbo.getUpdatesVideos ?, ?");
+					break;
+				case "Links":
+					fillTable( "EXEC dbo.getUpdatesLinks ?, ?");
+					break;
+				default:
+					break;
+				}
+			}
+		});
+	}
+	
+	public void fillTable(String SPsql) {
+		int n = (Integer) spinner.getValue();
+		Vector<Vector<String>> rows = new Vector<>();
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		User user = ConnectionService.getInstance().getVisited();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, user.getId());
+			ps.setInt(2, n);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Vector<String> row = new Vector<>();
+				row.add(rs.getString(1));
+				row.add(rs.getString(2));
+				rows.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Vector<String> header = new Vector<>();
+		header.add("Name");
+		header.add("Updated at");
+		updateTable.setModel(new DefaultTableModel(rows, header) {
+			@Override
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
+		});
+		
 	}
 }

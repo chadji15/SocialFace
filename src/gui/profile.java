@@ -198,7 +198,7 @@ public class profile extends JPanel {
 			}
 		});
 
-		photoLabel.addMouseListener(new MouseAdapter() {
+		/*photoLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (ConnectionService.isCurrentUser() && e.getClickCount() == 2) {
@@ -214,6 +214,6 @@ public class profile extends JPanel {
 			        }
 				}
 			}
-		});
+		});*/
 	}
 }

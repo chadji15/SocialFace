@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
@@ -17,8 +18,11 @@ import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.Vector;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+
 import java.awt.Toolkit;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
@@ -34,8 +38,18 @@ import java.awt.Component;
 import javax.swing.Box;
 
 import com.team21.ConnectionService;
+import com.team21.IdNamePair;
 import com.team21.Privacy;
+import com.team21.User;
+
 import java.awt.event.ActionListener;
+import java.net.IDN;
+import java.security.acl.Owner;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
 import java.awt.Font;
@@ -46,6 +60,8 @@ public class displayEvent extends JDialog {
 	private JTextField ownerText;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private boolean toEdit = false;
+	private JToggleButton tglbtnEdit;
+	private boolean ownsEvent;
 
 	/**
 	 * Launch the application.
@@ -93,12 +109,14 @@ public class displayEvent extends JDialog {
 		buttonGroup.add(notGoingButton);
 		buttonPane.add(notGoingButton);
 		
-		JToggleButton tglbtnEdit = new JToggleButton("Edit");
+		tglbtnEdit = new JToggleButton("Edit");
 		tglbtnEdit.setBackground(SystemColor.activeCaption);
 		
 		buttonPane.add(tglbtnEdit);
 	
 		JButton okButton = new JButton("OK");
+		
+		
 		okButton.setBackground(SystemColor.activeCaption);
 		
 		okButton.setActionCommand("OK");
@@ -197,8 +215,10 @@ public class displayEvent extends JDialog {
 		privacyText.add(lblEndTime, gbc_lblEndTime);
 		
 		JSpinner startSpinner = new JSpinner();
-		startSpinner.setEnabled(false);
+		
+		
 		startSpinner.setModel(new SpinnerDateModel(new Date(1605823200000L), new Date(1605823200000L), null, Calendar.DAY_OF_YEAR));
+		startSpinner.setEditor(new JSpinner.DateEditor(startSpinner, "dd-MM-yyyy HH:mm"));
 		GridBagConstraints gbc_startSpinner = new GridBagConstraints();
 		gbc_startSpinner.insets = new Insets(0, 0, 5, 5);
 		gbc_startSpinner.gridx = 1;
@@ -214,8 +234,9 @@ public class displayEvent extends JDialog {
 		privacyText.add(lblVenue, gbc_lblVenue);
 		
 		JSpinner endSpinner = new JSpinner();
-		endSpinner.setEnabled(false);
+		
 		endSpinner.setModel(new SpinnerDateModel(new Date(1605823200000L), new Date(1605823200000L), null, Calendar.DAY_OF_YEAR));
+		endSpinner.setEditor(new JSpinner.DateEditor(endSpinner, "dd-MM-yyyy HH:mm"));
 		GridBagConstraints gbc_endSpinner = new GridBagConstraints();
 		gbc_endSpinner.insets = new Insets(0, 0, 5, 5);
 		gbc_endSpinner.gridx = 1;
@@ -231,7 +252,7 @@ public class displayEvent extends JDialog {
 		privacyText.add(lblLocation, gbc_lblLocation);
 		
 		JComboBox venueCombo = new JComboBox();
-		venueCombo.setEnabled(false);
+		
 		GridBagConstraints gbc_venueCombo = new GridBagConstraints();
 		gbc_venueCombo.insets = new Insets(0, 0, 5, 5);
 		gbc_venueCombo.fill = GridBagConstraints.HORIZONTAL;
@@ -275,39 +296,172 @@ public class displayEvent extends JDialog {
 		gbc_privacyCombo.gridy = 7;
 		privacyText.add(privacyCombo, gbc_privacyCombo);
 		
+		User user = ConnectionService.getInstance().getVisited();
+		User visited = ConnectionService.getInstance().getVisited();
+		IdNamePair event = ConnectionService.getInstance().getEvent();
+		String SPsql;
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps = null;
+		ResultSet rs;
+		ownsEvent = false;
+	
+		tglbtnEdit.setVisible(ConnectionService.isCurrentUser());
+		
+		DefaultComboBoxModel<IdNamePair> iModel = new DefaultComboBoxModel<>();
+		iModel.addElement(new IdNamePair(-1, null));
+		SPsql = "EXEC dbo.getAllCities";
+		try {
+			ps = con.prepareStatement(SPsql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		venueCombo.setModel(iModel);
+		
+		SPsql = "EXEC dbo.showevents ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, event.getId());
+			rs = ps.executeQuery();
+			rs.next();
+			nameText.setText(rs.getString(2));
+			privacyCombo.setSelectedItem(Privacy.toPrivacy(rs.getString(3)));
+			startSpinner.setValue(new java.util.Date(rs.getDate(4).getTime()));
+			endSpinner.setValue(new java.util.Date(rs.getDate(5).getTime()));
+			endSpinner.setEditor(new JSpinner.DateEditor(endSpinner, "dd-MM-yyyy HH:mm"));
+			descriptionText.setText(rs.getString(6));
+			venueCombo.setSelectedIndex(rs.getInt(7));
+			ownerText.setText(rs.getString(8));
+			locationText.setText(rs.getString(9));
+			if (rs.getInt(10) == user.getId()) {
+				ownsEvent = true;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(displayEvent.this, "Update was not succesful.");
+
+		}
+		
+		goingButton.setEnabled(!ownsEvent);
+		notGoingButton.setEnabled(!ownsEvent);
+		tglbtnEdit.setEnabled(ownsEvent);
 
 		tglbtnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (tglbtnEdit.isSelected()) {
-					nameText.setEditable(true);
-					startSpinner.setEnabled(true);
-					endSpinner.setEnabled(true);
-					venueCombo.setEnabled(true);
-					locationText.setEditable(true);
-					privacyCombo.setEnabled(true);
-					descriptionText.setEditable(true);
+				nameText.setEditable(tglbtnEdit.isSelected());
+				startSpinner.setEnabled(tglbtnEdit.isSelected());
+				endSpinner.setEnabled(tglbtnEdit.isSelected());
+				venueCombo.setEnabled(tglbtnEdit.isSelected());
+				locationText.setEditable(tglbtnEdit.isSelected());
+				privacyCombo.setEnabled(tglbtnEdit.isSelected());
+				descriptionText.setEditable(tglbtnEdit.isSelected());
+				if (!tglbtnEdit.isSelected()) {
+					String SPsql = "EXEC dbo.editevents ?, ?, ?, ?, ?, ?, ?, ?";
+					PreparedStatement ps = null;
+					int rs = -1;
+					try {
+						ps = con.prepareStatement(SPsql);
+						ps.setString(1, ((Privacy)privacyCombo.getSelectedItem()).toChar());
+						ps.setString(2, nameText.getText());
+						ps.setString(3, locationText.getText());
+						ps.setDate(4, new java.sql.Date(((java.util.Date)startSpinner.getValue()).getTime()));
+						ps.setDate(5, new java.sql.Date(((java.util.Date)endSpinner.getValue()).getTime()));
+						ps.setString(6, descriptionText.getText());
+						if (venueCombo.getSelectedIndex() == 0)
+							ps.setNull(7, Types.INTEGER);
+						else {
+							IdNamePair city = (IdNamePair) venueCombo.getSelectedItem();
+							ps.setInt(7, city.getId());
+						}
+						ps.setInt(8, event.getId());
+						rs = ps.executeUpdate();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(displayEvent.this, "Update was not succesful.");
+
+					}
+					
 				}
+				
+			}
+		});
+	
+		
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (ownsEvent) {
+					
+					String SPsql = "EXEC dbo.editevents ?, ?, ?, ?, ?, ?, ?, ?";	
+					PreparedStatement ps;
+					int rs = -1;
+					try {
+						ps = con.prepareStatement(SPsql);
+						ps.setString(1, ((Privacy)privacyCombo.getSelectedItem()).toChar());
+						ps.setString(2, nameText.getText());
+						ps.setString(3, locationText.getText());
+						ps.setDate(4, new java.sql.Date(((java.util.Date)startSpinner.getValue()).getTime()));
+						ps.setDate(5, new java.sql.Date(((java.util.Date)endSpinner.getValue()).getTime()));
+						ps.setString(6, descriptionText.getText());
+						if (venueCombo.getSelectedIndex() == 0)
+							ps.setNull(7, Types.INTEGER);
+						else {
+							IdNamePair city = (IdNamePair) venueCombo.getSelectedItem();
+							ps.setInt(7, city.getId());
+						}
+						ps.setInt(8, event.getId());
+						rs = ps.executeUpdate();
+					} 
+					catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(displayEvent.this, "Update was not succesful.");
+					}
+				} 
 				else {
-					nameText.setEditable(false);
-					startSpinner.setEnabled(false);
-					endSpinner.setEnabled(false);
-					venueCombo.setEnabled(false);
-					locationText.setEditable(false);
-					privacyCombo.setEnabled(false);
-					descriptionText.setEditable(false);
+					if (goingButton.isSelected()) {
+						String SPsql = "EXEC dbo.inserteventresponses ?, ?";
+						PreparedStatement ps;
+						try {
+							ps = con.prepareStatement(SPsql);
+							ps.setInt(1, user.getId());
+							ps.setInt(2, event.getId());
+							int r = ps.executeUpdate();
+						}
+						catch (SQLException e1) {
+							// TODO: handle exception
+							e1.printStackTrace();
+							return;
+						}
+					}
+					else {
+						String SPsql = "EXEC dbo.deleteeventresponses ?, ?";
+						PreparedStatement ps;
+						try {
+							ps = con.prepareStatement(SPsql);
+							ps.setInt(1, user.getId());
+							ps.setInt(2, event.getId());
+							int r = ps.executeUpdate();
+						}
+						catch (SQLException e1) {
+							// TODO: handle exception
+							e1.printStackTrace();
+							return;
+						}
+					}
 				}
+				dispose();
 			}
 		});
 		
-		if (ConnectionService.isCurrentUser()) {
-			goingButton.setEnabled(false);
-			goingButton.setSelected(true);
-			notGoingButton.setEnabled(false);
-		}
-		else {
-			goingButton.setEnabled(true);
-			notGoingButton.setEnabled(true);
-			tglbtnEdit.setVisible(false);
-		}
+		startSpinner.setEnabled(false);
+		endSpinner.setEnabled(false);
+		venueCombo.setEnabled(false);
 	}
+
 }

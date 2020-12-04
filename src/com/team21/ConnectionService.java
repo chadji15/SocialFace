@@ -21,7 +21,8 @@ public class ConnectionService {
 	private IdNamePair photo;
 	private IdNamePair video;
 	private IdNamePair event;
-	
+	private IdNamePair link;
+
 
 	private ConnectionService() {
 		ConnectionService.server = "apollo.in.cs.ucy.ac.cy";
@@ -109,4 +110,12 @@ public class ConnectionService {
 		this.event = event;
 	}
 
+
+	public IdNamePair getLink() {
+		return link;
+	}
+
+	public void setLink(IdNamePair link) {
+		this.link = link;
+	}
 }

@@ -168,6 +168,8 @@ public class PhotosVideos extends JPanel {
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg images", "jpg");
 				jfc.addChoosableFileFilter(filter);
 				int returnValue = jfc.showOpenDialog(null);
+				
+				if (returnValue != JFileChooser.APPROVE_OPTION) return;
 				String path = jfc.getSelectedFile().getAbsolutePath();
 				String filename = jfc.getSelectedFile().getName();
 				BufferedImage bimg = null;
