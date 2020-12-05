@@ -43,8 +43,6 @@ import com.team21.Privacy;
 import com.team21.User;
 
 import java.awt.event.ActionListener;
-import java.net.IDN;
-import java.security.acl.Owner;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
