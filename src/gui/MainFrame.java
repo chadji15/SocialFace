@@ -23,7 +23,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.Toolkit;
 import javax.swing.ScrollPaneConstants;
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -161,7 +163,11 @@ public class MainFrame extends JFrame {
 		search_.getBtnSearch().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
-				searchResults.getResList().setModel(search_.chooseSearch());
+				DefaultListModel<User> m = search_.chooseSearch();
+				if (m == null) {
+					return;
+				}
+				searchResults.getResList().setModel(m);
 				cardPanel.add(searchResults);	
 				cardPanel.revalidate();
 				cardPanel.repaint();

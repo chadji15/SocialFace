@@ -562,8 +562,9 @@ public class search extends JPanel {
 					ps = con.prepareStatement(SPsql);
 					if (!chckbxByName_1.isSelected())
 						ps.setNull(1, Types.VARCHAR);
-					else
+					else {
 						ps.setString(1, txtEventName.getText());
+					}
 					if (!chckbxByVenue.isSelected() || venueCombo.getSelectedIndex() == 0)
 						ps.setNull(2, Types.INTEGER);
 					else
@@ -639,7 +640,7 @@ public class search extends JPanel {
 		try {
 			ps = con.prepareStatement(SPsql);
 			ps.setInt(1, user.getId());
-			if (!chckbxByBirthday_1.isSelected())
+			if (!chckbxByName_2.isSelected())
 				ps.setNull(2, Types.VARCHAR);
 			else 
 				ps.setString(2, txtname.getText() );
@@ -662,6 +663,7 @@ public class search extends JPanel {
 			else
 				ps.setString(6, txtemployer.getText());
 			rs = ps.executeQuery();
+
 			while (rs.next()) {
 				iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 			}
