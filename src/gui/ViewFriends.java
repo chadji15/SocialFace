@@ -44,8 +44,11 @@ import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.net.IDN;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewFriends extends JPanel {
+	private JList friendList;
 
 	/**
 	 * Create the panel.
@@ -194,7 +197,8 @@ public class ViewFriends extends JPanel {
 		gbc_scrollPane.gridy = 5;
 		add(scrollPane, gbc_scrollPane);
 		
-		JList friendList = new JList();
+		friendList = new JList();
+		
 		scrollPane.setViewportView(friendList);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -226,7 +230,7 @@ public class ViewFriends extends JPanel {
 		User user = ConnectionService.getInstance().getUser();
 		Connection con = ConnectionService.getInstance().getConn();
 		
-		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		DefaultListModel<User> iModel = new DefaultListModel<>();
 		String SPsql = "EXEC dbo.findfriendsnames ?";
 		PreparedStatement ps;
 		ResultSet rs;
@@ -235,7 +239,7 @@ public class ViewFriends extends JPanel {
 			ps.setInt(1, visited.getId());
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+				iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -270,13 +274,13 @@ public class ViewFriends extends JPanel {
 			}
 			
 			 SPsql = "EXEC dbo.showNotIgnored ?";
-			 DefaultListModel<IdNamePair> rModel = new DefaultListModel<>();
+			 DefaultListModel<User> rModel = new DefaultListModel<>();
 			 try {
 					ps = con.prepareStatement(SPsql);
 					ps.setInt(1, user.getId());
 					rs = ps.executeQuery();
 					while(rs.next()) {
-						rModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+						rModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -288,7 +292,7 @@ public class ViewFriends extends JPanel {
 		
 		btnShowAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				DefaultListModel<User> iModel = new DefaultListModel<>();
 				String SPsql = "EXEC dbo.findfriendsnames ?";
 				PreparedStatement ps;
 				ResultSet rs;
@@ -297,7 +301,7 @@ public class ViewFriends extends JPanel {
 					ps.setInt(1, visited.getId());
 					rs = ps.executeQuery();
 					while(rs.next()) {
-						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+						iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -309,7 +313,7 @@ public class ViewFriends extends JPanel {
 		
 		btnShowFriendsWith.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				DefaultListModel<User> iModel = new DefaultListModel<>();
 				String SPsql = "EXEC dbo.friendsWithSameInterest ?";
 				PreparedStatement ps;
 				ResultSet rs;
@@ -318,7 +322,7 @@ public class ViewFriends extends JPanel {
 					ps.setInt(1, visited.getId());
 					rs = ps.executeQuery();
 					while(rs.next()) {
-						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+						iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -330,7 +334,7 @@ public class ViewFriends extends JPanel {
 		
 		btnShowMostPopular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				DefaultListModel<User> iModel = new DefaultListModel<>();
 				String SPsql = "EXEC dbo.mostPopularFriends ?";
 				PreparedStatement ps;
 				ResultSet rs;
@@ -339,7 +343,7 @@ public class ViewFriends extends JPanel {
 					ps.setInt(1, visited.getId());
 					rs = ps.executeQuery();
 					while(rs.next()) {
-						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+						iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -352,7 +356,7 @@ public class ViewFriends extends JPanel {
 		removeFriendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (friendList.isSelectionEmpty()) return;
-				IdNamePair friend = (IdNamePair) friendList.getSelectedValue();
+				User friend = (User) friendList.getSelectedValue();
 				String SPsql = "EXEC dbo.deletefriend ?, ?";
 				PreparedStatement ps;
 				int rs = -1;
@@ -367,7 +371,7 @@ public class ViewFriends extends JPanel {
 					e1.printStackTrace();
 				}
 				if (rs > 0) {
-					DefaultListModel<IdNamePair> rModel = (DefaultListModel<IdNamePair>) friendList.getModel();
+					DefaultListModel<User> rModel = (DefaultListModel<User>) friendList.getModel();
 					rModel.removeElement(friend);
 				}
 				else {
@@ -479,13 +483,13 @@ public class ViewFriends extends JPanel {
 				ResultSet rs;
  				if (btnShowIgnored.isSelected()) {
  					 SPsql = "EXEC dbo.showrequests ?";
- 					 DefaultListModel<IdNamePair> rModel = new DefaultListModel<>();
+ 					 DefaultListModel<User> rModel = new DefaultListModel<>();
  					 try {
  							ps = con.prepareStatement(SPsql);
  							ps.setInt(1, user.getId());
  							rs = ps.executeQuery();
  							while(rs.next()) {
- 								rModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+ 								rModel.addElement(new User(rs.getInt(1), rs.getString(2)));
  							}
  						} catch (SQLException e1) {
  							// TODO Auto-generated catch block
@@ -495,13 +499,13 @@ public class ViewFriends extends JPanel {
 				}
 				else {
 					 SPsql = "EXEC dbo.showNotIgnored ?";
-					 DefaultListModel<IdNamePair> rModel = new DefaultListModel<>();
+					 DefaultListModel<User> rModel = new DefaultListModel<>();
 					 try {
 							ps = con.prepareStatement(SPsql);
 							ps.setInt(1, user.getId());
 							rs = ps.executeQuery();
 							while(rs.next()) {
-								rModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+								rModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 							}
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
@@ -511,5 +515,9 @@ public class ViewFriends extends JPanel {
 				}
 			}
 		});
+		
+	}
+	public JList getFriendList() {
+		return friendList;
 	}
 }

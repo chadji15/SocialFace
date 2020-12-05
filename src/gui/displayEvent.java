@@ -100,12 +100,10 @@ public class displayEvent extends JDialog {
 		
 		JRadioButton goingButton = new JRadioButton("Going");
 		goingButton.setSelected(true);
-		goingButton.setEnabled(false);
 		buttonGroup.add(goingButton);
 		buttonPane.add(goingButton);
 		
 		JRadioButton notGoingButton = new JRadioButton("Not going");
-		notGoingButton.setEnabled(false);
 		buttonGroup.add(notGoingButton);
 		buttonPane.add(notGoingButton);
 		
@@ -296,7 +294,7 @@ public class displayEvent extends JDialog {
 		gbc_privacyCombo.gridy = 7;
 		privacyText.add(privacyCombo, gbc_privacyCombo);
 		
-		User user = ConnectionService.getInstance().getVisited();
+		User user = ConnectionService.getInstance().getUser();
 		User visited = ConnectionService.getInstance().getVisited();
 		IdNamePair event = ConnectionService.getInstance().getEvent();
 		String SPsql;

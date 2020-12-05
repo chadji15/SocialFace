@@ -525,11 +525,11 @@ public class search extends JPanel {
 
 	}
 	
-	public DefaultListModel<IdNamePair> searchPeople() {
+	public DefaultListModel<User> searchPeople() {
 		if (!chckbxByBirthday_1.isSelected() && !chckbxByEmployer_1.isSelected() && !chckbxByLocation_1.isSelected() && !chckbxByName_2.isSelected()
 				&& !chckbxBySchool_1.isSelected())
 			return null;
-		DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+		DefaultListModel<User> iModel = new DefaultListModel<>();
 		String SPsql = "EXEC dbo.searchPeople ?, ?, ?, ?, ?, ?";
 		Connection con = ConnectionService.getInstance().getConn();
 		PreparedStatement ps;
@@ -538,22 +538,31 @@ public class search extends JPanel {
 		try {
 			ps = con.prepareStatement(SPsql);
 			ps.setInt(1, user.getId());
-			ps.setString(2, txtname.getText() );
-			if (birthdayLine.getDate() == null)
+			if (!chckbxByBirthday_1.isSelected())
+				ps.setNull(2, Types.VARCHAR);
+			else 
+				ps.setString(2, txtname.getText() );
+			if (birthdayLine.getDate() == null || !chckbxByBirthday_1.isSelected())
 				ps.setNull(3, Types.VARCHAR);
 			else {
 				String date = new SimpleDateFormat("yyyy-MM-dd").format(birthdayLine.getDate());
 				ps.setString(3, date);
 			}
-			if (comboLocation.getSelectedIndex() == 0)
+			if (comboLocation.getSelectedIndex() == 0 || !chckbxByLocation_1.isSelected())
 				ps.setNull(4, Types.INTEGER);
 			else
 				ps.setInt(4, comboLocation.getSelectedIndex());
-			ps.setString(5, txtEducation.getText());
-			ps.setString(6, txtemployer.getText());
+			if (!chckbxBySchool_1.isSelected())
+				ps.setNull(5, Types.VARCHAR);
+			else
+				ps.setString(5, txtEducation.getText());
+			if (!chckbxByEmployer_1.isSelected())
+				ps.setNull(6, Types.VARCHAR);
+			else
+				ps.setString(6, txtemployer.getText());
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+				iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -561,6 +570,66 @@ public class search extends JPanel {
 		}
 		
 		return iModel;
+	}
+	
+	public DefaultListModel<User> searchBigAlbums() {
+		
+		int n = (Integer) albumSpinner_1.getValue();
+		String scope = (String)scopeCombo.getSelectedItem(); 
+		DefaultListModel<User> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.friendsbigalbum ?, ?";
+		if (scope.equals("Network"))
+			SPsql = "EXEC dbo.networkbigalbum ?, ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		User user = ConnectionService.getInstance().getUser();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, n);
+			ps.setInt(2, user.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return iModel;
+	}
+	
+public DefaultListModel<User> searchCommonFriends() {
+		
+		DefaultListModel<User> iModel = new DefaultListModel<>();
+		String SPsql = "EXEC dbo.commonFriends ?";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		User user = ConnectionService.getInstance().getUser();
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, user.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				iModel.addElement(new User(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return iModel;
+	}
+
+	public DefaultListModel<User> chooseSearch() {
+		if (rdbtnSearch.isSelected())
+			return this.searchPeople();
+		else if (rdbtnFindFriends.isSelected())
+			return this.searchBigAlbums();
+		else
+			return this.searchCommonFriends();
 	}
 	
 	

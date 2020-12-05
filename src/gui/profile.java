@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
@@ -55,6 +56,7 @@ import java.awt.SystemColor;
 public class profile extends JPanel {
 
 	private about about_;
+	private ViewFriends viewFriends;
 	/**
 	 * Create the panel.
 	 */
@@ -107,7 +109,7 @@ public class profile extends JPanel {
 		tabbedPane.addTab("About", null, home, null);
 		home.setLayout(new CardLayout(0, 0));
 
-		ViewFriends viewFriends = new ViewFriends();
+		viewFriends = new ViewFriends();
 		tabbedPane.addTab("Friends", null, viewFriends, null);
 
 		about_ = new about();
@@ -197,6 +199,7 @@ public class profile extends JPanel {
 				}
 			}
 		});
+		
 
 		/*photoLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -216,4 +219,5 @@ public class profile extends JPanel {
 			}
 		});*/
 	}
+	
 }

@@ -161,19 +161,19 @@ public class MainFrame extends JFrame {
 		search_.getBtnSearch().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPanel.removeAll();
-				cardPanel.add(searchResults);
+				searchResults.getResList().setModel(search_.chooseSearch());
+				cardPanel.add(searchResults);	
 				cardPanel.revalidate();
 				cardPanel.repaint();
 			}
 		});
-		searchResults.getResultsTable().addMouseListener(new MouseAdapter() {
+		searchResults.getResList().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					if (searchResults.getResultsTable().getSelectionModel().isSelectionEmpty())
+					if (searchResults.getResList().getSelectionModel().isSelectionEmpty())
 						return;
-					int row = searchResults.getResultsTable().getSelectedRow();
-					User vUser = (User) searchResults.getResultsTable().getModel().getValueAt(row, 1);
+					User vUser = (User) searchResults.getResList().getSelectedValue();
 					ConnectionService.getInstance().setVisited(vUser);
 					MainFrame.this.profile_ = new profile();
 					cardPanel.removeAll();
@@ -193,5 +193,9 @@ public class MainFrame extends JFrame {
 				dispose();
 			}
 		});
+		
+		
+		
+		
 	}
 }

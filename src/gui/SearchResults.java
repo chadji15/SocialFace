@@ -25,9 +25,10 @@ import java.awt.event.MouseEvent;
 import java.net.ConnectException;
 import java.awt.SystemColor;
 import java.awt.Font;
+import javax.swing.JList;
 
 public class SearchResults extends JPanel {
-	private JTable resultsTable;
+	private JList resList;
 
 	/**
 	 * Create the panel.
@@ -88,36 +89,9 @@ public class SearchResults extends JPanel {
 		gbc_scrollPane.gridy = 3;
 		add(scrollPane, gbc_scrollPane);
 		
-		resultsTable = new JTable();
-		
-		resultsTable.setSurrendersFocusOnKeystroke(true);
-		resultsTable.setTableHeader(null);
-		resultsTable.setShowVerticalLines(false);
+		resList = new JList();
+		scrollPane.setViewportView(resList);
 		ImageIcon icon = new ImageIcon(getClass().getResource("/images/avatar100.png"));
-		resultsTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{icon, User.dummy2},
-			},
-			new String[] {
-				"New column", "New column"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-			
-			public Class getColumnClass(int column)
-            {
-                return getValueAt(0, column).getClass();
-            }
-		});
-		resultsTable.getColumnModel().getColumn(0).setResizable(false);
-		resultsTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-		resultsTable.setRowHeight(100);
-		scrollPane.setViewportView(resultsTable);
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
@@ -129,7 +103,7 @@ public class SearchResults extends JPanel {
 		
 	}
 
-	public JTable getResultsTable() {
-		return resultsTable;
+	public JList getResList() {
+		return resList;
 	}
 }

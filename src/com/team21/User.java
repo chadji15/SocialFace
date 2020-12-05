@@ -7,17 +7,21 @@ public class User {
 	private int id = -1;
 	private String firstName;
 	private String lastName;
+	private String name;
 	private Date birthday;
 	private String email;
 	private String website;
 	private char gender;
 	private boolean verified;
-	
-	public static User dummy1 = new User(1, "Ameno", "Dorime");
-	public static User dummy2 = new User(2, "Sike", "RightNow");
+
 	
 	public User(int id) {
 		this.id = id;
+	}
+	
+	public User (int id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
 	public User(int id, String firstName, String lastName) {
@@ -52,6 +56,7 @@ public class User {
 	}
 
 	public String getFullName() {
+		if (name != null) return name;
 		return firstName + " " + lastName;
 	}
 
