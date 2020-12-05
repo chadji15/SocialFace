@@ -43,11 +43,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class search extends JPanel {
 	private JButton btnSearch;
 	private JTextField txtEventName;
-	private JTextField txtVenue;
+	private JComboBox venueCombo;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JCheckBox chckbxByName_2;
 	private JCheckBox chckbxByBirthday_1;
@@ -455,15 +460,14 @@ public class search extends JPanel {
 		gbc_chckbxByVenue.gridy = 2;
 		eventSearch.add(chckbxByVenue, gbc_chckbxByVenue);
 		
-		txtVenue = new JTextField();
-		GridBagConstraints gbc_txtVenue = new GridBagConstraints();
-		gbc_txtVenue.gridwidth = 2;
-		gbc_txtVenue.insets = new Insets(0, 0, 5, 5);
-		gbc_txtVenue.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtVenue.gridx = 2;
-		gbc_txtVenue.gridy = 2;
-		eventSearch.add(txtVenue, gbc_txtVenue);
-		txtVenue.setColumns(10);
+		venueCombo = new JComboBox();
+		GridBagConstraints gbc_venueCombo = new GridBagConstraints();
+		gbc_venueCombo.gridwidth = 2;
+		gbc_venueCombo.insets = new Insets(0, 0, 5, 5);
+		gbc_venueCombo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_venueCombo.gridx = 2;
+		gbc_venueCombo.gridy = 2;
+		eventSearch.add(venueCombo, gbc_venueCombo);
 		
 		JCheckBox chckbxByDate = new JCheckBox("By date:");
 		GridBagConstraints gbc_chckbxByDate = new GridBagConstraints();
@@ -483,6 +487,7 @@ public class search extends JPanel {
 		eventSearch.add(dateChooser_1, gbc_dateChooser_1);
 		
 		JButton btnSearch_1 = new JButton("Search");
+		
 		GridBagConstraints gbc_btnSearch_1 = new GridBagConstraints();
 		gbc_btnSearch_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSearch_1.insets = new Insets(0, 0, 5, 5);
@@ -491,6 +496,7 @@ public class search extends JPanel {
 		eventSearch.add(btnSearch_1, gbc_btnSearch_1);
 		
 		JButton btnFindLeastPopular = new JButton("Find least popular");
+		
 		GridBagConstraints gbc_btnFindLeastPopular = new GridBagConstraints();
 		gbc_btnFindLeastPopular.insets = new Insets(0, 0, 5, 5);
 		gbc_btnFindLeastPopular.gridx = 1;
@@ -514,6 +520,7 @@ public class search extends JPanel {
 		eventSearch.add(scrollPane, gbc_scrollPane);
 		
 		JList eventList = new JList();
+		
 		scrollPane.setViewportView(eventList);
 		
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
@@ -522,6 +529,100 @@ public class search extends JPanel {
 		gbc_verticalStrut_2.gridx = 1;
 		gbc_verticalStrut_2.gridy = 8;
 		eventSearch.add(verticalStrut_2, gbc_verticalStrut_2);
+		
+		Vector<IdNamePair> vector = new Vector<>();
+		vector.add(new IdNamePair(-1, null));
+		String SPsql = "EXEC dbo.getAllCities";
+		Connection con = ConnectionService.getInstance().getConn();
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			ps = con.prepareStatement(SPsql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				vector.add(new IdNamePair(rs.getInt(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		comboLocation.setModel(new DefaultComboBoxModel<IdNamePair>(vector));
+		venueCombo.setModel(new DefaultComboBoxModel<IdNamePair>(vector));
+		
+		btnSearch_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!chckbxByName_1.isSelected() && !chckbxByVenue.isSelected() && !chckbxByDate.isSelected())
+					return;
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.searchevents ?, ?, ?";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				ResultSet rs;
+				try {
+					ps = con.prepareStatement(SPsql);
+					if (!chckbxByName_1.isSelected())
+						ps.setNull(1, Types.VARCHAR);
+					else
+						ps.setString(1, txtEventName.getText());
+					if (!chckbxByVenue.isSelected() || venueCombo.getSelectedIndex() == 0)
+						ps.setNull(2, Types.INTEGER);
+					else
+						ps.setInt(2, venueCombo.getSelectedIndex());
+					if (!chckbxByDate.isSelected() || dateChooser_1.getDate() == null)
+						ps.setNull(3, Types.DATE);
+					else {
+						 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						 String date = sdf.format(dateChooser_1.getDate());
+						 ps.setString(3, date);
+					}					
+					rs = ps.executeQuery();
+					while (rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				eventList.setModel(iModel);
+			}
+		});
+		
+		btnFindLeastPopular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultListModel<IdNamePair> iModel = new DefaultListModel<>();
+				String SPsql = "EXEC dbo.leastfamousevents";
+				Connection con = ConnectionService.getInstance().getConn();
+				PreparedStatement ps;
+				ResultSet rs;
+				try {
+					ps = con.prepareStatement(SPsql);
+					rs = ps.executeQuery();
+					while (rs.next()) {
+						iModel.addElement(new IdNamePair(rs.getInt(1), rs.getString(2)));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				eventList.setModel(iModel);
+			}
+		});
+		
+		eventList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() < 2)
+					return;
+				if (eventList.isSelectionEmpty())
+					return;
+				IdNamePair event = (IdNamePair) eventList.getSelectedValue();
+				ConnectionService.getInstance().setEvent(event);
+				displayEvent displayEvent = new displayEvent();
+				displayEvent.setVisible(true);
+			}
+		});
 
 	}
 	

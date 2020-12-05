@@ -98,6 +98,9 @@ public class displayEvent extends JDialog {
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
+		JLabel lblAreGoing = new JLabel(" people are going");
+		buttonPane.add(lblAreGoing);
+		
 		JRadioButton goingButton = new JRadioButton("Going");
 		goingButton.setSelected(true);
 		buttonGroup.add(goingButton);
@@ -344,6 +347,18 @@ public class displayEvent extends JDialog {
 			JOptionPane.showMessageDialog(displayEvent.this, "Update was not succesful.");
 
 		}
+
+		SPsql = "EXEC dbo.numgoing ?";
+		try {
+			ps = con.prepareStatement(SPsql);
+			ps.setInt(1, event.getId());
+			rs = ps.executeQuery();
+			rs.next();
+			lblAreGoing.setText(rs.getString(1) + " people are going");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		goingButton.setEnabled(!ownsEvent);
 		notGoingButton.setEnabled(!ownsEvent);
@@ -434,7 +449,7 @@ public class displayEvent extends JDialog {
 						catch (SQLException e1) {
 							// TODO: handle exception
 							e1.printStackTrace();
-							return;
+							dispose();
 						}
 					}
 					else {
@@ -449,7 +464,7 @@ public class displayEvent extends JDialog {
 						catch (SQLException e1) {
 							// TODO: handle exception
 							e1.printStackTrace();
-							return;
+							dispose();
 						}
 					}
 				}
