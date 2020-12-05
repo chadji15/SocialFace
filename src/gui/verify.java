@@ -7,6 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.team21.ConnectionService;
+import com.team21.User;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -15,6 +19,9 @@ import javax.swing.JTextField;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class verify extends JDialog {
@@ -93,6 +100,19 @@ public class verify extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						User user = ConnectionService.getInstance().getUser();
+						String SPsql = "EXEC dbo.verify ?";
+						Connection con = ConnectionService.getInstance().getConn();
+						PreparedStatement ps = null;
+						int rs = -1;
+						try {
+							ps = con.prepareStatement(SPsql);
+							ps.setInt(1, user.getId());
+							rs = ps.executeUpdate();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						dispose();
 					}
 				});

@@ -57,6 +57,7 @@ public class aboutedit extends JPanel {
 	private JList worksList;
 	private JList quotesList;
 	private JComboBox hobbiesCombo;
+	private JCheckBox verifiedcheckbox;
 	/**
 	 * Create the panel.
 	 */
@@ -141,7 +142,7 @@ public class aboutedit extends JPanel {
 		
 		JLabel lblNewLabel_2_2_1_1_1_1_1_2_2_1 = new JLabel("Verified: ");
 		
-		JCheckBox verifiedcheckbox = new JCheckBox("");
+		verifiedcheckbox = new JCheckBox("");
 		verifiedcheckbox.setEnabled(false);
 		
 		JButton verifybutton = new JButton("VERIFY ACCOUNT");
@@ -442,6 +443,7 @@ public class aboutedit extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				verify ver = new verify();
 				ver.setVisible(true);
+				refresh();
 			}
 		});
 		
@@ -714,6 +716,7 @@ public class aboutedit extends JPanel {
 			locationedit.setSelectedItem(new IdNamePair(rs.getString(8)));
 			hometownedit.setSelectedItem(new IdNamePair(rs.getString(7)));
 			websiteedit.setText(rs.getString(5));
+			verifiedcheckbox.setSelected(rs.getBoolean(10));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
